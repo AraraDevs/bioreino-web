@@ -8,7 +8,7 @@ const Login = () => {
     <div>
       <Routes>
         <Route path="/" element={<LoginForm />} />
-        <Route path="inscricao" element={<LoginSign />} />
+        <Route path="inscreva" element={<LoginSign />} />
       </Routes>
     </div>
   );

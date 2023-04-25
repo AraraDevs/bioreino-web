@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import styles from './Header.module.css';
 import useMedia from '../../Hooks/useMedia';
 import LogoBioreino from '../LogoBioreino';
+import HomeIndex from './HomeIndex';
 
 const Header = () => {
   const media = useMedia('(max-width: 1440px)');
@@ -32,7 +33,7 @@ const Header = () => {
     const linkActive = document.querySelector(`header a.active`);
     if (linkActive) linkActive.classList.remove('active');
     element.classList.add('active');
-    element.blur()
+    element.blur();
   }
 
   function scrollToSection(event) {
@@ -57,35 +58,14 @@ const Header = () => {
       >
         <LogoBioreino />
 
-        <ul className={styles.index}>
-          <li>
-            <a
-              onClick={scrollToSection}
-              href="#cursos"
-              className={styles.items}
-            >
-              Cursos
-            </a>
-          </li>
-          <li>
-            <a
-              onClick={scrollToSection}
-              href="#sobre"
-              className={styles.items}
-            >
-              Sobre os planos
-            </a>
-          </li>
-          <li>
-            <a
-              onClick={scrollToSection}
-              href="#depoimentos"
-              className={styles.items}
-            >
-              Depoimentos
-            </a>
-          </li>
-        </ul>
+        <HomeIndex
+          scroll={scrollToSection}
+          items={[
+            { link: 'cursos', text: 'cursos' },
+            { link: 'sobre', text: 'Sobre os planos' },
+            { link: 'depoimentos', text: 'depoimentos' },
+          ]}
+        />
 
         <ul className={styles.menu}>
           <li>
