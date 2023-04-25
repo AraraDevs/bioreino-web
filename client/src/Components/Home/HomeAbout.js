@@ -14,16 +14,6 @@ const HomeAbout = () => {
       </p>
 
       <main className={`${styles.container}`}>
-        <HomeAboutDetails
-          title="Aulas para crianças"
-          description="Temos conteúdos para a criançada matar a curiosidade! Você terá
-              acesso a todas as aulas destinadas aos pequeninos, independente do
-              plano escolhido! Assine o BioReino para seu filho e veja-o
-              desenvolver conhecimentos na área da biologia de uma forma
-              criativa, divertida e eficiente!"
-          img={Kids}
-          alt="Crianças se divertindo em sala de aula"
-        />
 
         <HomeAboutDetails
           title="Plano SCHOLAR"
@@ -35,7 +25,6 @@ const HomeAbout = () => {
           mantenha antenado sobre o que acontece no mundo da biologia!"
           img={Scholar}
           alt="Adolescente segurando cadernos entre os braços cruzados sobre a barriga"
-          inverted={true}
         />
 
         <HomeAboutDetails
@@ -47,6 +36,18 @@ const HomeAbout = () => {
           parte do nosso batalhão e se torne um biólogo certificado!"
           img={Professional}
           alt="Profissional usando microscópio"
+          inverted={true}
+        />
+
+        <HomeAboutDetails
+          title="Aulas para crianças"
+          description="Temos conteúdos para a criançada matar a curiosidade! Você terá
+              acesso a todas as aulas destinadas aos pequeninos, independente do
+              plano escolhido! Assine o BioReino para seu filho e veja-o
+              desenvolver conhecimentos na área da biologia de uma forma
+              criativa, divertida e eficiente!"
+          img={Kids}
+          alt="Crianças se divertindo em sala de aula"
         />
       </main>
     </section>

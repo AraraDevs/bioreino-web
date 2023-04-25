@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import styles from './Header.module.css';
+import styles from './HomeHeader.module.css';
 import useMedia from '../../Hooks/useMedia';
 import LogoBioreino from '../LogoBioreino';
 import HomeIndex from './HomeIndex';

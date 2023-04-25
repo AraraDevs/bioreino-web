@@ -1,7 +1,7 @@
 import React from 'react';
 import './Home.css';
-import Header from './Header';
-import Introduction from './HomeIntroduction';
+import HomeHeader from './HomeHeader';
+import HomeIntroduction from './HomeIntroduction';
 import HomeCourses from './HomeCourses';
 import HomeAbout from './HomeAbout';
 import HomeTestimonies from './HomeTestimonies';
@@ -12,8 +12,8 @@ import Footer from '../Footer';
 const Home = () => {
   return (
     <>
-      <Header />
-      <Introduction />
+      <HomeHeader />
+      <HomeIntroduction />
       <HomeApp />
       <HomeCourses />
       <HomeAbout />
