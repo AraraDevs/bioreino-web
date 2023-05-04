@@ -14,7 +14,6 @@ const HomeAbout = () => {
       </p>
 
       <main className={`${styles.container}`}>
-
         <HomeAboutDetails
           title="Plano SCHOLAR"
           description="Não está com boas notas na escola ou precisa estudar para aquele
