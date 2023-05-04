@@ -3,10 +3,22 @@ import styles from './Course.module.css';
 import Image from '../../Assets/dinossauros.jpg';
 
 const Course = () => {
+  function handleClick(event) {
+    event.preventDefault();
+
+    const id = event.currentTarget.getAttribute('href');
+    const section = document.querySelector(id);
+    const header = document.querySelector('header');
+
+    const top = section.offsetTop - header.offsetHeight;
+
+    window.scroll({ top, behavior: 'smooth' });
+  }
+
   return (
     <>
       <li className={styles.coursesItem}>
-        <a href="#sobre">
+        <a href="#sobre" onClick={handleClick}>
           <span className={styles.plan}>Professional</span>
           <div
             className={styles.bg}
