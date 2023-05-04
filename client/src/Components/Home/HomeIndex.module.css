@@ -28,11 +28,9 @@
   transition: 0.15s ease-in-out;
 }
 
-.index .items:hover {
-  font-size: 1rem;
-}
-
+.index .items:hover,
 .index .items:global(.active) {
+  font-size: 1rem;
   color: var(--bg-1);
 }
 
