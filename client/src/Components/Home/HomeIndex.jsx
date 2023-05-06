@@ -3,10 +3,10 @@ import styles from './HomeIndex.module.css';
 import PropTypes from 'prop-types';
 
 const Index = ({ scroll, items, onAction, setOnAction }) => {
-  const [topDistOfSections, setTopDistSections] = React.useState(null);
+  const [distSectionArray, setDistSectionArray] = React.useState(null);
 
   const checkDistance = React.useCallback(() => {
-    topDistOfSections.forEach((distElement) => {
+    distSectionArray.forEach((distElement) => {
       const distScroll = window.scrollY;
       if (
         distScroll >= distElement.initSize &&
@@ -20,32 +20,40 @@ const Index = ({ scroll, items, onAction, setOnAction }) => {
         index.classList.remove('active');
       }
     });
-  }, [topDistOfSections, setOnAction]);
+  }, [distSectionArray, setOnAction]);
 
   React.useEffect(() => {
     function getDistanceSections() {
       const config = sectionsConfig();
-      setTopDistSections(config);
+      setDistSectionArray(config);
     }
 
-    const checkFuncDist = debounce(checkDistance, 50);
+    let handleResize = () => {
+      getDistanceSections();
+    };
+    handleResize = debounce(handleResize, 100);
+
+    const checkDistanceDebounce = debounce(checkDistance, 50);
     function handleScroll() {
       if (onAction) {
-        checkFuncDist();
+        checkDistanceDebounce();
       } else {
-        if (topDistOfSections) {
+        if (distSectionArray) {
           checkDistance();
         }
       }
     }
+    handleScroll();
 
     window.addEventListener('load', getDistanceSections);
+    window.addEventListener('resize', handleResize);
     window.addEventListener('scroll', handleScroll);
     return () => {
       window.removeEventListener('load', getDistanceSections);
+      window.removeEventListener('resize', handleResize);
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [checkDistance, onAction, topDistOfSections]);
+  }, [checkDistance, onAction, distSectionArray]);
 
   function sectionsConfig() {
     const links = document.querySelectorAll('[data-indexes] a');
@@ -65,6 +73,7 @@ const Index = ({ scroll, items, onAction, setOnAction }) => {
 
   function debounce(callback, delay) {
     let timer;
+
     return () => {
       if (timer) clearTimeout(timer);
       timer = setTimeout(() => {
