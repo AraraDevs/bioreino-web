@@ -4,11 +4,11 @@ const app = express();
 const path = require('path');
 
 if (process.env.NODE_ENV !== 'development') {
-  app.use(express.static(path.join(__dirname, '../client/build')));
+  app.use(express.static(path.join(__dirname, '../client/dist')));
 
   app.get('*', (req, res) => {
     res.sendFile(
-      path.join(__dirname, '../client/build', 'index.html', (error) => {
+      path.join(__dirname, '../client/dist/index.html', (error) => {
         if (error) res.status(500).send(error);
       }),
     );
