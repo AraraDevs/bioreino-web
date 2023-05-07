@@ -8,7 +8,7 @@ package-lock.json
 /coverage
 
 # production
-client/dist
+/client/dist
 
 # misc
 .DS_Store
