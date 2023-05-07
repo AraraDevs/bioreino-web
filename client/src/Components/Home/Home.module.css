@@ -1,9 +1,9 @@
-.sectionSpacing {
+.home :global(.sectionSpacing) {
   padding-top: 3.125rem;
   padding-bottom: 3.125rem;
 }
 
-.title {
+.home :global(.title) {
   font-size: var(--font-4);
   font-weight: 800;
   line-height: 1;
@@ -11,7 +11,7 @@
   padding: 0 1rem;
 }
 
-.subtitle {
+.home :global(.subtitle) {
   font-family: var(--first-type);
   font-size: var(--font-2);
   font-weight: 500;
@@ -23,7 +23,7 @@
 }
 
 @media (max-width: 760px) {
-  .title {
+  .home :global(.title) {
     font-size: var(--font-1);
   }
 }

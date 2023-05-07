@@ -1,5 +1,5 @@
 import React from 'react';
-import './Home.css';
+import styles from './Home.module.css';
 import HomeHeader from './HomeHeader';
 import HomeIntroduction from './HomeIntroduction';
 import HomeCourses from './HomeCourses';
@@ -11,7 +11,7 @@ import Footer from '../Footer';
 
 const Home = () => {
   return (
-    <>
+    <div className={styles.home}>
       <HomeHeader />
       <HomeIntroduction />
       <HomeApp />
@@ -20,7 +20,7 @@ const Home = () => {
       <HomeTestimonies />
       <HomeSign />
       <Footer />
-    </>
+    </div>
   );
 };
 
