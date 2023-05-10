@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Catamaran:wght@300;400;800&family=Fredoka:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Catamaran:wght@300;400;500;800&family=Fredoka:wght@300;400;500;700&display=swap');
 
 * {
   margin: 0;
@@ -18,6 +18,8 @@
   --font-5: 3.875rem; /* 62px */
   --font-6: 0.875rem; /* 14px */
   --font-7: 0.75rem; /* 12px */
+  --font-8: 4.5rem; /* 72px */
+  --font-9: 1.25rem; /* 20px */
   --gradient-1: linear-gradient(to right, #0eb301, #36a32c, #0eb301);
   --contrast-1: #737373;
   --card-shadow: 0 3px 6px rgba(0, 0, 0, 0.25);
