@@ -5,12 +5,12 @@ import LoginSign from './LoginSign';
 
 const Login = () => {
   return (
-    <div>
+    <>
       <Routes>
         <Route path="/" element={<LoginForm />} />
         <Route path="inscreva" element={<LoginSign />} />
       </Routes>
-    </div>
+    </>
   );
 };
 
