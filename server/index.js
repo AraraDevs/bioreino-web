@@ -2,6 +2,11 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 const path = require('path');
+const mongoose = require('mongoose');
+const PORT = 3000;
+
+const dbUser = process.env.DB_USER;
+const dbPassword = process.env.DB_PASS;
 
 if (process.env.NODE_ENV !== 'development') {
   app.use(express.static(path.join(__dirname, '../client/dist')));
@@ -15,6 +20,14 @@ if (process.env.NODE_ENV !== 'development') {
   });
 }
 
-app.listen(3000, () => {
-  console.log('Running');
-});
+mongoose
+  .connect(
+    `mongodb+srv://${dbUser}:${dbPassword}@bioreino.l8j1rrn.mongodb.net/`,
+  )
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`Servidor rodando na porta ${PORT}`);
+    });
+    console.log('Conectou ao banco!');
+  })
+  .catch((err) => console.log(err));
