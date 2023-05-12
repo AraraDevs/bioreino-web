@@ -8,6 +8,8 @@ const PORT = 3000;
 const dbUser = process.env.DB_USER;
 const dbPassword = process.env.DB_PASS;
 
+const userRouter = require('./routes/UserRouter');
+
 if (process.env.NODE_ENV !== 'development') {
   app.use(express.static(path.join(__dirname, '../client/dist')));
 
@@ -19,6 +21,8 @@ if (process.env.NODE_ENV !== 'development') {
     );
   });
 }
+
+app.use('/api/user', userRouter);
 
 mongoose
   .connect(
