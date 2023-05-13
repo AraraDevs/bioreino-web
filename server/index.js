@@ -7,8 +7,9 @@ const PORT = 3000;
 
 const dbUser = process.env.DB_USER;
 const dbPassword = process.env.DB_PASS;
+const db = process.env.DB;
 
-const userRouter = require('./routes/UserRouter');
+const userRouter = require('./routes/userRouter');
 
 if (process.env.NODE_ENV !== 'development') {
   app.use(express.static(path.join(__dirname, '../client/dist')));
@@ -26,7 +27,7 @@ app.use('/api/user', userRouter);
 
 mongoose
   .connect(
-    `mongodb+srv://${dbUser}:${dbPassword}@bioreino.l8j1rrn.mongodb.net/`,
+    `mongodb+srv://${dbUser}:${dbPassword}@bioreino.l8j1rrn.mongodb.net/${db}`,
   )
   .then(() => {
     app.listen(PORT, () => {
