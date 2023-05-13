@@ -13,20 +13,6 @@ const register = async (req, res) => {
     subscriptionDate,
   } = req.body;
 
-  console.log(
-    await Student.updateOne(
-      { name: 'Pedro' },
-      {
-        $push: {
-          progressArray: {
-            courseId: '111',
-            lessonProgress: [{ lessonId: '2121', complete: true }],
-          },
-        },
-      },
-    ),
-  );
-
   const userExists = await Student.findOne({ email });
   if (userExists)
     return res.status(422).json({ msg: 'Este e-mail já está em uso' });
