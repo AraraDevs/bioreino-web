@@ -5,16 +5,19 @@ import { ReactComponent as Scientist } from '../../Assets/login-cientista.svg';
 import { Link } from 'react-router-dom';
 import Button from '../Forms/Button';
 import useForm from '../../Hooks/useForm';
+import { UserContext } from '../../UserContext';
+import Error from '../Helper/Error';
 
 const LoginForm = () => {
   const email = useForm('email');
   const password = useForm();
+  const { userLogin, loading, error, data } = React.useContext(UserContext);
 
   function handleSubmit(event) {
     event.preventDefault();
-    
-    if (email.validate(), password.validate()) {
-      console.log('logado');
+
+    if (email.validate() && password.validate()) {
+      userLogin(email.value, password.value);
     }
   }
 
@@ -43,7 +46,12 @@ const LoginForm = () => {
               </p>
             </div>
 
-            <Button>Entrar</Button>
+            {loading ? (
+              <Button disabled>Entrar</Button>
+            ) : (
+              <Button>Entrar</Button>
+            )}
+            <Error error={error} />
           </form>
         </section>
       </div>
