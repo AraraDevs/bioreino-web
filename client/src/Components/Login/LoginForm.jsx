@@ -11,7 +11,7 @@ import Error from '../Helper/Error';
 const LoginForm = () => {
   const email = useForm('email');
   const password = useForm();
-  const { userLogin, loading, error, data } = React.useContext(UserContext);
+  const { userLogin, loading, error } = React.useContext(UserContext);
 
   function handleSubmit(event) {
     event.preventDefault();
