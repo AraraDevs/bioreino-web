@@ -8,14 +8,14 @@ import { UserStorage } from './UserContext';
 function App() {
   return (
     <>
-      <UserStorage>
-        <BrowserRouter>
+      <BrowserRouter>
+        <UserStorage>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login/*" element={<Login />} />
           </Routes>
-        </BrowserRouter>
-      </UserStorage>
+        </UserStorage>
+      </BrowserRouter>
     </>
   );
 }
