@@ -18,7 +18,7 @@ const HomeCard = ({ title, benefits, price }) => {
       </ul>
       <p className={styles.price}>R$ {price}</p>
       <div className={styles.signButton}>
-        <Link to="/login/inscreva" className={stylesButton.button}>
+        <Link to={`/login/inscreva/${title}`} className={stylesButton.button}>
           Assine já!
         </Link>
       </div>
