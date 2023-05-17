@@ -24,8 +24,21 @@ const Index = ({ scroll, items, onAction, setOnAction }) => {
 
   React.useEffect(() => {
     function getDistanceSections() {
-      const config = sectionsConfig();
-      setDistSectionArray(config);
+      const links = document.querySelectorAll('[data-indexes] a');
+      const header = document.querySelector('header');
+      const headerHeight = header.offsetHeight;
+
+      setDistSectionArray(
+        [...links].map((link) => {
+          const id = link.getAttribute('href');
+          const section = document.querySelector(id);
+          const initSize = section.offsetTop - headerHeight;
+          const finalSize =
+            section.offsetTop + section.offsetHeight - headerHeight;
+
+          return { initSize, finalSize, link };
+        }),
+      );
     }
 
     let handleResize = () => {
@@ -50,26 +63,11 @@ const Index = ({ scroll, items, onAction, setOnAction }) => {
     window.addEventListener('scroll', handleScroll);
     return () => {
       window.removeEventListener('load', getDistanceSections);
+      window.removeEventListener('DOMContentLoaded', getDistanceSections);
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('scroll', handleScroll);
     };
   }, [checkDistance, onAction, distSectionArray]);
-
-  function sectionsConfig() {
-    const links = document.querySelectorAll('[data-indexes] a');
-    const header = document.querySelector('header');
-    const headerHeight = header.offsetHeight;
-
-    const config = [...links].map((link) => {
-      const id = link.getAttribute('href');
-      const section = document.querySelector(id);
-      const initSize = section.offsetTop - headerHeight;
-      const finalSize = section.offsetTop + section.offsetHeight - headerHeight;
-
-      return { initSize, finalSize, link };
-    });
-    return config;
-  }
 
   function debounce(callback, delay) {
     let timer;
