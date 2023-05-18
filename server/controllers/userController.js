@@ -3,22 +3,12 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const register = async (req, res) => {
-  const {
-    name,
-    email,
-    password,
-    confirmPassword,
-    cpf,
-    plan,
-    subscriptionDate,
-  } = req.body;
+  const { name, email, password, cpf, plan, subscriptionDate } = req.body;
 
   const userExists = await Student.findOne({ email });
-  if (userExists)
+  if (userExists) {
     return res.status(422).json({ msg: 'Este e-mail já está em uso' });
-
-  if (password !== confirmPassword)
-    return res.status(422).json({ msg: 'As senhas não conferem!' });
+  }
 
   const salt = bcrypt.genSaltSync(12);
   const passwordHash = bcrypt.hashSync(password, salt);

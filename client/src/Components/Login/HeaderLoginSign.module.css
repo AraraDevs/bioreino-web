@@ -1,0 +1,20 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1.875rem;
+  padding-bottom: 1.875rem;
+}
+
+.container {
+  padding-left: 4rem;
+  padding-right: 4rem;
+  max-width: 120rem;
+}
+
+.login {
+  display: block;
+  font-family: var(--first-type);
+  color: var(--contrast-1);
+  padding: 0.5rem 1rem;
+}
