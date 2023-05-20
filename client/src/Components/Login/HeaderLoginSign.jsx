@@ -5,12 +5,8 @@ import { Link } from 'react-router-dom';
 import LogoBioreino from '../LogoBioreino';
 
 const HeaderLoginSign = () => {
-  const media = useMedia('(max-width: 1440px)');
-
   return (
-    <header
-      className={`${styles.header} ${media ? 'container' : styles.container}`}
-    >
+    <header className={`${styles.header} container`}>
       <LogoBioreino />
       <Link to="/login" className={styles.login}>
         Entrar

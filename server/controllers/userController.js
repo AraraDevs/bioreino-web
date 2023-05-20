@@ -1,24 +1,26 @@
 const Student = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { encrypt } = require('../models/Cryptography');
 
 const register = async (req, res) => {
   const { name, email, password, cpf, plan, subscriptionDate } = req.body;
 
-  const userExists = await Student.findOne({ email });
+  const emailEncrypt = encrypt(email);
+  const userExists = await Student.findOne({ email: emailEncrypt });
   if (userExists) {
     return res.status(422).json({ msg: 'Este e-mail já está em uso' });
   }
 
   const salt = bcrypt.genSaltSync(12);
   const passwordHash = bcrypt.hashSync(password, salt);
-  const cpfHash = bcrypt.hashSync(cpf, salt);
+  const cpfEncrypt = encrypt(cpf);
 
   const savedUser = new Student({
     name,
-    email,
+    email: emailEncrypt,
     password: passwordHash,
-    cpf: cpfHash,
+    cpf: cpfEncrypt,
     plan,
     subscriptionDate,
   });
@@ -39,7 +41,9 @@ const register = async (req, res) => {
 const login = async (req, res) => {
   const { email, password } = req.body;
 
-  const user = await Student.findOne({ email });
+  const emailEncrypt = encrypt(email);
+  const user = await Student.findOne({ email: emailEncrypt });
+
   if (!user) {
     return res.status(422).json({ msg: 'E-mail ou senha incorretos' });
   }
