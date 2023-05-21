@@ -29,6 +29,7 @@ export const UserStorage = ({ children }) => {
       if (!response.ok) throw msg;
       window.localStorage.setItem('token', token);
       await getUser(token);
+      navigate('/dashboard');
     } catch (err) {
       setError(err);
     } finally {
