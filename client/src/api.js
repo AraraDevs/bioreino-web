@@ -13,6 +13,18 @@ export function LOGIN(body) {
   };
 }
 
+export function LOGIN_VALIDATE_TOKEN(token) {
+  return {
+    url: API_URL_USER + '/token/validate',
+    options: {
+      method: 'GET',
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    },
+  };
+}
+
 export function USER_GET(token) {
   return {
     url: API_URL_USER,
