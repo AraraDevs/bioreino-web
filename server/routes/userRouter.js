@@ -10,5 +10,8 @@ router.get('/', express.json(), authController, (req, res) => {
   const user = req.user;
   res.status(200).json(user);
 });
+router.get('/token/validate', express.json(), authController, (req, res) => {
+  res.status(200).json({ msg: 'Token válido!' });
+});
 
 module.exports = router;
