@@ -19,10 +19,12 @@ const LoginSign = () => {
   const name = useForm();
   const email = useForm('email');
   const password = useForm('password');
-  const confirmPassword = useForm('password');
+  const confirmPassword = useForm();
   const cpf = useForm('cpf', { canFormat: true, regex: /\D/g });
   const validity = useForm('validity', { canFormat: true });
   const cvv = useForm('cvv', { canFormat: true, regex: /\D/g });
+  const bearerName = useForm();
+  const numCard = useForm('numCard', { canFormat: true, regex: /\D/g });
 
   React.useEffect(() => {
     document.documentElement.scrollTop = 0;
@@ -55,6 +57,10 @@ const LoginSign = () => {
       password.validate() &&
       cpf.validate() &&
       confirmPassword.validate() &&
+      bearerName.validate() &&
+      numCard.validate() &&
+      validity.validate() &&
+      cvv.validate() &&
       select.validate()
     ) {
       userRegister(
@@ -96,8 +102,17 @@ const LoginSign = () => {
 
             <h2>Pagamento - cartão de crédito</h2>
             <div className={styles.divider}>
-              <Input label="Nome do portador *" name="portador" />
-              <Input label="Número do cartão *" name="num_cartao" />
+              <Input
+                label="Nome do portador *"
+                name="portador"
+                {...bearerName}
+              />
+              <Input
+                label="Número do cartão *"
+                name="num_cartao"
+                max={19}
+                {...numCard}
+              />
             </div>
             <div className={styles.divider}>
               <Input
