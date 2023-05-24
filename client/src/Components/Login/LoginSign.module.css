@@ -19,9 +19,14 @@
 }
 
 .divider {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
   gap: 10px;
+}
+
+.divider > div {
+  flex: 1 1 240px;
 }
 
 .form h2 {
@@ -40,8 +45,23 @@
   margin-bottom: 1.25rem;
 }
 
+.total h2 {
+  font-size: var(--font-9);
+}
+
 .total span {
   font-family: var(--first-type);
   font-size: 1.5rem;
   font-weight: 500;
+}
+
+@media (max-width: 535px) {
+  .title {
+    font-size: 1.25rem;
+    line-height: 1.875rem;
+  }
+
+  .main {
+    padding: 1.25rem;
+  }
 }
