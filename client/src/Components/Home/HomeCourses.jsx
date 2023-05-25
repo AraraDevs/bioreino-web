@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './HomeCourses.module.css';
-import Course from '../Courses/Course';
+import HomeCourse from './HomeCourse';
 
 const HomeCourses = () => {
   return (
@@ -9,9 +9,7 @@ const HomeCourses = () => {
       <p className="subtitle">conheça alguns de nossos cursos</p>
 
       <ul className={`${styles.coursesGrid} container`}>
-        <Course />
-        <Course />
-        <Course />
+        <HomeCourse />
       </ul>
     </section>
   );
