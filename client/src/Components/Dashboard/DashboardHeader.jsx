@@ -3,12 +3,12 @@ import LogoBioreino from '../LogoBioreino';
 import styles from './DashboardHeader.module.css';
 import DashboardUser from './DashboardUser';
 
-const DashboardHeader = ({ data, userLogout }) => {
+const DashboardHeader = () => {
   return (
     <header className={`container ${styles.header}`}>
       <nav className={styles.nav}>
         <LogoBioreino />
-        <DashboardUser user={data} logout={userLogout} />
+        <DashboardUser />
       </nav>
     </header>
   );
