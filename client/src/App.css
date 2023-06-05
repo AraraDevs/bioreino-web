@@ -7,7 +7,7 @@
 :root {
   --first-type: 'Fredoka', sans-serif;
   --second-type: 'Catamaran', sans-serif;
-  --bg-1: #36A32c;
+  --bg-1: #36a32c;
   --bg-2: #0eb301;
   --font-1: 3rem; /* 48px */
   --font-2: 1.5rem; /* 24px */
@@ -18,9 +18,13 @@
   --font-7: 0.75rem; /* 12px */
   --font-8: 4.5rem; /* 72px */
   --font-9: 1.25rem; /* 20px */
+  --font-10: 2.625rem; /* 42px */
   --gradient-1: linear-gradient(to right, #0eb301, #36a32c, #0eb301);
+  --gradient-2: linear-gradient(to right, #36a32c, #60dd56);
   --contrast-1: #737373;
+  --contrast-2: #eee;
   --card-shadow: 0 3px 6px rgba(0, 0, 0, 0.25);
+  --button-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
 }
 
 body {
