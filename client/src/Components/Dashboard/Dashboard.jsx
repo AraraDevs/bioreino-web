@@ -1,18 +1,14 @@
 import React from 'react';
 import DashboardHeader from './DashboardHeader';
-import LastCourse from './LastCourse';
-import { UserContext } from '../../UserContext';
+import DashboardLastCourse from './DashboardLastCourse';
+import DashboardMyCourse from './DashboardMyCourse';
 
 const Dashboard = () => {
-  const userContext = React.useContext(UserContext);
-  console.log(userContext.data);
   return (
     <>
-      <DashboardHeader
-        data={userContext.data}
-        userLogout={userContext.userLogout}
-      />
-      <LastCourse />
+      <DashboardHeader />
+      <DashboardLastCourse />
+      <DashboardMyCourse />
     </>
   );
 };

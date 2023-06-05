@@ -10,6 +10,9 @@ const dbPassword = process.env.DB_PASS;
 const db = process.env.DB;
 
 const userRouter = require('./routes/userRouter');
+const courseRouter = require('./routes/courseRouter');
+const lessonRouter = require('./routes/lessonRouter');
+const categoryRouter = require('./routes/categoryRouter');
 
 if (process.env.NODE_ENV !== 'development') {
   app.use(express.static(path.join(__dirname, '../client/dist')));
@@ -23,7 +26,11 @@ if (process.env.NODE_ENV !== 'development') {
   });
 }
 
+app.use(express.json());
 app.use('/api/user', userRouter);
+app.use('/api/course', courseRouter);
+app.use('/api/lesson', lessonRouter);
+app.use('/api/category', categoryRouter);
 
 mongoose
   .connect(

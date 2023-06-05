@@ -1,25 +1,16 @@
 import React from 'react';
 import styles from './DashboardUser.module.css';
-import { ReactComponent as Seta } from '../../Assets/seta.svg';
+import { ReactComponent as Sair } from '../../Assets/sair.svg';
+import { UserContext } from '../../UserContext';
 
-const DashboardUser = ({ user, logout }) => {
-  const [menu, setMenu] = React.useState(false);
-
+const DashboardUser = () => {
+  const { data, userLogout } = React.useContext(UserContext);
   return (
-    <div
-      onClick={() => setMenu(!menu)}
-      className={`${styles.login} ${menu ? styles.loginMenu : ''}`}
-    >
-      <div className={styles.user}>
-        <p className={styles.name}>{user.name}</p>
-        <Seta className={styles.arrow} />
-      </div>
-
-      <ul className={styles.userOptions}>
-        <li>
-          <button onClick={logout}>Sair</button>
-        </li>
-      </ul>
+    <div className={`${styles.login}`}>
+      <p className={styles.name}>Olá, {data.name.split(' ')[0]}!</p>
+      <button onClick={userLogout} className={styles.logout}>
+        <Sair aria-label="Sair da conta" />
+      </button>
     </div>
   );
 };
