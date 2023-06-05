@@ -1,26 +1,22 @@
 const Student = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { encrypt } = require('../models/Cryptography');
 
 const register = async (req, res) => {
-  const { name, email, password, cpf, plan, subscriptionDate } = req.body;
+  const { name, email, password, plan, subscriptionDate } = req.body;
 
-  const emailEncrypt = encrypt(email);
-  const userExists = await Student.findOne({ email: emailEncrypt });
+  const userExists = await Student.findOne({ email });
   if (userExists) {
     return res.status(422).json({ msg: 'Este e-mail já está em uso' });
   }
 
-  const salt = bcrypt.genSaltSync(12);
+  const salt = bcrypt.genSaltSync(10);
   const passwordHash = bcrypt.hashSync(password, salt);
-  const cpfEncrypt = encrypt(cpf);
 
   const savedUser = new Student({
     name,
-    email: emailEncrypt,
+    email,
     password: passwordHash,
-    cpf: cpfEncrypt,
     plan,
     subscriptionDate,
   });
@@ -41,9 +37,7 @@ const register = async (req, res) => {
 const login = async (req, res) => {
   const { email, password } = req.body;
 
-  const emailEncrypt = encrypt(email);
-  const user = await Student.findOne({ email: emailEncrypt });
-
+  const user = await Student.findOne({ email });
   if (!user) {
     return res.status(422).json({ msg: 'E-mail ou senha incorretos' });
   }
@@ -62,6 +56,9 @@ const login = async (req, res) => {
         email: user.email,
         name: user.name,
         progressArray: user.progressArray,
+        coursesProgress: user.coursesProgress,
+        lastCourse: user.lastCourse,
+        plan: user.plan,
       },
       secret,
       { expiresIn: 604800 }, // 604.800 segundos == 7 dias
