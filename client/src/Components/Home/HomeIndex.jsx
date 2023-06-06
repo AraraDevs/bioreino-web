@@ -63,7 +63,6 @@ const Index = ({ scroll, items, onAction, setOnAction }) => {
     window.addEventListener('scroll', handleScroll);
     return () => {
       window.removeEventListener('load', getDistanceSections);
-      window.removeEventListener('DOMContentLoaded', getDistanceSections);
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('scroll', handleScroll);
     };
