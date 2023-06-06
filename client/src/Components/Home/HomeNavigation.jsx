@@ -37,7 +37,7 @@ const HomeNavigation = () => {
   }
 
   return (
-    <nav className={`${styles.nav} ${media ? 'container' : styles.container}`}>
+    <nav className={`container ${styles.nav}`}>
       <LogoBioreino />
 
       <HomeIndex
