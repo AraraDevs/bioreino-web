@@ -6,20 +6,22 @@ const Index = ({ scroll, items, onAction, setOnAction }) => {
   const [distSectionArray, setDistSectionArray] = React.useState(null);
 
   const checkDistance = React.useCallback(() => {
-    distSectionArray.forEach((distElement) => {
-      const distScroll = window.scrollY;
-      if (
-        distScroll >= distElement.initSize &&
-        distScroll < distElement.finalSize
-      ) {
-        const index = distElement.link;
-        index.classList.add('active');
-        setOnAction(false);
-      } else {
-        const index = distElement.link;
-        index.classList.remove('active');
-      }
-    });
+    if (distSectionArray) {
+      const scrollY = window.scrollY;
+      distSectionArray.forEach((distElement) => {
+        if (
+          scrollY >= distElement.initSize &&
+          scrollY < distElement.finalSize
+        ) {
+          const navIndex = distElement.link;
+          navIndex.classList.add('active');
+          setOnAction(false);
+        } else {
+          const navIndex = distElement.link;
+          navIndex.classList.remove('active');
+        }
+      });
+    }
   }, [distSectionArray, setOnAction]);
 
   React.useEffect(() => {
@@ -41,29 +43,29 @@ const Index = ({ scroll, items, onAction, setOnAction }) => {
       );
     }
 
-    let handleResize = () => {
+    function handleResize() {
       getDistanceSections();
-    };
-    handleResize = debounce(handleResize, 100);
+      checkDistance();
+    }
+    const handleResizeDebounce = debounce(handleResize, 100);
 
-    const checkDistanceDebounce = debounce(checkDistance, 50);
     function handleScroll() {
+      if (!distSectionArray) getDistanceSections();
+
       if (onAction) {
         checkDistanceDebounce();
       } else {
-        if (distSectionArray) {
-          checkDistance();
-        }
+        checkDistance();
       }
     }
-    handleScroll();
+    const checkDistanceDebounce = debounce(checkDistance, 50);
 
     window.addEventListener('load', getDistanceSections);
-    window.addEventListener('resize', handleResize);
+    window.addEventListener('resize', handleResizeDebounce);
     window.addEventListener('scroll', handleScroll);
     return () => {
       window.removeEventListener('load', getDistanceSections);
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('resize', handleResizeDebounce);
       window.removeEventListener('scroll', handleScroll);
     };
   }, [checkDistance, onAction, distSectionArray]);
