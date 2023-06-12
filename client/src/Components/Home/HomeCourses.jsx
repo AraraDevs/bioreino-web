@@ -8,7 +8,7 @@ const HomeCourses = () => {
   const { data, request } = useFetch();
 
   React.useEffect(() => {
-    async function fetchCourses() {
+    function fetchCourses() {
       const { url, options } = ALL_COURSES_GET({ limit: 3 });
       request(url, options);
     }
