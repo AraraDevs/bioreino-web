@@ -29,9 +29,9 @@ const HomeNavigation = () => {
     const header = document.querySelector('header');
     const heightHeader = header.offsetHeight;
     const top = getDistanceFromTheTop(link) - heightHeader;
-    
+
     window.scroll({ top, behavior: 'smooth' });
-    
+
     setOnAction(true);
     activeClassElement(link);
   }

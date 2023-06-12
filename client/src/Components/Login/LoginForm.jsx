@@ -26,7 +26,8 @@ const LoginForm = () => {
     <section className={styles.login}>
       <div className={styles.wrapper}>
         <Link to="/" className={styles.btnHome} aria-label="Voltar para a home">
-          <Arrow /> Voltar
+          <Arrow />
+          <span>Voltar</span>
         </Link>
         <section className={styles.sectionWelcome}>
           <h2 className={styles.welcome}>Bem-vindo de volta</h2>

@@ -125,4 +125,18 @@
     font-size: 1.875rem;
     line-height: 1.625rem;
   }
+
+  .btnHome {
+    top: 0.875rem;
+    left: 0.875rem;
+  }
+
+  .btnHome span {
+    display: none;
+  }
+
+  .btnHome svg path {
+    fill: #000;
+    stroke: #000;
+  }
 }

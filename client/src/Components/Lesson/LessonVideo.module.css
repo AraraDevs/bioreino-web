@@ -131,3 +131,23 @@
 .text.active + .btnExpand .arrow {
   transform: rotate(180deg);
 }
+
+@media (max-width: 800px) {
+  .transcription .title {
+    flex-direction: column;
+    gap: initial;
+  }
+
+  .transcription .title::before,
+  .transcription .title::after {
+    width: 100%;
+  }
+
+  .transcription .title::before {
+    margin-bottom: 16px;
+  }
+
+  .transcription .title::after {
+    margin-top: 10px;
+  }
+}
