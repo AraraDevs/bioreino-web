@@ -49,7 +49,7 @@ const DashboardCourses = ({ user, filter }) => {
   }, [data, filter.plan, filter.category, user]);
 
   if (loading) return <p>Carregando...</p>;
-  if (error) return <Error error={error.message} />;
+  if (error) return <Error error={error} />;
   return (
     <div className={styles.listCourses}>
       {dataFiltered &&

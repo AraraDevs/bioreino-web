@@ -9,10 +9,13 @@ import { useParams } from 'react-router-dom';
 import Button from '../Forms/Button';
 import { UserContext } from '../../UserContext';
 import Error from '../Helper/Error';
+import { USER_POST } from '../../api';
+import useFetch from '../../Hooks/useFetch';
 
 const LoginSign = () => {
   const { id } = useParams();
-  const { userRegister, error, loading } = React.useContext(UserContext);
+  const { userLogin } = React.useContext(UserContext);
+  const { loading, error, request } = useFetch();
   const plansArray = plans(id);
   const [price, setPrice] = React.useState(null);
   const select = useForm();
@@ -63,13 +66,14 @@ const LoginSign = () => {
       cvv.validate() &&
       select.validate()
     ) {
-      userRegister(
-        name.value,
-        email.value,
-        password.value,
-        cpf.value,
-        select.value,
-      );
+      const { url, options } = USER_POST({
+        name: name.value,
+        email: email.value,
+        password: password.value,
+        plan: select.value,
+      });
+      const { response } = await request(url, options);
+      if (response.ok) userLogin(email.value, password.value);
     }
   }
 

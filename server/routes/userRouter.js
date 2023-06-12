@@ -5,6 +5,8 @@ const authController = require('../controllers/authController');
 
 router.post('/login', userController.login);
 router.post('/register', userController.register);
+router.post('/lastCourse', userController.updateCompletedLesson);
+router.post('/coursesProgress', userController.updateCourseProgress);
 
 router.get('/', authController, (req, res) => {
   const user = req.user;
@@ -13,5 +15,7 @@ router.get('/', authController, (req, res) => {
 router.get('/token/validate', authController, (req, res) => {
   res.status(200).json({ msg: 'Token válido!' });
 });
+router.get('/lastCourse/:user', userController.getLastLesson);
+router.get('/coursesProgress/:user', userController.getCoursesProgress);
 
 module.exports = router;

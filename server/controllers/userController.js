@@ -55,9 +55,6 @@ const login = async (req, res) => {
         id: user._id,
         email: user.email,
         name: user.name,
-        progressArray: user.progressArray,
-        coursesProgress: user.coursesProgress,
-        lastCourse: user.lastCourse,
         plan: user.plan,
       },
       secret,
@@ -67,11 +64,111 @@ const login = async (req, res) => {
     res.status(200).json({ msg: 'Autenticação realizada com sucesso', token });
   } catch (err) {
     console.log(err);
-
     res.status(500).json({
       msg: 'Aconteceu um erro inesperado, tente novamente mais tarde!',
     });
   }
 };
 
-module.exports = { register, login };
+const updateCompletedLesson = async (req, res) => {
+  const { user, courseProperties, lessonProperties } = req.body;
+
+  try {
+    await Student.findByIdAndUpdate(user, {
+      $set: {
+        lastCourse: {
+          imageUrl: courseProperties.imageUrl,
+          professor: courseProperties.professor,
+          courseTitle: courseProperties.title,
+          lastLesson: {
+            title: lessonProperties.title,
+            description: lessonProperties.description,
+          },
+        },
+      },
+    });
+    res
+      .status(200)
+      .json({ msg: 'Última aula assistida pelo aluno foi atualizada' });
+  } catch (error) {
+    res.status(500).json({
+      msg: 'Aconteceu um erro inesperado, tente novamente mais tarde!',
+    });
+  }
+};
+
+const getLastLesson = async (req, res) => {
+  const { user } = req.params;
+
+  try {
+    const userSaved = await Student.findById(user);
+    const userLastCourse = userSaved.lastCourse;
+    if (userLastCourse) return res.status(200).json(userLastCourse);
+    res.status(404).json({ msg: 'Nenhuma aula foi acessada pelo estudante' });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      msg: 'Aconteceu um erro inesperado, tente novamente mais tarde!',
+    });
+  }
+};
+
+const updateCourseProgress = async (req, res) => {
+  const { user, courseTitle, lessonTitle } = req.body;
+
+  try {
+    const studentSaved = await Student.findById(user);
+
+    if (!studentSaved.coursesProgress) {
+      await Student.findByIdAndUpdate(user, {
+        $set: { coursesProgress: { [courseTitle]: [lessonTitle] } },
+      });
+      return res.status(201).json({ msg: 'Adicionado progresso de curso' });
+    }
+
+    const courseInCoursesProgress = studentSaved.coursesProgress[courseTitle];
+    const lessonAlreadySaved =
+      courseInCoursesProgress && courseInCoursesProgress.includes(lessonTitle);
+
+    if (lessonAlreadySaved) {
+      return res
+        .status(200)
+        .json({ msg: 'Já existe uma aula semelhante a essa salva' });
+    }
+
+    await Student.findByIdAndUpdate(user, {
+      $push: { [`coursesProgress.${courseTitle}`]: lessonTitle },
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ msg: error });
+  }
+};
+
+const getCoursesProgress = async (req, res) => {
+  const { user } = req.params;
+
+  try {
+    const userSaved = await Student.findById(user);
+    const userCoursesProgress = userSaved.coursesProgress;
+    if (!userCoursesProgress)
+      return res
+        .status(200)
+        .json({ msg: 'Nenhum curso foi acessado no momento' });
+    res.status(200).json(userCoursesProgress);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      msg: 'Aconteceu um erro inesperado, tente novamente mais tarde!',
+    });
+  }
+};
+
+module.exports = {
+  register,
+  login,
+  updateCompletedLesson,
+  updateCourseProgress,
+  getCoursesProgress,
+  getLastLesson,
+};

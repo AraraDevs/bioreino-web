@@ -17,7 +17,7 @@ const useFetch = () => {
       if (!response.ok) throw new Error(json.msg);
     } catch (err) {
       json = null;
-      setError(err);
+      setError(err.message);
     } finally {
       setData(json);
       setLoading(false);

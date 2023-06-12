@@ -3,41 +3,57 @@ import styles from './CourseLast.module.css';
 import { Link } from 'react-router-dom';
 import { ReactComponent as Clapperboard } from '../../Assets/claquete_aberta.svg';
 import formatUrl from '../Helper/formatUrl';
+import { USER_LAST_LESSON_GET } from '../../api';
+import useFetch from '../../Hooks/useFetch';
 
 const CourseLast = ({ user }) => {
-  if (!user.lastCourse) return <p className={styles.information}>Quando um curso for iniciado, ele apacerá aqui. Tenha um ótimo estudo!</p>;
-  return (
-    <div className={styles.cardLast}>
-      <div
-        className={styles.background}
-        style={{ backgroundImage: `url(${user.lastCourse.imageUrl})` }}
-      ></div>
-      <div className={styles.details}>
-        <h1 className={styles.courseTitle}>{user.lastCourse.courseTitle}</h1>
-        <span className={styles.teacher}>
-          Prof: {user.lastCourse.professor}
-        </span>
-        <hr className={styles.divisor} />
-        <h3 className={styles.continue}>Continuar de onde parou:</h3>
-        <Link
-          to={`/curso/${formatUrl(user.lastCourse.courseTitle)}/${formatUrl(
-            user.lastCourse.lastLesson.title,
-          )}`}
-          className={styles.lesson}
-        >
-          <Clapperboard />
-          <div>
-            <h2 className={styles.lessonTitle}>
-              {user.lastCourse.lastLesson.title}
-            </h2>
-            <p className={styles.lessonDescription}>
-              {user.lastCourse.lastLesson.description}
-            </p>
-          </div>
-        </Link>
+  const { data, loading, error, request } = useFetch();
+
+  React.useEffect(() => {
+    async function fetchUserLastLesson() {
+      const { url, options } = USER_LAST_LESSON_GET(user.id);
+      request(url, options);
+    }
+    fetchUserLastLesson();
+  }, [user, request]);
+
+  if (loading) return <p>Carregando...</p>;
+
+  if (error)
+    return (
+      <p className={styles.info}>
+        Quando um curso for iniciado, ele apacerá aqui. Tenha um ótimo estudo!
+      </p>
+    );
+  if (data)
+    return (
+      <div className={styles.cardLast}>
+        <div
+          className={styles.background}
+          style={{ backgroundImage: `url(${data.imageUrl})` }}
+        ></div>
+        <div className={styles.details}>
+          <h1 className={styles.courseTitle}>{data.courseTitle}</h1>
+          <span className={styles.teacher}>Prof: {data.professor}</span>
+          <hr className={styles.divisor} />
+          <h3 className={styles.continue}>Continuar de onde parou:</h3>
+          <Link
+            to={`/curso/${formatUrl(data.courseTitle)}/${formatUrl(
+              data.lastLesson.title,
+            )}`}
+            className={styles.lesson}
+          >
+            <Clapperboard />
+            <div>
+              <h2 className={styles.lessonTitle}>{data.lastLesson.title}</h2>
+              <p className={styles.lessonDescription}>
+                {data.lastLesson.description}
+              </p>
+            </div>
+          </Link>
+        </div>
       </div>
-    </div>
-  );
+    );
 };
 
 export default CourseLast;

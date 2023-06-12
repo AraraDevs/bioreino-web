@@ -32,4 +32,29 @@ const getCourse = async (req, res) => {
   }
 };
 
-module.exports = { getCourse };
+const getCourseByTitle = async (req, res) => {
+  const { title } = req.params;
+
+  try {
+    const course = await Course.findOne({ title });
+
+    res.status(200).json(course);
+  } catch (error) {
+    res.status(404).json({ msg: error });
+  }
+};
+
+const allCourses = async (req, res) => {
+  const { limit } = req.params;
+
+  try {
+    if (limit) return res.status(200).json(await Course.find());
+    res.status(200).json(await Course.find());
+  } catch (error) {
+    res.status(500).json({
+      msg: 'Aconteceu um erro inesperado, tente novamente mais tarde!',
+    });
+  }
+};
+
+module.exports = { getCourse, getCourseByTitle, allCourses };

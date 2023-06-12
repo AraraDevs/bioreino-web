@@ -53,6 +53,59 @@ export function USER_POST(body) {
   };
 }
 
+export function USER_LAST_LESSON_POST(body) {
+  return {
+    url: API_URL_USER + '/lastCourse',
+    options: {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    },
+  };
+}
+
+export function USER_LAST_LESSON_GET(user) {
+  return {
+    url: API_URL_USER + `/lastCourse/${user}`,
+    options: {
+      method: 'GET',
+    },
+  };
+}
+
+export function USER_COURSES_PROGRESS_POST(body) {
+  return {
+    url: API_URL_USER + '/coursesProgress',
+    options: {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    },
+  };
+}
+
+export function USER_COURSES_PROGRESS_GET(user) {
+  return {
+    url: API_URL_USER + `/coursesProgress/${user}`,
+    options: {
+      method: 'GET',
+    },
+  };
+}
+
+export function ALL_COURSES_GET({ limit }) {
+  return {
+    url: API_URL_COURSE + `/all/${limit}`,
+    options: {
+      method: 'GET',
+    },
+  };
+}
+
 export function COURSES_GET({ plan, category }) {
   return {
     url: API_URL_COURSE + `?_plan=${plan}&_category=${category}`,
@@ -63,9 +116,27 @@ export function COURSES_GET({ plan, category }) {
   };
 }
 
-export function LESSONS_OF_COURSE_GET(courseTitle) {
+export function COURSES_BY_TITLE_GET(title) {
+  return {
+    url: API_URL_COURSE + '/' + title,
+    options: {
+      method: 'GET',
+    },
+  };
+}
+
+export function LESSONS_BY_TITLE_COURSE_GET(courseTitle) {
   return {
     url: API_URL_LESSON + '/' + courseTitle,
+    options: {
+      method: 'GET',
+    },
+  };
+}
+
+export function LESSONS_BY_URL_COURSE_GET(courseUrl) {
+  return {
+    url: API_URL_LESSON + '/' + courseUrl,
     options: {
       method: 'GET',
     },

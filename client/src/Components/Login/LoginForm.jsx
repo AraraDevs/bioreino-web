@@ -3,10 +3,11 @@ import styles from './LoginForm.module.css';
 import Input from '../Forms/Input';
 import { ReactComponent as Scientist } from '../../Assets/login-cientista.svg';
 import { Link } from 'react-router-dom';
-import Button from '../Forms/Button';
+import stylesButton from '../Forms/Button.module.css';
 import useForm from '../../Hooks/useForm';
 import { UserContext } from '../../UserContext';
 import Error from '../Helper/Error';
+import { ReactComponent as Arrow } from '../../Assets/arrow.svg';
 
 const LoginForm = () => {
   const email = useForm('email');
@@ -24,6 +25,9 @@ const LoginForm = () => {
   return (
     <section className={styles.login}>
       <div className={styles.wrapper}>
+        <Link to="/" className={styles.btnHome} aria-label="Voltar para a home">
+          <Arrow /> Voltar
+        </Link>
         <section className={styles.sectionWelcome}>
           <h2 className={styles.welcome}>Bem-vindo de volta</h2>
           <Scientist />
@@ -47,9 +51,11 @@ const LoginForm = () => {
             </div>
 
             {loading ? (
-              <Button disabled>Entrar</Button>
+              <button className={stylesButton.button} disabled>
+                Entrando...
+              </button>
             ) : (
-              <Button>Entrar</Button>
+              <button className={stylesButton.button}>Entrar</button>
             )}
             <Error error={error} />
           </form>

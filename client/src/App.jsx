@@ -6,6 +6,7 @@ import Home from './Components/Home/Home';
 import { UserStorage } from './UserContext';
 import Dashboard from './Components/Dashboard/Dashboard';
 import ProtectedRoute from './Components/Helper/ProtectedRoute';
+import Lesson from './Components/Lesson/Lesson';
 
 function App() {
   return (
@@ -20,6 +21,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <Dashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/curso/:course/:lesson?"
+              element={
+                <ProtectedRoute>
+                  <Lesson />
                 </ProtectedRoute>
               }
             />

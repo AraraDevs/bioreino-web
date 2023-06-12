@@ -26,28 +26,12 @@ export const UserStorage = ({ children }) => {
       const { url, options } = LOGIN({ email, password });
       const response = await fetch(url, options);
       const { token, msg } = await response.json();
-      if (!response.ok) throw msg;
+      if (!response.ok) throw new Error(msg);
       window.localStorage.setItem('token', token);
       await getUser(token);
       navigate('/dashboard');
     } catch (err) {
-      setError(err);
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  async function userRegister(name, email, password, cpf, plan) {
-    try {
-      setLoading(true);
-      setError(null);
-      const { url, options } = USER_POST({ name, email, password, cpf, plan });
-      const response = await fetch(url, options);
-      const { msg } = await response.json();
-      if (!response.ok) throw msg;
-      navigate('/login');
-    } catch (err) {
-      setError(err);
+      setError(err.message);
     } finally {
       setLoading(false);
     }
@@ -94,7 +78,6 @@ export const UserStorage = ({ children }) => {
         loading,
         error,
         userLogin,
-        userRegister,
         userLogout,
       }}
     >
