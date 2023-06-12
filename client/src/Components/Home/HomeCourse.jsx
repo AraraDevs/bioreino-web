@@ -1,8 +1,7 @@
 import React from 'react';
 import styles from './HomeCourse.module.css';
-import Image from '../../Assets/dinossauros.jpg';
 
-const HomeCourse = () => {
+const HomeCourse = ({ course }) => {
   function handleClick(event) {
     event.preventDefault();
 
@@ -18,17 +17,14 @@ const HomeCourse = () => {
   return (
     <li className={styles.coursesItem}>
       <a href="#sobre" onClick={handleClick}>
-        <span className={styles.plan}>Professional</span>
+        <span className={styles.plan}>{course.plan}</span>
         <div
           className={styles.background}
-          style={{ backgroundImage: `url(${Image})` }}
+          style={{ backgroundImage: `url(${course.imageUrl})` }}
         ></div>
         <div className={styles.description}>
-          <h3 className={styles.title}>Os dinossauros</h3>
-          <span className={styles.teacher}>Prof. Isaak Valentin</span>
-          <p className={styles.about}>
-            Aprenda sobre os diversos dinossauros que habitavam nosso mundo!
-          </p>
+          <h3 className={styles.title}>{course.title}</h3>
+          <span className={styles.teacher}>Prof. {course.professor}</span>
         </div>
       </a>
     </li>

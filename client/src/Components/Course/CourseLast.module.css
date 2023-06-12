@@ -81,7 +81,8 @@
   overflow: hidden;
 }
 
-.information {
+.info {
+  font-family: var(--first-type);
   align-self: center;
   text-align: center;
 }

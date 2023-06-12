@@ -45,9 +45,3 @@
   color: var(--contrast-1);
   font-weight: 500;
 }
-
-.about {
-  font-family: var(--first-type);
-  font-size: 1rem;
-  font-weight: 300;
-}

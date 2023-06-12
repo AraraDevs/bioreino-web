@@ -2,30 +2,49 @@ import React from 'react';
 import styles from './CourseItem.module.css';
 import { Link } from 'react-router-dom';
 import formatUrl from '../Helper/formatUrl';
-import { LESSONS_OF_COURSE_GET } from '../../api';
+import {
+  LESSONS_BY_TITLE_COURSE_GET,
+  USER_COURSES_PROGRESS_GET,
+} from '../../api';
 import useFetch from '../../Hooks/useFetch';
 
 const CourseItem = ({ course, user }) => {
   const [progress, setProgress] = React.useState(0);
+  const [userCoursesProgress, setUserCoursesProgress] = React.useState(null);
   const { data, request } = useFetch();
 
   React.useEffect(() => {
-    const { url, options } = LESSONS_OF_COURSE_GET(course.title);
+    const { url, options } = LESSONS_BY_TITLE_COURSE_GET(course.title);
     request(url, options);
   }, [course.title, request]);
 
-  function percentageOfLessonsCompleted() {
-    const totalOfLessonsInTheCourse = data.length;
-    const courseVisited = user.coursesProgress
-      ? user.coursesProgress[course.title]
-      : null;
-
-    if (courseVisited) {
-      const totalOfLessonsViewed = courseVisited.length;
-      setProgress((totalOfLessonsViewed / totalOfLessonsInTheCourse) * 100);
+  React.useEffect(() => {
+    async function fetchUserCoursesProgress() {
+      const { url, options } = USER_COURSES_PROGRESS_GET(user.id);
+      const response = await fetch(url, options);
+      const json = await response.json();
+      setUserCoursesProgress(json);
     }
-  }
-  if (data && !progress) percentageOfLessonsCompleted();
+    fetchUserCoursesProgress();
+  }, [user]);
+
+  React.useEffect(() => {
+    function percentageOfLessonsCompleted() {
+      if (data && !progress && userCoursesProgress) {
+        const totalOfLessonsInTheCourse = data.length;
+        const courseVisited = userCoursesProgress
+          ? userCoursesProgress[course.title]
+          : null;
+
+        if (courseVisited) {
+          const totalOfLessonsViewed = courseVisited.length;
+          setProgress((totalOfLessonsViewed / totalOfLessonsInTheCourse) * 100);
+        }
+      }
+    }
+    percentageOfLessonsCompleted();
+  }, [course.title, data, progress, userCoursesProgress]);
+
   if (!data) return null;
   return (
     <Link to={`/curso/${formatUrl(course.title)}`} className={styles.card}>
