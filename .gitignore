@@ -3,13 +3,13 @@ node_modules
 package-lock.json
 /.pnp
 .pnp.js
-#.env
+.env
 
 # testing
 /coverage
 
 # production
-#/client/dist
+/client/dist
 
 # misc
 .DS_Store
