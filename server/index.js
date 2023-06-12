@@ -14,32 +14,35 @@ const courseRouter = require('./routes/courseRouter');
 const lessonRouter = require('./routes/lessonRouter');
 const categoryRouter = require('./routes/categoryRouter');
 
-if (process.env.NODE_ENV !== 'development') {
-  app.use(express.static(path.join(__dirname, '../client/dist')));
-
-  app.get('*', (req, res) => {
-    res.sendFile(
-      path.join(__dirname, '../client/dist/index.html', (error) => {
-        if (error) res.status(500).send(error);
-      }),
-    );
-  });
-}
-
 app.use(express.json());
 app.use('/api/user', userRouter);
 app.use('/api/course', courseRouter);
 app.use('/api/lesson', lessonRouter);
 app.use('/api/category', categoryRouter);
 
-mongoose
-  .connect(
-    `mongodb+srv://${dbUser}:${dbPassword}@bioreino.l8j1rrn.mongodb.net/${db}`,
-  )
-  .then(() => {
-    app.listen(PORT, () => {
-      console.log(`Servidor rodando na porta ${PORT}`);
-    });
-    console.log('Conectou ao banco!');
-  })
-  .catch((err) => console.log(err));
+async function initDB() {
+  mongoose
+    .connect(
+      `mongodb+srv://${dbUser}:${dbPassword}@bioreino.l8j1rrn.mongodb.net/${db}`,
+    )
+    .then(() => {
+      app.listen(PORT, () => {
+        console.log(`Servidor rodando na porta ${PORT}`);
+      });
+      console.log('Conectou ao banco!');
+    })
+    .catch((err) => console.log(err));
+}
+initDB();
+
+// if (process.env.NODE_ENV !== 'development') {
+app.use(express.static(path.join(__dirname, '../client/dist')));
+
+app.get('*', (req, res) => {
+  res.sendFile(
+    path.join(__dirname, '../client/dist/index.html', (error) => {
+      if (error) res.status(500).send(error);
+    }),
+  );
+});
+// }
