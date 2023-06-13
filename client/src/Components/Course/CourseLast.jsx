@@ -18,8 +18,7 @@ const CourseLast = ({ user }) => {
   }, [user, request]);
 
   if (loading) return <p>Carregando...</p>;
-
-  if (error)
+  if (!data)
     return (
       <p className={styles.info}>
         Quando um curso for iniciado, ele apacerá aqui. Tenha um ótimo estudo!
@@ -45,7 +44,9 @@ const CourseLast = ({ user }) => {
           >
             <Clapperboard />
             <div>
-              <h2 className={styles.lessonTitle}>{data.lastLesson.lessonTitle}</h2>
+              <h2 className={styles.lessonTitle}>
+                {data.lastLesson.lessonTitle}
+              </h2>
               <p className={styles.lessonDescription}>
                 {data.lastLesson.lessonDescription}
               </p>

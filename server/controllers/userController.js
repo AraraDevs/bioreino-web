@@ -103,8 +103,7 @@ const getLastLesson = async (req, res) => {
   try {
     const userSaved = await Student.findById(user);
     const userLastCourse = userSaved.lastCourse;
-    if (userLastCourse) return res.status(200).json(userLastCourse);
-    res.status(404).json({ msg: 'Nenhuma aula foi acessada pelo estudante' });
+    return res.status(200).json(userLastCourse);
   } catch (error) {
     console.log(error);
     res.status(500).json({
