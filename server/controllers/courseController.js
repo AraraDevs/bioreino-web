@@ -48,7 +48,7 @@ const allCourses = async (req, res) => {
   const { limit } = req.params;
 
   try {
-    if (limit) return res.status(200).json(await Course.find());
+    if (limit) return res.status(200).json(await Course.find().limit(limit));
     res.status(200).json(await Course.find());
   } catch (error) {
     res.status(500).json({
