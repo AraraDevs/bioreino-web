@@ -81,8 +81,8 @@ const updateCompletedLesson = async (req, res) => {
           professor: courseProperties.professor,
           courseTitle: courseProperties.title,
           lastLesson: {
-            title: lessonProperties.title,
-            description: lessonProperties.description,
+            lessonTitle: lessonProperties.title,
+            lessonDescription: lessonProperties.description,
           },
         },
       },

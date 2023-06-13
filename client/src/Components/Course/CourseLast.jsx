@@ -39,15 +39,15 @@ const CourseLast = ({ user }) => {
           <h3 className={styles.continue}>Continuar de onde parou:</h3>
           <Link
             to={`/curso/${formatUrl(data.courseTitle)}/${formatUrl(
-              data.lastLesson.title,
+              data.lastLesson.lessonTitle,
             )}`}
             className={styles.lesson}
           >
             <Clapperboard />
             <div>
-              <h2 className={styles.lessonTitle}>{data.lastLesson.title}</h2>
+              <h2 className={styles.lessonTitle}>{data.lastLesson.lessonTitle}</h2>
               <p className={styles.lessonDescription}>
-                {data.lastLesson.description}
+                {data.lastLesson.lessonDescription}
               </p>
             </div>
           </Link>
