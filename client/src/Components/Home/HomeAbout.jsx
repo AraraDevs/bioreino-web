@@ -20,7 +20,7 @@ const HomeAbout = () => {
           vestibular complicado? Assine já o plano scholar! Neste plano, o
           aluno terá acesso a todos os cursos voltados para os estudos desde
           o ensino fundamental, até o médio. Ele contará com atividades e
-          simulados para se preparar para o mundo academico. Assine já e se
+          simulados para se preparar para o mundo acadêmico. Assine já e se
           mantenha antenado sobre o que acontece no mundo da biologia!"
           img={Scholar}
           alt="Adolescente segurando cadernos entre os braços cruzados sobre a barriga"
