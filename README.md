@@ -13,7 +13,7 @@ Se encontra disponível em: https://bioreino.vercel.app/
 1. Clone este repositório;
 2. Abra a raiz do projeto <code>/bioreino</code> no terminal;
 3. Execute o comando <code>npm install</code> para instalar todas as dependências do projeto que estão dentro do package-json *(será criada a pasta node_modules)*;
-4. Em caso de erro, acesse no terminal a pasta <code>client/</code> e executa o comando <code>npm install</code>;
+4. Em caso de erro, acesse no terminal a pasta <code>client/</code> e execute o comando <code>npm install</code>;
 5. Em seguida, no terminal, volte para a raiz do projeto <code>/bioreino</code>;
 6. Crie o arquivo <code>.env</code>, e cole as variáveis a seguir: <br>
 <code>NODE_ENV = development
