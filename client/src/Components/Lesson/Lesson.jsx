@@ -11,6 +11,7 @@ import {
 } from '../../api';
 import { UserContext } from '../../UserContext';
 import LessonFooter from './LessonFooter';
+import Head from '../Helper/Head';
 
 const Lesson = () => {
   const params = useParams();
@@ -87,6 +88,15 @@ const Lesson = () => {
   }
   return (
     <div className={styles.lessonWrapper}>
+      <Head
+        title={
+          currentAndNextLesson.current ? currentAndNextLesson.current.title : ''
+        }
+        description={
+          currentAndNextLesson.current &&
+          currentAndNextLesson.current.description
+        }
+      />
       <LessonAside menu={menu} setMenu={setMenu} allLessons={lessonsList} />
       <main className={styles.wrapper}>
         <LessonVideo

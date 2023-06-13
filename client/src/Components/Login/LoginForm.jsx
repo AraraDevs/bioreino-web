@@ -8,6 +8,7 @@ import useForm from '../../Hooks/useForm';
 import { UserContext } from '../../UserContext';
 import Error from '../Helper/Error';
 import { ReactComponent as Arrow } from '../../Assets/arrow.svg';
+import Head from '../Helper/Head';
 
 const LoginForm = () => {
   const email = useForm('email');
@@ -24,6 +25,10 @@ const LoginForm = () => {
 
   return (
     <section className={styles.login}>
+      <Head
+        title="Login"
+        description="Acesse sua conta para ter acesso aos cursos que oferecemos sobre biologia"
+      />
       <div className={styles.wrapper}>
         <Link to="/" className={styles.btnHome} aria-label="Voltar para a home">
           <Arrow />

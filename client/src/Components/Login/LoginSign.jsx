@@ -11,6 +11,7 @@ import { UserContext } from '../../UserContext';
 import Error from '../Helper/Error';
 import { USER_POST } from '../../api';
 import useFetch from '../../Hooks/useFetch';
+import Head from '../Helper/Head';
 
 const LoginSign = () => {
   const { id } = useParams();
@@ -79,8 +80,11 @@ const LoginSign = () => {
 
   return (
     <>
+      <Head
+        title="Inscreva"
+        description="Inscreva-se em um de nossos planos para ter acesso aos cursos que oferecemos sobre biologia"
+      />
       <HeaderLoginSign />
-
       <div className={styles.wrapper}>
         <main className={styles.main}>
           <h1 className={styles.title}>
