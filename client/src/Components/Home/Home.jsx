@@ -8,19 +8,26 @@ import HomeTestimonies from './HomeTestimonies';
 import HomeApp from './HomeApp';
 import HomeSign from './HomeSign';
 import Footer from '../Footer';
+import Head from '../Helper/Head';
 
 const Home = () => {
   return (
-    <div className={styles.home}>
-      <HomeHeader />
-      <HomeIntroduction />
-      <HomeApp />
-      <HomeCourses />
-      <HomeAbout />
-      <HomeTestimonies />
-      <HomeSign />
-      <Footer />
-    </div>
+    <>
+      <Head
+        title="Home"
+        description="Home da bioreino para apresentar a plataforma"
+      />
+      <div className={styles.home}>
+        <HomeHeader />
+        <HomeIntroduction />
+        <HomeApp />
+        <HomeCourses />
+        <HomeAbout />
+        <HomeTestimonies />
+        <HomeSign />
+        <Footer />
+      </div>
+    </>
   );
 };
 

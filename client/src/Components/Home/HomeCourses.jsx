@@ -18,7 +18,7 @@ const HomeCourses = () => {
   return (
     <section id="cursos" className={`${styles.courses} sectionSpacing`}>
       <h2 className="title">Veja nossos Cursos!</h2>
-      <p className="subtitle">conheça alguns de nossos cursos</p>
+      <p className="subtitle">conheça brevemente sobre eles</p>
 
       <ul className={`${styles.coursesGrid} container`}>
         {data &&

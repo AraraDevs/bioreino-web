@@ -32,7 +32,7 @@ const HomeAbout = () => {
           especializar, o plano professional garante seu caminho no mercado
           de trabalho! Contamos com cursos avançados em diversas subáreas da
           biologia, como por exemplo a Biologia Forense! Venha já fazer
-          parte do nosso batalhão e se torne um biólogo certificado!"
+          parte da nossa turma e se torne um biólogo certificado!"
           img={Professional}
           alt="Profissional usando microscópio"
           inverted={true}
