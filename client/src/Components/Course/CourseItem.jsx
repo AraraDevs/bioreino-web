@@ -38,7 +38,11 @@ const CourseItem = ({ course, user }) => {
 
         if (courseVisited) {
           const totalOfLessonsViewed = courseVisited.length;
-          setProgress((totalOfLessonsViewed / totalOfLessonsInTheCourse) * 100);
+          setProgress(
+            Math.round(
+              (totalOfLessonsViewed / totalOfLessonsInTheCourse) * 100,
+            ),
+          );
         }
       }
     }

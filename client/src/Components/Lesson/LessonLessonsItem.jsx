@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './LessonLessonsItem.module.css';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 import { ReactComponent as OpenClapperboard } from '../../Assets/claquete_aberta.svg';
 import { ReactComponent as ClosedClapperboard } from '../../Assets/claquete_fechada.svg';
 import { UserContext } from '../../UserContext';
@@ -8,6 +8,7 @@ import formatUrl from '../Helper/formatUrl';
 import { USER_COURSES_PROGRESS_GET } from '../../api';
 
 const LessonLessonsItem = ({ lesson }) => {
+  const params = useParams();
   const { data } = React.useContext(UserContext);
   const [userCoursesProgress, setUserCoursesProgress] = React.useState(null);
   const lessonUrl = formatUrl(lesson.title);
@@ -20,7 +21,7 @@ const LessonLessonsItem = ({ lesson }) => {
       setUserCoursesProgress(json);
     }
     fetchUserCoursesProgress();
-  }, [data.id]);
+  }, [data.id, params.lesson]);
 
   function lessonDone() {
     return userCoursesProgress[lesson.courseTitle].some(
