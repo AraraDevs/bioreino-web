@@ -6,7 +6,7 @@ const types = [
       'Preparo para vestibular',
       '12 meses de acesso ilimitado',
     ],
-    price: '600,00',
+    price: '300,00',
   },
   {
     name: 'professional',
@@ -16,7 +16,7 @@ const types = [
       '12 meses de acesso ilimitado',
       'Certificado de conclusão',
     ],
-    price: '1200,00',
+    price: '850,00',
   },
 ];
 
