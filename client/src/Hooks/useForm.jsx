@@ -14,10 +14,6 @@ const types = {
       replaces: ['$1.$2', '$1.$2', '$1-$2'],
     },
   },
-  password: {
-    regex: /\w{8}/,
-    message: 'A senha precisa ter no mínimo 8 dígitos',
-  },
   numCard: {
     regex: /(?:\d{4}\s){3}\d{4}/,
     message: 'Digite a quantidade correta de dígitos',

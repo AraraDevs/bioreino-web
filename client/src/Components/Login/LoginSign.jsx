@@ -22,7 +22,7 @@ const LoginSign = () => {
   const select = useForm();
   const name = useForm();
   const email = useForm('email');
-  const password = useForm('password');
+  const password = useForm();
   const confirmPassword = useForm();
   const cpf = useForm('cpf', { canFormat: true, regex: /\D/g });
   const validity = useForm('validity', { canFormat: true });
