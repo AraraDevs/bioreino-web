@@ -1,5 +1,6 @@
 .courses {
   background-image: var(--gradient-1);
+  min-height: 26.125rem;
 }
 
 .coursesGrid {
