@@ -149,7 +149,7 @@ const LoginSign = () => {
             />
             <div className={styles.total}>
               <h2>Total da compra:</h2>
-              <span>{price}</span>
+              <span>R$ {price}</span>
             </div>
             {loading ? (
               <Button disabled>Finalizar Compra</Button>
