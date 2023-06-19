@@ -6,11 +6,6 @@
 .lessonVideo {
   position: relative;
   width: 100%;
-}
-
-.lessonVideo::before {
-  content: '';
-  display: block;
   padding-bottom: 56.25%;
 }
 
@@ -53,6 +48,12 @@
   letter-spacing: 1.5px;
   line-height: 1.6;
   opacity: 0.75;
+}
+
+@media (max-width: 520px) {
+  .transcription p {
+    font-size: 16px;
+  }
 }
 
 .transcription .text {
