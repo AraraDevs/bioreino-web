@@ -11,7 +11,7 @@ const LessonAside = ({ menu, setMenu, allLessons }) => {
       <div className={styles.closeMenu}>
         <button onClick={() => setMenu(!menu)}>
           <Arrow className={styles.arrowMenu} />
-        </button>saa
+        </button>
       </div>
       <div className={styles.wrapper}>
         <div className={styles.dashboard}>
