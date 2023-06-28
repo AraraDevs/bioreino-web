@@ -3,19 +3,19 @@
   background: #0e1013;
 }
 
-.wrapper {
+.footer > div {
   display: flex;
   justify-content: space-between;
   gap: 40px;
   transition: margin 0.3s;
 }
 
-.wrapper.menuActive {
+.footer > div.menuActive {
   margin-left: 400px;
 }
 
 .lessonInfo {
-  max-width: 350px;
+  max-width: 720px;
   white-space: nowrap;
   overflow: hidden;
 }
@@ -73,7 +73,7 @@
 }
 
 @media (max-width: 550px) {
-  .wrapper {
+  .footer > div {
     flex-direction: column;
   }
 

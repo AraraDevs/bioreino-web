@@ -98,7 +98,7 @@ const Lesson = () => {
         }
       />
       <LessonAside menu={menu} setMenu={setMenu} allLessons={lessonsList} />
-      <main className={styles.wrapper}>
+      <main className={styles.main}>
         <LessonVideo
           params={params}
           lessonsList={lessonsList}

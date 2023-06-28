@@ -9,12 +9,8 @@ const LessonFooter = ({ currentCourse, nextLesson, menuAside }) => {
 
   if (!currentCourse) return null;
   return (
-    <footer className={`${styles.footer} `}>
-      <div
-        className={`${styles.wrapper} ${
-          menuAside && !mobile ? styles.menuActive : ''
-        }`}
-      >
+    <footer className={styles.footer}>
+      <div className={menuAside && !mobile ? styles.menuActive : ''}>
         <div className={styles.lessonInfo}>
           <h1 className={styles.title}>{currentCourse.title}</h1>
           <span className={styles.prof}>Prof: {currentCourse.professor}</span>
