@@ -74,8 +74,28 @@
   padding: 0.75rem !important;
 }
 
+.password {
+  position: relative;
+}
+
 .password > div {
   margin-bottom: 0;
+}
+
+.visibility {
+  position: absolute;
+  top: 30px;
+  right: 8px;
+  width: 24px;
+  height: 24px;
+  background-image: url('../../Assets/visibility-off.svg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  cursor: pointer;
+}
+
+.visibility.on {
+  background-image: url('../../Assets/visibility.svg');
 }
 
 .sign {

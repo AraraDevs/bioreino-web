@@ -10,6 +10,7 @@ import { ReactComponent as Arrow } from '../../Assets/arrow.svg';
 import Head from '../Helper/Head';
 
 const LoginForm = () => {
+  const [visibility, setVisibility] = React.useState(null);
   const email = useForm('email');
   const password = useForm();
   const { userLogin, loading, error } = React.useContext(UserContext);
@@ -45,15 +46,21 @@ const LoginForm = () => {
             <div className={styles.password}>
               <Input
                 label="Senha"
-                type="password"
+                type={visibility ? 'text' : 'password'}
                 name="password"
                 {...password}
               />
-              <p className={styles.sign}>
-                Ainda não possui um plano assinado?{' '}
-                <Link to="inscreva">Assine aqui</Link>
-              </p>
+              <div
+                className={`${styles.visibility} ${
+                  visibility ? styles.on : ''
+                }`}
+                onClick={() => setVisibility(!visibility)}
+              ></div>
             </div>
+            <p className={styles.sign}>
+              Ainda não possui um plano assinado?{' '}
+              <Link to="inscreva">Assine aqui</Link>
+            </p>
 
             {loading ? (
               <button className={stylesButton.button} disabled>
