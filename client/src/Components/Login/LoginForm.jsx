@@ -1,8 +1,6 @@
 import React from 'react';
 import styles from './LoginForm.module.css';
 import Input from '../Forms/Input';
-import Scientist from '../../Assets/login-cientista.svg';
-// import { ReactComponent as Scientist } from '../../Assets/login-cientista.svg';
 import { Link } from 'react-router-dom';
 import stylesButton from '../Forms/Button.module.css';
 import useForm from '../../Hooks/useForm';
@@ -38,7 +36,6 @@ const LoginForm = () => {
         <section className={styles.sectionWelcome}>
           <h2 className={styles.welcome}>Bem-vindo de volta</h2>
           <div className={styles.welcomeImg}></div>
-          {/* <Scientist /> */}
         </section>
 
         <section className={styles.sectionForm}>
