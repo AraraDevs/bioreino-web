@@ -22,6 +22,12 @@
   position: relative;
 }
 
+@media (max-height: 800px) {
+  .wrapper {
+    max-width: 60.5rem;
+  }
+}
+
 .wrapper > section {
   display: flex;
   flex-direction: column;
