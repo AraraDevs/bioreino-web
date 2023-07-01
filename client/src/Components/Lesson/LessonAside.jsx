@@ -3,7 +3,7 @@ import styles from './LessonAside.module.css';
 import LogoBioreino from '../LogoBioreino';
 import { ReactComponent as Arrow } from '../../Assets/arrow.svg';
 import { Link } from 'react-router-dom';
-import LessonLessonsItem from './LessonLessonsItem';
+import LessonLessonsItem from './LessonAsideItem';
 
 const LessonAside = ({ menu, setMenu, allLessons }) => {
   return (

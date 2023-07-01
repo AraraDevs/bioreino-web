@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './LessonLessonsItem.module.css';
+import styles from './LessonAsideItem.module.css';
 import { NavLink, useParams } from 'react-router-dom';
 import { ReactComponent as OpenClapperboard } from '../../Assets/claquete_aberta.svg';
 import { ReactComponent as ClosedClapperboard } from '../../Assets/claquete_fechada.svg';
@@ -7,7 +7,7 @@ import { UserContext } from '../../UserContext';
 import formatUrl from '../Helper/formatUrl';
 import { USER_COURSES_PROGRESS_GET } from '../../api';
 
-const LessonLessonsItem = ({ lesson }) => {
+const LessonAsideItem = ({ lesson }) => {
   const params = useParams();
   const { data } = React.useContext(UserContext);
   const [userCoursesProgress, setUserCoursesProgress] = React.useState(null);
@@ -23,21 +23,10 @@ const LessonLessonsItem = ({ lesson }) => {
     fetchUserCoursesProgress();
   }, [data.id, params.lesson]);
 
-  function lessonDone() {
-    return userCoursesProgress[lesson.courseTitle].some(
-      (lessonTitle) => lessonTitle === lesson.title,
-    );
-  }
-
   function checkIfTheLessonDone() {
-    if (
-      userCoursesProgress &&
-      userCoursesProgress[lesson.courseTitle] &&
-      lessonDone()
-    ) {
-      return true;
+    if (userCoursesProgress && userCoursesProgress[lesson.courseTitle]) {
+      return userCoursesProgress[lesson.courseTitle].includes(lesson.title);
     }
-    return false;
   }
 
   return (
@@ -60,4 +49,4 @@ const LessonLessonsItem = ({ lesson }) => {
   );
 };
 
-export default LessonLessonsItem;
+export default LessonAsideItem;
