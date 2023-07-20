@@ -21,17 +21,15 @@ app.use('/api/lesson', lessonRouter);
 app.use('/api/category', categoryRouter);
 
 async function initDB() {
-  mongoose
-    .connect(
+  try {
+    await mongoose.connect(
       `mongodb+srv://${dbUser}:${dbPassword}@bioreino.l8j1rrn.mongodb.net/${db}`,
-    )
-    .then(() => {
-      app.listen(PORT, () => {
-        console.log(`Servidor rodando na porta ${PORT}`);
-      });
-      console.log('Conectou ao banco!');
-    })
-    .catch((err) => console.log(err));
+    );
+    app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));
+    console.log('Conectou ao banco!');
+  } catch (error) {
+    console.log(err);
+  }
 }
 initDB();
 
