@@ -3,7 +3,7 @@ import styles from './DashboardFilter.module.css';
 import { ReactComponent as Arrow } from '../../Assets/seta.svg';
 import { ALL_CATEGORIES_GET } from '../../api';
 import useFetch from '../../Hooks/useFetch';
-import { UserContext } from '../../UserContext';
+import { UserContext } from '../../Context/UserContext';
 
 const DashboardFilter = ({ filter, setFilter }) => {
   const { data, request } = useFetch();
@@ -13,6 +13,10 @@ const DashboardFilter = ({ filter, setFilter }) => {
     const { url, options } = ALL_CATEGORIES_GET();
     request(url, options);
   }, [request]);
+
+  function handleFilter({ target }) {
+    setFilter({ ...filter, category: target.value })
+  }
 
   return (
     <div className={styles.wrapper}>
@@ -38,11 +42,9 @@ const DashboardFilter = ({ filter, setFilter }) => {
         <Arrow />
         <select
           value={filter.category}
-          onChange={({ target }) =>
-            setFilter({ ...filter, category: target.value })
-          }
+          onChange={handleFilter}
         >
-          <option value="">Todos</option>
+          <option value="all">Todos</option>
           {data &&
             data.map((category) => (
               <option key={category.name} value={category.name}>

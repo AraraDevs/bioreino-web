@@ -15,3 +15,7 @@
     grid-template-columns: 1fr;
   }
 }
+
+.soon {
+  font-family: var(--first-type);
+}

@@ -7,6 +7,8 @@ const Course = new mongoose.Schema(
     imageUrl: { type: String, required: true },
     plan: { type: String, required: true },
     category: { type: String, required: true },
+    lessons: { type: Array, required: true },
+    courseUrl: { type: String, required: true }
   },
   { timestamps: true },
 );

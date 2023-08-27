@@ -1,8 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const lessonController = require('../controllers/lessonController');
 
-router.get('/:courseTitle', lessonController.allLessonsFromTheTitleCourse);
-router.get('/:courseUrl', lessonController.allLessonsFromTheUrlCourse);
+const LessonController = require('../controllers/LessonController');
+
+// middlewares
+const verifyToken = require('../helpers/verify-token');
+
+router.post('/create', verifyToken, LessonController.create);
 
 module.exports = router;

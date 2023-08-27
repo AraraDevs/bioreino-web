@@ -7,6 +7,8 @@ const Lesson = new mongoose.Schema(
     videoUrl: { type: String, required: true },
     courseTitle: { type: String, required: true },
     transcription: String,
+    courseUrl: { type: String, required: true },
+    lessonUrl: { type: String, required: true },
   },
   { timestamps: true },
 );

@@ -53,12 +53,13 @@ export function USER_POST(body) {
   };
 }
 
-export function USER_LAST_LESSON_POST(body) {
+export function USER_LAST_LESSON_COURSE_PATCH(token, body) {
   return {
-    url: API_URL_USER + '/lastCourse',
+    url: API_URL_USER + '/lastcourse',
     options: {
-      method: 'POST',
+      method: 'PATCH',
       headers: {
+        Authorization: 'Bearer ' + token,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(body),
@@ -66,33 +67,16 @@ export function USER_LAST_LESSON_POST(body) {
   };
 }
 
-export function USER_LAST_LESSON_GET(user) {
+export function USER_COURSES_PROGRESS_PATCH(token, body) {
   return {
-    url: API_URL_USER + `/lastCourse/${user}`,
+    url: API_URL_USER + '/coursesprogress',
     options: {
-      method: 'GET',
-    },
-  };
-}
-
-export function USER_COURSES_PROGRESS_POST(body) {
-  return {
-    url: API_URL_USER + '/coursesProgress',
-    options: {
-      method: 'POST',
+      method: 'PATCH',
       headers: {
+        Authorization: 'Bearer ' + token,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(body),
-    },
-  };
-}
-
-export function USER_COURSES_PROGRESS_GET(user) {
-  return {
-    url: API_URL_USER + `/coursesProgress/${user}`,
-    options: {
-      method: 'GET',
     },
   };
 }
@@ -106,9 +90,9 @@ export function ALL_COURSES_GET({ limit }) {
   };
 }
 
-export function COURSES_GET({ plan, category }) {
+export function COURSES_FILTERED_GET({ plan }) {
   return {
-    url: API_URL_COURSE + `?_plan=${plan}&_category=${category}`,
+    url: API_URL_COURSE + `/filter/${plan}`,
     options: {
       method: 'GET',
       cache: 'no-store',
@@ -116,18 +100,9 @@ export function COURSES_GET({ plan, category }) {
   };
 }
 
-export function COURSES_BY_TITLE_GET(title) {
+export function COURSES_BY_URL_TITLE_GET(title) {
   return {
     url: API_URL_COURSE + '/' + title,
-    options: {
-      method: 'GET',
-    },
-  };
-}
-
-export function LESSONS_BY_TITLE_COURSE_GET(courseTitle) {
-  return {
-    url: API_URL_LESSON + '/' + courseTitle,
     options: {
       method: 'GET',
     },

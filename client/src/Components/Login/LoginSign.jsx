@@ -7,7 +7,7 @@ import useForm from '../../Hooks/useForm';
 import plans from '../../plans';
 import { useParams } from 'react-router-dom';
 import Button from '../Forms/Button';
-import { UserContext } from '../../UserContext';
+import { UserContext } from '../../Context/UserContext';
 import Error from '../Helper/Error';
 import { USER_POST } from '../../api';
 import useFetch from '../../Hooks/useFetch';

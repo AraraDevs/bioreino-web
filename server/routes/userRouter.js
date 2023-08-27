@@ -1,21 +1,20 @@
 const express = require('express');
 const router = express.Router();
-const userController = require('../controllers/userController');
-const authController = require('../controllers/authController');
 
-router.post('/login', userController.login);
-router.post('/register', userController.register);
-router.post('/lastCourse', userController.updateCompletedLesson);
-router.post('/coursesProgress', userController.updateCourseProgress);
+const UserController = require('../controllers/UserController');
 
-router.get('/', authController, (req, res) => {
-  const user = req.user;
-  res.status(200).json(user);
-});
-router.get('/token/validate', authController, (req, res) => {
+// middlewares
+const verifyToken = require('../helpers/verify-token');
+
+router.post('/login', UserController.login);
+router.post('/register', UserController.register);
+
+router.get('/token/validate', verifyToken, (req, res) => {
   res.status(200).json({ msg: 'Token válido!' });
 });
-router.get('/lastCourse/:user', userController.getLastLesson);
-router.get('/coursesProgress/:user', userController.getCoursesProgress);
+router.get('/', UserController.getUserData);
+
+router.patch('/lastcourse', verifyToken, UserController.updateLastCourse);
+router.patch('/coursesprogress', verifyToken, UserController.updateCoursesProgress);
 
 module.exports = router;

@@ -2,172 +2,223 @@ const Student = require('../models/Student');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-const register = async (req, res) => {
-  const { name, email, password, plan, subscriptionDate } = req.body;
+// helpers
+const createUserToken = require('../helpers/create-user-token');
+const getToken = require('../helpers/get-token');
 
-  const userExists = await Student.findOne({ email });
-  if (userExists) {
-    return res.status(422).json({ msg: 'Este e-mail já está em uso' });
-  }
+class UserController {
+  static async register(req, res) {
+    const { name, email, password, plan } = req.body;
 
-  const salt = bcrypt.genSaltSync(10);
-  const passwordHash = bcrypt.hashSync(password, salt);
+    // check if student exists
+    const userExists = await Student.findOne({ email });
+    if (userExists) {
+      return res.status(422).json({ msg: 'Este e-mail já está em uso' });
+    }
 
-  const savedUser = new Student({
-    name,
-    email,
-    password: passwordHash,
-    plan,
-    subscriptionDate,
-  });
+    // create a password
+    const salt = bcrypt.genSaltSync(10);
+    const passwordHash = bcrypt.hashSync(password, salt);
 
-  try {
-    await savedUser.save();
-
-    res.status(201).json({ msg: 'Usuário criado com sucesso!' });
-  } catch (err) {
-    console.log(err);
-
-    res.status(500).json({
-      msg: 'Aconteceu um erro inesperado, tente novamente mais tarde!',
+    // create a user
+    const savedUser = new Student({
+      name,
+      email,
+      password: passwordHash,
+      plan,
     });
-  }
-};
 
-const login = async (req, res) => {
-  const { email, password } = req.body;
+    try {
+      await savedUser.save();
 
-  const user = await Student.findOne({ email });
-  if (!user) {
-    return res.status(422).json({ msg: 'E-mail ou senha incorretos' });
-  }
+      res.status(201).json({ msg: 'Usuário criado com sucesso!' });
+    } catch (err) {
+      console.log(err);
 
-  const matchPassword = bcrypt.compareSync(password, user.password);
-  if (!matchPassword) {
-    return res.status(422).json({ msg: 'E-mail ou senha incorretos' });
-  }
-
-  try {
-    const secret = process.env.TOKEN_SECRET;
-
-    const token = jwt.sign(
-      {
-        id: user._id,
-        email: user.email,
-        name: user.name,
-        plan: user.plan,
-      },
-      secret,
-      { expiresIn: 604800 }, // 604.800 segundos == 7 dias
-    );
-
-    res.status(200).json({ msg: 'Autenticação realizada com sucesso', token });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({
-      msg: 'Aconteceu um erro inesperado, tente novamente mais tarde!',
-    });
-  }
-};
-
-const updateCompletedLesson = async (req, res) => {
-  const { user, courseProperties, lessonProperties } = req.body;
-
-  try {
-    await Student.findByIdAndUpdate(user, {
-      $set: {
-        lastCourse: {
-          imageUrl: courseProperties.imageUrl,
-          professor: courseProperties.professor,
-          courseTitle: courseProperties.title,
-          lastLesson: {
-            lessonTitle: lessonProperties.title,
-            lessonDescription: lessonProperties.description,
-          },
-        },
-      },
-    });
-    res
-      .status(200)
-      .json({ msg: 'Última aula assistida pelo aluno foi atualizada' });
-  } catch (error) {
-    res.status(500).json({
-      msg: 'Aconteceu um erro inesperado, tente novamente mais tarde!',
-    });
-  }
-};
-
-const getLastLesson = async (req, res) => {
-  const { user } = req.params;
-
-  try {
-    const userSaved = await Student.findById(user);
-    const userLastCourse = userSaved.lastCourse;
-    return res.status(200).json(userLastCourse);
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({
-      msg: 'Aconteceu um erro inesperado, tente novamente mais tarde!',
-    });
-  }
-};
-
-const updateCourseProgress = async (req, res) => {
-  const { user, courseTitle, lessonTitle } = req.body;
-
-  try {
-    const studentSaved = await Student.findById(user);
-
-    if (!studentSaved.coursesProgress) {
-      await Student.findByIdAndUpdate(user, {
-        $set: { coursesProgress: { [courseTitle]: [lessonTitle] } },
+      res.status(500).json({
+        msg: 'Aconteceu um erro inesperado, tente novamente mais tarde!',
       });
-      return res.status(201).json({ msg: 'Adicionado progresso de curso' });
+    }
+  }
+
+  static async login(req, res) {
+    const { email, password } = req.body;
+
+    // check student exists
+    const user = await Student.findOne({ email });
+    if (!user) {
+      return res.status(422).json({ msg: 'E-mail ou senha incorretos' });
     }
 
-    const courseInCoursesProgress = studentSaved.coursesProgress[courseTitle];
-    const lessonAlreadySaved =
-      courseInCoursesProgress && courseInCoursesProgress.includes(lessonTitle);
-
-    if (lessonAlreadySaved) {
-      return res
-        .status(200)
-        .json({ msg: 'Já existe uma aula semelhante a essa salva' });
+    // compare password with db password
+    const matchPassword = bcrypt.compareSync(password, user.password);
+    if (!matchPassword) {
+      return res.status(422).json({ msg: 'E-mail ou senha incorretos' });
     }
 
-    await Student.findByIdAndUpdate(user, {
-      $push: { [`coursesProgress.${courseTitle}`]: lessonTitle },
-    });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ msg: error });
+    createUserToken(user, req, res);
   }
-};
 
-const getCoursesProgress = async (req, res) => {
-  const { user } = req.params;
+  static async getUserData(req, res) {
+    try {
+      if (req.headers.authorization) {
+        const token = getToken(req);
+        const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
 
-  try {
-    const userSaved = await Student.findById(user);
-    const userCoursesProgress = userSaved.coursesProgress;
-    if (!userCoursesProgress)
+        const user = await Student.findById(decoded.id).select('-password');
+
+        res.status(200).send(user);
+      } else {
+        res.status(401).json({ msg: 'Acesso Negado!' });
+      }
+    } catch (error) {
+      res.status(500).json({ msg: 'Ocorreu um erro, tente mais tarde!' });
+    }
+  }
+
+  static async getLastCourseAndLesson(req, res) {
+    const userId = req.user.id;
+
+    try {
+      // get user data
+      const userSaved = await Student.findById(userId);
+
+      // get lastCourse of the user
+      const userLastCourse = userSaved.lastCourse;
+
+      if (!userLastCourse)
+        return res
+          .status(200)
+          .json({ msg: 'Nenhum curso e aula foram acessados no momento' });
+
+      res.status(200).json(userLastCourse);
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({
+        msg: 'Aconteceu um erro inesperado, tente novamente mais tarde!',
+      });
+    }
+  }
+
+  static async getCoursesProgress(req, res) {
+    const userId = req.user.id;
+
+    try {
+      const userSaved = await Student.findById(userId);
+      const coursesProgress = userSaved.coursesProgress;
+
+      if (!coursesProgress)
+        return res
+          .status(200)
+          .json({ msg: 'Nenhum curso foi acessado no momento' });
+
+      res.status(200).json(coursesProgress);
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({
+        msg: 'Aconteceu um erro inesperado, tente novamente mais tarde!',
+      });
+    }
+  }
+
+  static async updateLastCourse(req, res) {
+    const { courseTitle, professor, imageUrl, lessonTitle, lessonDescription } =
+      req.body;
+    const userId = req.user.id;
+
+    // validations
+    if (!courseTitle) {
+      return res
+        .status(422)
+        .json({ msg: 'É necessário enviar o título do curso!' });
+    }
+
+    if (!professor) {
+      return res
+        .status(422)
+        .json({ msg: 'É necessário enviar o nome do professor!' });
+    }
+
+    if (!imageUrl) {
+      return res
+        .status(422)
+        .json({ msg: 'É necessário enviar a imagem do curso!' });
+    }
+
+    if (!lessonTitle) {
+      return res
+        .status(422)
+        .json({ msg: 'É necessário enviar o título da aula!' });
+    }
+
+    if (!lessonDescription) {
+      return res
+        .status(422)
+        .json({ msg: 'É necessário enviar a descrição da aula!' });
+    }
+
+    // update values of the lastCourse
+    const lastCourse = {
+      courseTitle,
+      professor,
+      imageUrl,
+      lastLesson: {
+        lessonTitle,
+        lessonDescription,
+      },
+    };
+
+    try {
+      await Student.findByIdAndUpdate(userId, { lastCourse });
+
+      res
+        .status(200)
+        .json({ msg: 'Última aula assistida pelo aluno foi atualizada!' });
+    } catch (error) {
+      res.status(500).json({
+        msg: 'Aconteceu um erro inesperado, tente novamente mais tarde!',
+      });
+    }
+  }
+
+  static async updateCoursesProgress(req, res) {
+    const { courseTitle, lessonTitle } = req.body;
+    const userId = req.user.id;
+
+    try {
+      const studentSaved = await Student.findById(userId);
+
+      const coursesProgress = studentSaved.coursesProgress;
+
+      // checks if the student has coursesProgress
+      if (!coursesProgress || !coursesProgress[courseTitle]) {
+        await Student.findByIdAndUpdate(userId, {
+          [`coursesProgress.${courseTitle}`]: [lessonTitle],
+        });
+        return res.status(201).json({ msg: 'Adicionado progresso de curso' });
+      }
+
+      // checks if the student already has the lesson saved
+      const lessonExists = coursesProgress[courseTitle].includes(lessonTitle);
+
+      if (lessonExists) {
+        return res
+          .status(200)
+          .json({ msg: 'Já existe uma aula semelhante a essa salva' });
+      }
+
+      await Student.findByIdAndUpdate(userId, {
+        $push: { [`coursesProgress.${courseTitle}`]: lessonTitle },
+      });
+
       return res
         .status(200)
-        .json({ msg: 'Nenhum curso foi acessado no momento' });
-    res.status(200).json(userCoursesProgress);
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({
-      msg: 'Aconteceu um erro inesperado, tente novamente mais tarde!',
-    });
+        .json({ msg: 'Progresso de curso atualizado com sucesso!' });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ msg: error });
+    }
   }
-};
+}
 
-module.exports = {
-  register,
-  login,
-  updateCompletedLesson,
-  updateCourseProgress,
-  getCoursesProgress,
-  getLastLesson,
-};
+module.exports = UserController;

@@ -4,112 +4,110 @@ import { Navigate, useParams } from 'react-router-dom';
 import LessonAside from './LessonAside';
 import LessonVideo from './LessonVideo';
 import {
-  COURSES_BY_TITLE_GET,
-  LESSONS_BY_URL_COURSE_GET,
-  USER_COURSES_PROGRESS_POST,
-  USER_LAST_LESSON_POST,
+  COURSES_BY_URL_TITLE_GET,
+  USER_LAST_LESSON_COURSE_PATCH,
+  USER_COURSES_PROGRESS_PATCH,
 } from '../../api';
-import { UserContext } from '../../UserContext';
 import LessonFooter from './LessonFooter';
 import Head from '../Helper/Head';
 
 const Lesson = () => {
-  const params = useParams();
-  const [menu, setMenu] = React.useState(true);
+  const { course: courseUrlName, lesson: lessonUrlName } = useParams();
+  const [token] = React.useState(localStorage.getItem('token'));
+  const [currentCourse, setCurrentCourse] = React.useState(null);
   const [lessonsList, setLessonsList] = React.useState(null);
-  const [currentAndNextLesson, setCurrentAndNextLesson] = React.useState({
+  const [lessons, setCurrentAndNextLesson] = React.useState({
     current: null,
     next: null,
   });
-  const [currentCourse, setCurrentCourse] = React.useState(null);
-  const { data } = React.useContext(UserContext);
+  const [menu, setMenu] = React.useState(true);
 
   React.useEffect(() => {
-    async function fetchLessons() {
-      const { url, options } = LESSONS_BY_URL_COURSE_GET(params.course);
+    async function getCurrentCourse() {
+      const { url, options } = COURSES_BY_URL_TITLE_GET(courseUrlName);
+
       const response = await fetch(url, options);
       const json = await response.json();
-      setLessonsList(json);
+
+      setCurrentCourse(json);
+      setLessonsList(json.lessons);
     }
-    fetchLessons();
-  }, [params.course]);
+    getCurrentCourse();
+  }, [courseUrlName]);
 
   React.useEffect(() => {
-    async function fetchCourse() {
-      if (currentAndNextLesson.current) {
-        const { url, options } = COURSES_BY_TITLE_GET(
-          currentAndNextLesson.current.courseTitle,
-        );
-        const response = await fetch(url, options);
-        const json = await response.json();
-        setCurrentCourse(json);
-      }
+    function createCurrentAndNextLesson() {
+      const [currentLesson] = lessonsList.filter((lesson) => {
+        return lesson.lessonUrl === lessonUrlName;
+      });
+
+      const nextLessonIndex = lessonsList.indexOf(currentLesson) + 1;
+
+      setCurrentAndNextLesson({
+        current: currentLesson,
+        next: lessonsList[nextLessonIndex] || null,
+      });
     }
-    fetchCourse();
-  }, [currentAndNextLesson]);
+    if (lessonsList) createCurrentAndNextLesson();
+  }, [lessonsList, lessonUrlName]);
 
   React.useEffect(() => {
-    async function updateLastLesson() {
-      if (currentCourse) {
-        const { url, options } = USER_LAST_LESSON_POST({
-          user: data.id,
-          courseProperties: currentCourse,
-          lessonProperties: currentAndNextLesson.current,
-        });
-        await fetch(url, options);
-      }
-    }
-    updateLastLesson();
-  }, [currentCourse, currentAndNextLesson, data.id]);
-
-  React.useEffect(() => {
-    async function updateCoursesProgress() {
-      if (
-        params.course &&
-        params.lesson &&
-        currentCourse &&
-        currentAndNextLesson
-      ) {
-        const { url, options } = USER_COURSES_PROGRESS_POST({
-          user: data.id,
+    async function updateUserLastLessonAndCourse() {
+      if (currentCourse && lessons.current) {
+        const { url, options } = USER_LAST_LESSON_COURSE_PATCH(token, {
           courseTitle: currentCourse.title,
-          lessonTitle: currentAndNextLesson.current.title,
+          professor: currentCourse.professor,
+          imageUrl: currentCourse.imageUrl,
+          lessonTitle: lessons.current.title,
+          lessonDescription: lessons.current.description,
         });
         await fetch(url, options);
       }
     }
-    updateCoursesProgress();
-  }, [params, data.id, currentAndNextLesson, currentCourse]);
+    updateUserLastLessonAndCourse();
+  }, [currentCourse, lessons, token, lessonUrlName]);
 
-  if (lessonsList && !params.lesson) {
+  React.useEffect(() => {
+    async function updateUserCoursesProgress() {
+      if (currentCourse && lessons.current) {
+        const { url, options } = USER_COURSES_PROGRESS_PATCH(token, {
+          courseTitle: currentCourse.title,
+          lessonTitle: lessons.current.title,
+        });
+        await fetch(url, options);
+      }
+    }
+    updateUserCoursesProgress();
+  }, [lessons, currentCourse, token]);
+
+  if (lessonsList && !lessonUrlName) {
     return (
-      <Navigate to={`/curso/${params.course}/${lessonsList[0].lessonUrl}`} />
+      <Navigate to={`/curso/${courseUrlName}/${lessonsList[0].lessonUrl}`} />
     );
   }
+
+  if (!currentCourse) return null;
   return (
     <div className={styles.lessonWrapper}>
       <Head
-        title={
-          currentAndNextLesson.current ? currentAndNextLesson.current.title : ''
-        }
-        description={
-          currentAndNextLesson.current &&
-          currentAndNextLesson.current.description
-        }
+        title={lessons.current ? lessons.current.title : ''}
+        description={lessons.current && lessons.current.description}
       />
-      <LessonAside menu={menu} setMenu={setMenu} allLessons={lessonsList} />
+      <LessonAside
+        menu={menu}
+        setMenu={setMenu}
+        lessons={lessonsList}
+        courseUrlName={courseUrlName}
+        courseName={currentCourse.title}
+      />
       <main className={styles.main}>
-        <LessonVideo
-          params={params}
-          lessonsList={lessonsList}
-          currentLesson={currentAndNextLesson.current}
-          setCurrentAndNextLesson={setCurrentAndNextLesson}
-        />
+        <LessonVideo currentLesson={lessons.current} />
       </main>
       <LessonFooter
         currentCourse={currentCourse}
-        nextLesson={currentAndNextLesson.next}
+        nextLesson={lessons.next}
         menuAside={menu}
+        courseUrlName={courseUrlName}
       />
     </div>
   );

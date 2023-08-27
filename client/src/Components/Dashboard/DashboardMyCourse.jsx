@@ -3,13 +3,13 @@ import styles from './DashboardMyCourse.module.css';
 import DashboardTitle from './DashboardTitle';
 import DashboardFilter from './DashboardFilter';
 import DashboardCourses from './DashboardCourses';
-import { UserContext } from '../../UserContext';
+import { UserContext } from '../../Context/UserContext';
 
 const DashboardMyCourses = () => {
   const { data } = React.useContext(UserContext);
   const [filter, setFilter] = React.useState({
     plan: data.plan,
-    category: '',
+    category: 'all',
   });
 
   return (

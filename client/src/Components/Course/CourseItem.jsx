@@ -1,57 +1,27 @@
 import React from 'react';
 import styles from './CourseItem.module.css';
 import { Link } from 'react-router-dom';
-import formatUrl from '../Helper/formatUrl';
-import {
-  LESSONS_BY_TITLE_COURSE_GET,
-  USER_COURSES_PROGRESS_GET,
-} from '../../api';
-import useFetch from '../../Hooks/useFetch';
+import FormatURL from '../Helper/FormatURL';
+import { UserContext } from '../../Context/UserContext';
 
-const CourseItem = ({ course, user }) => {
+const CourseItem = ({ course }) => {
+  const { data } = React.useContext(UserContext);
   const [progress, setProgress] = React.useState(0);
-  const [userCoursesProgress, setUserCoursesProgress] = React.useState(null);
-  const { data, request } = useFetch();
+  const courseURL = FormatURL(course.title);
 
   React.useEffect(() => {
-    const { url, options } = LESSONS_BY_TITLE_COURSE_GET(course.title);
-    request(url, options);
-  }, [course.title, request]);
-
-  React.useEffect(() => {
-    async function fetchUserCoursesProgress() {
-      const { url, options } = USER_COURSES_PROGRESS_GET(user.id);
-      const response = await fetch(url, options);
-      const json = await response.json();
-      setUserCoursesProgress(json);
+    if (data.coursesProgress && data.coursesProgress[course.title]) {
+      const totalOfLessonsViewed = data.coursesProgress[course.title].length;
+      const totalOfLessonsInTheCourse = course.lessons.length;
+      setProgress(
+        Math.round((totalOfLessonsViewed / totalOfLessonsInTheCourse) * 100),
+      );
     }
-    fetchUserCoursesProgress();
-  }, [user]);
-
-  React.useEffect(() => {
-    function percentageOfLessonsCompleted() {
-      if (data && !progress && userCoursesProgress) {
-        const totalOfLessonsInTheCourse = data.length;
-        const courseVisited = userCoursesProgress
-          ? userCoursesProgress[course.title]
-          : null;
-
-        if (courseVisited) {
-          const totalOfLessonsViewed = courseVisited.length;
-          setProgress(
-            Math.round(
-              (totalOfLessonsViewed / totalOfLessonsInTheCourse) * 100,
-            ),
-          );
-        }
-      }
-    }
-    percentageOfLessonsCompleted();
-  }, [course.title, data, progress, userCoursesProgress]);
+  }, [course, data]);
 
   if (!data) return null;
   return (
-    <Link to={`/curso/${formatUrl(course.title)}`} className={styles.card}>
+    <Link to={`/curso/${courseURL}`} className={styles.card}>
       <div
         className={styles.background}
         style={{ backgroundImage: `url(${course.imageUrl})` }}

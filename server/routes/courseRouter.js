@@ -1,9 +1,15 @@
 const express = require('express');
 const router = express.Router();
-const courseController = require('../controllers/courseController');
 
-router.get('/', courseController.getCourse);
-router.get('/:title', courseController.getCourseByTitle);
-router.get('/all/:limit', courseController.allCourses);
+const CourseController = require('../controllers/CourseController');
+
+// middlewares
+const verifyToken = require('../helpers/verify-token');
+
+router.post('/create', verifyToken, CourseController.create);
+
+router.get('/filter/:plan', CourseController.getCoursesFiltered);
+router.get('/all/:limit', CourseController.allCourses);
+router.get('/:title', CourseController.getCourseByUrlTitle);
 
 module.exports = router;
