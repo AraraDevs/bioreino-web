@@ -9,6 +9,9 @@ import Error from '../Helper/Error';
 import { ReactComponent as Arrow } from '../../Assets/arrow.svg';
 import Head from '../Helper/Head';
 
+import { ReactComponent as VisibilityOff } from '../../Assets/visibility-off.svg';
+import { ReactComponent as VisibilityOn } from '../../Assets/visibility.svg';
+
 const LoginForm = () => {
   const [visibility, setVisibility] = React.useState(null);
   const email = useForm('email');
@@ -51,11 +54,11 @@ const LoginForm = () => {
                 {...password}
               />
               <span
-                className={`${styles.visibility} ${
-                  visibility ? styles.on : ''
-                }`}
+                className={styles.visibility}
                 onClick={() => setVisibility(!visibility)}
-              ></span>
+              >
+                {visibility ? <VisibilityOff /> : <VisibilityOn />}
+              </span>
             </div>
             <p className={styles.sign}>
               Ainda não possui um plano assinado?{' '}
