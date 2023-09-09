@@ -7,7 +7,7 @@ import { UserContext } from '../../Context/UserContext';
 import FormatURL from '../Helper/FormatURL';
 
 const LessonAsideItem = ({ lesson, courseName, courseUrlName }) => {
-  const { data } = React.useContext(UserContext);
+  const { data: user } = React.useContext(UserContext);
   const [userCoursesProgress, setCoursesProgress] = React.useState(null);
   const [lessonViewed, setLessonViewed] = React.useState(false);
   const lessonURL = FormatURL(lesson.title);
@@ -15,8 +15,8 @@ const LessonAsideItem = ({ lesson, courseName, courseUrlName }) => {
 
   React.useEffect(() => {
     // set updated coursesProgress 
-    setCoursesProgress(data.coursesProgress);
-  }, [data.coursesProgress]);
+    setCoursesProgress(user.coursesProgress);
+  }, [user]);
 
   React.useEffect(() => {
     if (userCoursesProgress && userCoursesProgress[courseName]) {

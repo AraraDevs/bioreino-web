@@ -14,12 +14,8 @@ import Head from '../Helper/Head';
 const Lesson = () => {
   const { course: courseUrlName, lesson: lessonUrlName } = useParams();
   const [token] = React.useState(localStorage.getItem('token'));
-  const [currentCourse, setCurrentCourse] = React.useState(null);
-  const [lessonsList, setLessonsList] = React.useState(null);
-  const [lessons, setCurrentAndNextLesson] = React.useState({
-    current: null,
-    next: null,
-  });
+  const [currentCourse, setCurrentCourse] = React.useState({});
+  const [lessonsList, setLessonsList] = React.useState([]);
   const [menu, setMenu] = React.useState(true);
 
   React.useEffect(() => {
@@ -35,21 +31,7 @@ const Lesson = () => {
     getCurrentCourse();
   }, [courseUrlName]);
 
-  React.useEffect(() => {
-    function createCurrentAndNextLesson() {
-      const [currentLesson] = lessonsList.filter((lesson) => {
-        return lesson.lessonUrl === lessonUrlName;
-      });
-
-      const nextLessonIndex = lessonsList.indexOf(currentLesson) + 1;
-
-      setCurrentAndNextLesson({
-        current: currentLesson,
-        next: lessonsList[nextLessonIndex] || null,
-      });
-    }
-    if (lessonsList) createCurrentAndNextLesson();
-  }, [lessonsList, lessonUrlName]);
+  const lessons = createCurrentAndNextLesson(lessonsList, lessonUrlName);
 
   React.useEffect(() => {
     async function updateUserLastLessonAndCourse() {
@@ -80,7 +62,7 @@ const Lesson = () => {
     updateUserCoursesProgress();
   }, [lessons, currentCourse, token]);
 
-  if (lessonsList && !lessonUrlName) {
+  if (lessonsList.length && !lessonUrlName) {
     return (
       <Navigate to={`/curso/${courseUrlName}/${lessonsList[0].lessonUrl}`} />
     );
@@ -114,3 +96,16 @@ const Lesson = () => {
 };
 
 export default Lesson;
+
+function createCurrentAndNextLesson(lessons, lessonUrl) {
+  const currentLesson = lessons.find((lesson) => {
+    return lesson.lessonUrl === lessonUrl;
+  });
+
+  const nextLessonIndex = lessons.indexOf(currentLesson) + 1;
+
+  return {
+    current: currentLesson,
+    next: lessons[nextLessonIndex] || null,
+  };
+}
