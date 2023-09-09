@@ -57,7 +57,7 @@ const LoginForm = () => {
                 className={styles.visibility}
                 onClick={() => setVisibility(!visibility)}
               >
-                {visibility ? <VisibilityOff /> : <VisibilityOn />}
+                {visibility ? <VisibilityOn /> : <VisibilityOff />}
               </span>
             </div>
             <p className={styles.sign}>
