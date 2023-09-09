@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './HomeSign.module.css';
 import HomeCard from './HomeCard';
-import plans from '../../plans';
+import plans from '../Helper/Plans';
 
 const HomeSign = () => {
   const plansArray = plans();

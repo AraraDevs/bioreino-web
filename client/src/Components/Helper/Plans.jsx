@@ -20,10 +20,8 @@ const types = [
   },
 ];
 
-const plans = (plan) => {
-  if (types.filter(({ name }) => name === plan).length || !plan) {
-    return types;
-  }
+const plans = () => {
+  return types;
 };
 
 export default plans;

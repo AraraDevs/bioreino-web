@@ -80,11 +80,11 @@
   padding: 0.75rem !important;
 }
 
-.password {
+.groupPassword {
   position: relative;
 }
 
-.password > div {
+.groupPassword > div {
   margin-bottom: 0;
 }
 

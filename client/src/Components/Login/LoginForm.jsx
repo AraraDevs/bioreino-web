@@ -43,19 +43,19 @@ const LoginForm = () => {
           <h1 className={styles.loginTitle}>Login</h1>
           <form className={styles.form} onSubmit={handleSubmit}>
             <Input label="E-mail" type="email" name="email" {...email} />
-            <div className={styles.password}>
+            <div className={styles.groupPassword}>
               <Input
                 label="Senha"
                 type={visibility ? 'text' : 'password'}
                 name="password"
                 {...password}
               />
-              <div
+              <span
                 className={`${styles.visibility} ${
                   visibility ? styles.on : ''
                 }`}
                 onClick={() => setVisibility(!visibility)}
-              ></div>
+              ></span>
             </div>
             <p className={styles.sign}>
               Ainda não possui um plano assinado?{' '}

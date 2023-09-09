@@ -4,7 +4,7 @@ import HeaderLoginSign from './HeaderLoginSign';
 import Input from '../Forms/Input';
 import Select from '../Forms/Select';
 import useForm from '../../Hooks/useForm';
-import plans from '../../plans';
+import plans from '../Helper/Plans';
 import { useParams } from 'react-router-dom';
 import Button from '../Forms/Button';
 import { UserContext } from '../../Context/UserContext';
@@ -17,8 +17,7 @@ const LoginSign = () => {
   const { id } = useParams();
   const { userLogin } = React.useContext(UserContext);
   const { loading, error, request } = useFetch();
-  const plansArray = plans(id);
-  const [price, setPrice] = React.useState(null);
+  const subscriptionPlans = plans();
   const select = useForm();
   const name = useForm();
   const email = useForm('email');
@@ -31,6 +30,7 @@ const LoginSign = () => {
   const numCard = useForm('numCard', { canFormat: true, regex: /\D/g });
 
   React.useEffect(() => {
+    // moves the scroll to the beginning of the page
     document.documentElement.scrollTop = 0;
   }, []);
 
@@ -40,12 +40,13 @@ const LoginSign = () => {
     }
   }, [id, select]);
 
-  React.useEffect(() => {
-    const pricePlans = plansArray.filter(({ name }) => name === select.value);
-    if (pricePlans.length) {
-      setPrice(pricePlans[0].price);
-    }
-  }, [plansArray, select]);
+  const price = getPrice();
+
+  function getPrice() {
+    const price = subscriptionPlans.find((plan) => plan.name === select.value);
+
+    return price ? price.price : undefined;
+  }
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -103,7 +104,7 @@ const LoginSign = () => {
             <Input
               label="Confirme a Senha *"
               type="password"
-              name="confirmPassword"
+              name="confirm_password"
               {...confirmPassword}
             />
             <Input label="CPF *" type="text" name="cpf" max={14} {...cpf} />
@@ -117,7 +118,7 @@ const LoginSign = () => {
               />
               <Input
                 label="Número do cartão *"
-                name="num_cartao"
+                name="num_card"
                 max={19}
                 {...numCard}
               />
@@ -133,7 +134,7 @@ const LoginSign = () => {
               <Input
                 label="Código de segurança *"
                 type="text"
-                name="codigo_seguranca"
+                name="security_code"
                 max={3}
                 placeholder="CVV"
                 {...cvv}
@@ -144,12 +145,12 @@ const LoginSign = () => {
             <Select
               label="Selecione um plano *"
               name="plans"
-              options={plansArray}
+              options={subscriptionPlans}
               {...select}
             />
             <div className={styles.total}>
               <h2>Total da compra:</h2>
-              <span>R$ {price}</span>
+              <span>{price ? `R$ ${price}` : ''}</span>
             </div>
             {loading ? (
               <Button disabled>Finalizar Compra</Button>
