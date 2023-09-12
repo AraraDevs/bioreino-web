@@ -17,17 +17,18 @@
 }
 
 .filter select {
-  background: var(--contrast-2) url('../../Assets/arrow_down.svg') no-repeat
-    center right 0.75rem;
   -webkit-appearance: none !important;
   -moz-appearance: none !important;
   appearance: none !important;
+  background: var(--contrast-2) url('../../Assets/arrow_down.svg') no-repeat
+    center right 0.75rem;
   text-transform: capitalize;
   border: 1px solid transparent;
   border-radius: 0.625rem;
   padding: 0.5rem 3rem 0.5rem 0.5rem;
   cursor: pointer;
   box-shadow: var(--button-shadow);
+  min-width: 150px;
 }
 
 .filter select:hover,
