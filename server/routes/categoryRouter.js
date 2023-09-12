@@ -1,7 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const categoryController = require('../controllers/categoryController');
+const CategoryController = require('../controllers/CategoryController');
 
-router.get('/all', categoryController.getCategories);
+// middlewares
+const verifyToken = require('../helpers/verify-token');
+
+router.get('/', verifyToken, CategoryController.getCategories);
 
 module.exports = router;

@@ -1,21 +1,29 @@
 import React from 'react';
 import styles from './DashboardFilter.module.css';
 import { ReactComponent as Arrow } from '../../Assets/seta.svg';
-import { ALL_CATEGORIES_GET } from '../../api';
-import useFetch from '../../Hooks/useFetch';
+import { CATEGORIES_GET } from '../../api';
 import { UserContext } from '../../Context/UserContext';
 
 const DashboardFilter = ({ filter, setFilter }) => {
-  const { data, request } = useFetch();
-  const { data: userData } = React.useContext(UserContext);
+  const [courses, setCourses] = React.useState([]);
+  const { data } = React.useContext(UserContext);
 
   React.useEffect(() => {
-    const { url, options } = ALL_CATEGORIES_GET();
-    request(url, options);
-  }, [request]);
+    async function getCategories() {
+      const token = localStorage.getItem('token');
+
+      const { url, options } = CATEGORIES_GET(token);
+
+      const responseCourses = await fetch(url, options);
+      const json = await responseCourses.json();
+
+      setCourses(json);
+    }
+    getCategories();
+  }, []);
 
   function handleFilter({ target }) {
-    setFilter({ ...filter, category: target.value })
+    setFilter({ ...filter, category: target.value });
   }
 
   return (
@@ -25,13 +33,13 @@ const DashboardFilter = ({ filter, setFilter }) => {
         <select
           value={filter.plan}
           onChange={({ target }) => {
-            if (userData.plan === 'scholar' && target.value === 'professional')
+            if (data.plan === 'scholar' && target.value === 'professional')
               return;
             setFilter({ ...filter, plan: target.value });
           }}
         >
           <option value="scholar">Scholar</option>
-          {userData.plan === 'professional' ? (
+          {data.plan === 'professional' ? (
             <option value="professional">Professional</option>
           ) : (
             <option value="professional" disabled>
@@ -40,13 +48,10 @@ const DashboardFilter = ({ filter, setFilter }) => {
           )}
         </select>
         <Arrow />
-        <select
-          value={filter.category}
-          onChange={handleFilter}
-        >
+        <select value={filter.category} onChange={handleFilter}>
           <option value="all">Todos</option>
-          {data &&
-            data.map((category) => (
+          {courses.length > 0 &&
+            courses.map((category) => (
               <option key={category.name} value={category.name}>
                 {category.name}
               </option>

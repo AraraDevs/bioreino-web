@@ -118,11 +118,15 @@ export function LESSONS_BY_URL_COURSE_GET(courseUrl) {
   };
 }
 
-export function ALL_CATEGORIES_GET() {
+export function CATEGORIES_GET(token) {
   return {
-    url: API_URL_CATEGORY + '/all',
+    url: API_URL_CATEGORY,
     options: {
       method: 'GET',
+      headers: {
+        Authorization: 'Bearer ' + token,
+        'Content-Type': 'application/json',
+      },
     },
   };
 }
