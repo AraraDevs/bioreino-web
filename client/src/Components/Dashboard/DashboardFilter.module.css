@@ -1,19 +1,21 @@
-.wrapper {
+.filter {
   margin-bottom: 3.25rem;
 }
 
-.filterName,
+.filter p,
 .filter select {
   font-family: var(--first-type);
   font-size: var(--font-3);
   font-weight: 300;
 }
 
-.filter {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  margin-top: 1rem;
+.filter p {
+  margin-bottom: 1rem;;
+}
+
+.filter > svg {
+  margin: 0 0.75rem;
+  vertical-align: middle;
 }
 
 .filter select {
@@ -21,14 +23,15 @@
   -moz-appearance: none !important;
   appearance: none !important;
   background: var(--contrast-2) url('../../Assets/arrow_down.svg') no-repeat
-    center right 0.75rem;
+  center right 0.75rem;
   text-transform: capitalize;
+  max-width: 160px;
+  width: 100%;
   border: 1px solid transparent;
   border-radius: 0.625rem;
   padding: 0.5rem 3rem 0.5rem 0.5rem;
   cursor: pointer;
   box-shadow: var(--button-shadow);
-  min-width: 150px;
 }
 
 .filter select:hover,
@@ -43,12 +46,15 @@
   font-size: 1rem;
 }
 
-@media (max-width: 380px) {
-  .filter {
-    display: grid;
-  }
 
+@media (max-width: 450px) {
   .filter svg {
     display: none;
+  }
+
+  .filter select {
+    display: block;
+    max-width: none;
+    margin-top: 1rem;
   }
 }

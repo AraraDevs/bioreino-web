@@ -4,8 +4,11 @@ import { ReactComponent as Arrow } from '../../Assets/seta.svg';
 import { CATEGORIES_GET } from '../../api';
 import { UserContext } from '../../Context/UserContext';
 
+import DashboardFilterPlan from './Filters/DashboardFilterPlan';
+import DashboardFilterCategories from './Filters/DashboardFilterCategories';
+
 const DashboardFilter = ({ filter, setFilter }) => {
-  const [courses, setCourses] = React.useState([]);
+  const [categories, setCategories] = React.useState([]);
   const { data } = React.useContext(UserContext);
 
   React.useEffect(() => {
@@ -17,49 +20,46 @@ const DashboardFilter = ({ filter, setFilter }) => {
       const responseCourses = await fetch(url, options);
       const json = await responseCourses.json();
 
-      setCourses(json);
+      setCategories(json);
     }
     getCategories();
   }, []);
 
+  const filteredCategories = getFilteredCategories(categories, filter);
+
   function handleFilter({ target }) {
-    setFilter({ ...filter, category: target.value });
+    if (target.name === 'plans') {
+      if (data.plan === 'scholar' && target.value === 'professional') return;
+      setFilter({ ...filter, plan: target.value });
+    } else {
+      setFilter({ ...filter, category: target.value });
+    }
   }
 
   return (
-    <div className={styles.wrapper}>
-      <p className={styles.filterName}>Filtrar por</p>
-      <div className={styles.filter}>
-        <select
-          value={filter.plan}
-          onChange={({ target }) => {
-            if (data.plan === 'scholar' && target.value === 'professional')
-              return;
-            setFilter({ ...filter, plan: target.value });
-          }}
-        >
-          <option value="scholar">Scholar</option>
-          {data.plan === 'professional' ? (
-            <option value="professional">Professional</option>
-          ) : (
-            <option value="professional" disabled>
-              Professional
-            </option>
-          )}
-        </select>
-        <Arrow />
-        <select value={filter.category} onChange={handleFilter}>
-          <option value="all">Todos</option>
-          {courses.length > 0 &&
-            courses.map((category) => (
-              <option key={category.name} value={category.name}>
-                {category.name}
-              </option>
-            ))}
-        </select>
-      </div>
+    <div className={styles.filter}>
+      <p>Filtrar por</p>
+      <DashboardFilterPlan
+        filter={filter}
+        setFilter={setFilter}
+        handleFilter={handleFilter}
+        user={data}
+      />
+      <Arrow />
+      <DashboardFilterCategories
+        filter={filter}
+        filteredCategories={filteredCategories}
+        handleFilter={handleFilter}
+      />
     </div>
   );
 };
 
 export default DashboardFilter;
+
+function getFilteredCategories(categoryList, filter) {
+  if (filter.plan === 'scholar') {
+    return categoryList.filter((category) => category.plan === 'scholar');
+  }
+  return categoryList;
+}
