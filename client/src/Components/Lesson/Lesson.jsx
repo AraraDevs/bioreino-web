@@ -15,7 +15,7 @@ const Lesson = () => {
   const { course: courseUrlName, lesson: lessonUrlName } = useParams();
   const [token] = React.useState(localStorage.getItem('token'));
   const [currentCourse, setCurrentCourse] = React.useState({});
-  const [lessonsList, setLessonsList] = React.useState([]);
+  const [lessons, setLessons] = React.useState([]);
   const [menu, setMenu] = React.useState(true);
 
   React.useEffect(() => {
@@ -26,68 +26,72 @@ const Lesson = () => {
       const json = await response.json();
 
       setCurrentCourse(json);
-      setLessonsList(json.lessons);
+      setLessons(json.lessons);
     }
     getCurrentCourse();
   }, [courseUrlName]);
 
-  const lessons = createCurrentAndNextLesson(lessonsList, lessonUrlName);
+  const { indexCurrentLesson, indexNextLesson } =
+    getIndexOfCurrentAndNextLesson(lessons, lessonUrlName);
 
   React.useEffect(() => {
     async function updateUserLastLessonAndCourse() {
-      if (currentCourse && lessons.current) {
+      if (currentCourse && lessons[indexCurrentLesson]) {
         const { url, options } = USER_LAST_LESSON_COURSE_PATCH(token, {
           courseTitle: currentCourse.title,
           professor: currentCourse.professor,
           imageUrl: currentCourse.imageUrl,
-          lessonTitle: lessons.current.title,
-          lessonDescription: lessons.current.description,
+          lessonTitle: lessons[indexCurrentLesson].title,
+          lessonDescription: lessons[indexCurrentLesson].description,
         });
         await fetch(url, options);
       }
     }
     updateUserLastLessonAndCourse();
-  }, [currentCourse, lessons, token, lessonUrlName]);
+  }, [currentCourse, lessons, token, lessonUrlName, indexCurrentLesson]);
 
   React.useEffect(() => {
     async function updateUserCoursesProgress() {
-      if (currentCourse && lessons.current) {
+      if (currentCourse && lessons[indexCurrentLesson]) {
         const { url, options } = USER_COURSES_PROGRESS_PATCH(token, {
           courseTitle: currentCourse.title,
-          lessonTitle: lessons.current.title,
+          lessonTitle: lessons[indexCurrentLesson].title,
         });
         await fetch(url, options);
       }
     }
     updateUserCoursesProgress();
-  }, [lessons, currentCourse, token]);
+  }, [lessons, currentCourse, indexCurrentLesson, token]);
 
-  if (lessonsList.length && !lessonUrlName) {
-    return (
-      <Navigate to={`/curso/${courseUrlName}/${lessonsList[0].lessonUrl}`} />
-    );
+  if (lessons.length && !lessonUrlName) {
+    return <Navigate to={`/curso/${courseUrlName}/${lessons[0].lessonUrl}`} />;
   }
 
   if (!currentCourse) return null;
   return (
     <div className={styles.lessonWrapper}>
       <Head
-        title={lessons.current ? lessons.current.title : ''}
-        description={lessons.current && lessons.current.description}
+        title={
+          lessons[indexCurrentLesson] ? lessons[indexCurrentLesson].title : ''
+        }
+        description={
+          lessons[indexCurrentLesson] && lessons[indexCurrentLesson].description
+        }
       />
       <LessonAside
         menu={menu}
         setMenu={setMenu}
-        lessons={lessonsList}
+        lessons={lessons}
         courseUrlName={courseUrlName}
-        courseName={currentCourse.title}
+        currentCourse={currentCourse}
+        currentLesson={lessons[indexCurrentLesson]}
       />
       <main className={styles.main}>
-        <LessonVideo currentLesson={lessons.current} />
+        <LessonVideo currentLesson={lessons[indexCurrentLesson]} />
       </main>
       <LessonFooter
         currentCourse={currentCourse}
-        nextLesson={lessons.next}
+        nextLesson={lessons[indexNextLesson]}
         menuAside={menu}
         courseUrlName={courseUrlName}
       />
@@ -97,15 +101,15 @@ const Lesson = () => {
 
 export default Lesson;
 
-function createCurrentAndNextLesson(lessons, lessonUrl) {
-  const currentLesson = lessons.find((lesson) => {
+function getIndexOfCurrentAndNextLesson(lessons, lessonUrl) {
+  const indexCurrentLesson = lessons.findIndex((lesson) => {
     return lesson.lessonUrl === lessonUrl;
   });
 
-  const nextLessonIndex = lessons.indexOf(currentLesson) + 1;
+  const indexNextLesson = indexCurrentLesson + 1;
 
   return {
-    current: currentLesson,
-    next: lessons[nextLessonIndex] || null,
+    indexCurrentLesson,
+    indexNextLesson: lessons[indexNextLesson] ? indexNextLesson : null,
   };
 }

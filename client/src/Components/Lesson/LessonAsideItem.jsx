@@ -4,25 +4,23 @@ import { NavLink, useParams } from 'react-router-dom';
 import { ReactComponent as OpenClapperboard } from '../../Assets/claquete_aberta.svg';
 import { ReactComponent as ClosedClapperboard } from '../../Assets/claquete_fechada.svg';
 import { UserContext } from '../../Context/UserContext';
+
 import FormatURL from '../Helper/FormatURL';
 
-const LessonAsideItem = ({ lesson, courseName, courseUrlName }) => {
-  const { data: user } = React.useContext(UserContext);
-  const [userCoursesProgress, setCoursesProgress] = React.useState(null);
+const LessonAsideItem = ({ lesson, courseTitle, currentLessonTitle }) => {
+  const { lesson: lessonUrlName } = useParams();
+  const { course: courseUrlName } = useParams();
+  const { data } = React.useContext(UserContext);
   const [lessonViewed, setLessonViewed] = React.useState(false);
   const lessonURL = FormatURL(lesson.title);
-  const { lesson: lessonUrlName } = useParams();
 
   React.useEffect(() => {
-    // set updated coursesProgress 
-    setCoursesProgress(user.coursesProgress);
-  }, [user]);
+    if (data.coursesProgress && data.coursesProgress[courseTitle]) {
+      const lessonIsViewed = data.coursesProgress[courseTitle].includes(lesson.title);
 
-  React.useEffect(() => {
-    if (userCoursesProgress && userCoursesProgress[courseName]) {
-      setLessonViewed(userCoursesProgress[courseName].includes(lesson.title));
+      setLessonViewed(lessonIsViewed);
     }
-  }, [courseName, lesson, userCoursesProgress, lessonUrlName]);
+  }, [courseTitle, currentLessonTitle, lesson, data, lessonUrlName]);
 
   return (
     <li className={styles.listItem}>

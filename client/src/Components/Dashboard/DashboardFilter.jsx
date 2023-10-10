@@ -16,7 +16,6 @@ const DashboardFilter = ({ filter, setFilter }) => {
       const token = localStorage.getItem('token');
 
       const { url, options } = CATEGORIES_GET(token);
-
       const responseCourses = await fetch(url, options);
       const json = await responseCourses.json();
 
@@ -25,7 +24,7 @@ const DashboardFilter = ({ filter, setFilter }) => {
     getCategories();
   }, []);
 
-  const filteredCategories = getFilteredCategories(categories, filter);
+  const filteredCategories = categories.filter(getFilteredCategories(filter));
 
   function handleFilter({ target }) {
     if (target.name === 'plans') {
@@ -48,7 +47,7 @@ const DashboardFilter = ({ filter, setFilter }) => {
       <Arrow />
       <DashboardFilterCategories
         filter={filter}
-        filteredCategories={filteredCategories}
+        categories={filteredCategories}
         handleFilter={handleFilter}
       />
     </div>
@@ -57,9 +56,9 @@ const DashboardFilter = ({ filter, setFilter }) => {
 
 export default DashboardFilter;
 
-function getFilteredCategories(categoryList, filter) {
+const getFilteredCategories = (filter) => (category) => {
   if (filter.plan === 'scholar') {
-    return categoryList.filter((category) => category.plan === 'scholar');
+    return category.plan === 'scholar';
   }
-  return categoryList;
-}
+  return true;
+};
