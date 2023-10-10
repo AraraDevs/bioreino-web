@@ -4,13 +4,13 @@ const getToken = require('./get-token');
 // middleware to validate token
 function verifyToken(req, res, next) {
   if (!req.headers.authorization) {
-    return res.status(401).json({ msg: 'Acesso Negado!' });
+    return res.status(401).json({ message: 'Acesso Negado!' });
   }
 
   const token = getToken(req);
 
   if (!token) {
-    return res.status(401).json({ msg: 'Acesso Negado!' });
+    return res.status(401).json({ message: 'Acesso Negado!' });
   }
 
   try {
@@ -19,7 +19,7 @@ function verifyToken(req, res, next) {
 
     next();
   } catch (error) {
-    return res.status(400).json({ msg: 'Token inválido!' });
+    return res.status(400).json({ message: 'Token inválido!' });
   }
 }
 

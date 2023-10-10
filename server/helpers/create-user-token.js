@@ -19,7 +19,7 @@ function createUserToken(user, req, res) {
   } catch (err) {
     console.log(err);
     res.status(500).json({
-      msg: 'Aconteceu um erro inesperado, tente novamente mais tarde!',
+      message: 'Aconteceu um erro inesperado, tente novamente mais tarde!',
     });
   }
 }

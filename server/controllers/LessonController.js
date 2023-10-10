@@ -18,38 +18,38 @@ class LessonController {
     const user = await User.findById(req.user.id);
 
     if (!user.professor) {
-      return res.status(403).json({ msg: 'Acesso Negado!' });
+      return res.status(403).json({ message: 'Acesso Negado!' });
     }
 
     // validations
     if (!description) {
       return res
         .status(422)
-        .json({ msg: 'Necessário enviar a descrição da aula!' });
+        .json({ message: 'Necessário enviar a descrição da aula!' });
     }
 
     if (!videoUrl) {
-      return res.status(422).json({ msg: 'Necessário enviar a url do vídeo!' });
+      return res.status(422).json({ message: 'Necessário enviar a url do vídeo!' });
     }
 
     if (!title) {
       return res
         .status(422)
-        .json({ msg: 'Necessário enviar o título da aula!' });
+        .json({ message: 'Necessário enviar o título da aula!' });
     }
 
     if (!courseTitle) {
       return res
         .status(422)
-        .json({ msg: 'Necessário enviar o título do curso!' });
+        .json({ message: 'Necessário enviar o título do curso!' });
     }
 
     if (!courseUrl) {
-      return res.status(422).json({ msg: 'Necessário enviar a url do curso!' });
+      return res.status(422).json({ message: 'Necessário enviar a url do curso!' });
     }
 
     if (!lessonUrl) {
-      return res.status(422).json({ msg: 'Necessário enviar a url da aula!' });
+      return res.status(422).json({ message: 'Necessário enviar a url da aula!' });
     }
 
     try {
@@ -80,10 +80,10 @@ class LessonController {
       );
       // POR ALGUMA RAZÃO ESTÁ DANDO ERRO NO FRONTEND MSM TENDO A AULA CRIADA NO CURSO, VERIFIQUE
 
-      res.status(201).json({ msg: 'Aula criada com sucesso!' });
+      res.status(201).json({ message: 'Aula criada com sucesso!' });
     } catch (error) {
       res.status(500).json({
-        msg: 'Aconteceu um erro inesperado, tente novamente mais tarde!',
+        message: 'Aconteceu um erro inesperado, tente novamente mais tarde!',
       });
     }
   }

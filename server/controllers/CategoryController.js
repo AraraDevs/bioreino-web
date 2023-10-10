@@ -22,7 +22,7 @@ class CategoryController {
     } catch (err) {
       console.log(err);
       res.status(404).json({
-        msg: 'Ops! Algum erro ocorreu e não foi possível buscar nenhuma categoria de cursos',
+        message: 'Ops! Algum erro ocorreu e não foi possível buscar nenhuma categoria de cursos',
       });
     }
   }

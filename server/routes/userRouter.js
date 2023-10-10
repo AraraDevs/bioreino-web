@@ -10,11 +10,15 @@ router.post('/login', UserController.login);
 router.post('/register', UserController.register);
 
 router.get('/token/validate', verifyToken, (req, res) => {
-  res.status(200).json({ msg: 'Token válido!' });
+  res.status(200).json({ message: 'Token válido!' });
 });
 router.get('/', UserController.getUserData);
 
 router.patch('/lastcourse', verifyToken, UserController.updateLastCourse);
-router.patch('/coursesprogress', verifyToken, UserController.updateCoursesProgress);
+router.patch(
+  '/coursesprogress',
+  verifyToken,
+  UserController.updateCoursesProgress,
+);
 
 module.exports = router;

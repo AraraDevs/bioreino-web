@@ -13,7 +13,7 @@ class UserController {
     // check if student exists
     const userExists = await Student.findOne({ email });
     if (userExists) {
-      return res.status(422).json({ msg: 'Este e-mail já está em uso' });
+      return res.status(422).json({ message: 'Este e-mail já está em uso' });
     }
 
     // create a password
@@ -31,12 +31,12 @@ class UserController {
     try {
       await savedUser.save();
 
-      res.status(201).json({ msg: 'Usuário criado com sucesso!' });
+      res.status(201).json({ message: 'Usuário criado com sucesso!' });
     } catch (err) {
       console.log(err);
 
       res.status(500).json({
-        msg: 'Aconteceu um erro inesperado, tente novamente mais tarde!',
+        message: 'Aconteceu um erro inesperado, tente novamente mais tarde!',
       });
     }
   }
@@ -47,13 +47,13 @@ class UserController {
     // check student exists
     const user = await Student.findOne({ email });
     if (!user) {
-      return res.status(422).json({ msg: 'E-mail ou senha incorretos' });
+      return res.status(422).json({ message: 'E-mail ou senha incorretos' });
     }
 
     // compare password with db password
     const matchPassword = bcrypt.compareSync(password, user.password);
     if (!matchPassword) {
-      return res.status(422).json({ msg: 'E-mail ou senha incorretos' });
+      return res.status(422).json({ message: 'E-mail ou senha incorretos' });
     }
 
     createUserToken(user, req, res);
@@ -69,10 +69,10 @@ class UserController {
 
         res.status(200).send(user);
       } else {
-        res.status(401).json({ msg: 'Acesso Negado!' });
+        res.status(401).json({ message: 'Acesso Negado!' });
       }
     } catch (error) {
-      res.status(500).json({ msg: 'Ocorreu um erro, tente mais tarde!' });
+      res.status(500).json({ message: 'Ocorreu um erro, tente mais tarde!' });
     }
   }
 
@@ -89,13 +89,13 @@ class UserController {
       if (!userLastCourse)
         return res
           .status(200)
-          .json({ msg: 'Nenhum curso e aula foram acessados no momento' });
+          .json({ message: 'Nenhum curso e aula foram acessados no momento' });
 
       res.status(200).json(userLastCourse);
     } catch (error) {
       console.log(error);
       res.status(500).json({
-        msg: 'Aconteceu um erro inesperado, tente novamente mais tarde!',
+        message: 'Aconteceu um erro inesperado, tente novamente mais tarde!',
       });
     }
   }
@@ -110,13 +110,13 @@ class UserController {
       if (!coursesProgress)
         return res
           .status(200)
-          .json({ msg: 'Nenhum curso foi acessado no momento' });
+          .json({ message: 'Nenhum curso foi acessado no momento' });
 
       res.status(200).json(coursesProgress);
     } catch (error) {
       console.log(error);
       res.status(500).json({
-        msg: 'Aconteceu um erro inesperado, tente novamente mais tarde!',
+        message: 'Aconteceu um erro inesperado, tente novamente mais tarde!',
       });
     }
   }
@@ -130,31 +130,31 @@ class UserController {
     if (!courseTitle) {
       return res
         .status(422)
-        .json({ msg: 'É necessário enviar o título do curso!' });
+        .json({ message: 'É necessário enviar o título do curso!' });
     }
 
     if (!professor) {
       return res
         .status(422)
-        .json({ msg: 'É necessário enviar o nome do professor!' });
+        .json({ message: 'É necessário enviar o nome do professor!' });
     }
 
     if (!imageUrl) {
       return res
         .status(422)
-        .json({ msg: 'É necessário enviar a imagem do curso!' });
+        .json({ message: 'É necessário enviar a imagem do curso!' });
     }
 
     if (!lessonTitle) {
       return res
         .status(422)
-        .json({ msg: 'É necessário enviar o título da aula!' });
+        .json({ message: 'É necessário enviar o título da aula!' });
     }
 
     if (!lessonDescription) {
       return res
         .status(422)
-        .json({ msg: 'É necessário enviar a descrição da aula!' });
+        .json({ message: 'É necessário enviar a descrição da aula!' });
     }
 
     // update values of the lastCourse
@@ -173,10 +173,10 @@ class UserController {
 
       res
         .status(200)
-        .json({ msg: 'Última aula assistida pelo aluno foi atualizada!' });
+        .json({ message: 'Última aula assistida pelo aluno foi atualizada!' });
     } catch (error) {
       res.status(500).json({
-        msg: 'Aconteceu um erro inesperado, tente novamente mais tarde!',
+        message: 'Aconteceu um erro inesperado, tente novamente mais tarde!',
       });
     }
   }
@@ -195,7 +195,7 @@ class UserController {
         await Student.findByIdAndUpdate(userId, {
           [`coursesProgress.${courseTitle}`]: [lessonTitle],
         });
-        return res.status(201).json({ msg: 'Adicionado progresso de curso' });
+        return res.status(201).json({ message: 'Adicionado progresso de curso' });
       }
 
       // checks if the student already has the lesson saved
@@ -204,7 +204,7 @@ class UserController {
       if (lessonExists) {
         return res
           .status(200)
-          .json({ msg: 'Já existe uma aula semelhante a essa salva' });
+          .json({ message: 'Já existe uma aula semelhante a essa salva' });
       }
 
       await Student.findByIdAndUpdate(userId, {
@@ -213,10 +213,10 @@ class UserController {
 
       return res
         .status(200)
-        .json({ msg: 'Progresso de curso atualizado com sucesso!' });
+        .json({ message: 'Progresso de curso atualizado com sucesso!' });
     } catch (error) {
       console.log(error);
-      res.status(500).json({ msg: error });
+      res.status(500).json({ message: error });
     }
   }
 }

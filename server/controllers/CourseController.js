@@ -1,11 +1,6 @@
 const Course = require('../models/Course');
 const User = require('../models/Student');
 
-const jwt = require('jsonwebtoken');
-
-// helpers
-const getToken = require('../helpers/get-token');
-
 class CourseController {
   static async getCoursesFiltered(req, res) {
     const { plan } = req.params;
@@ -21,13 +16,13 @@ class CourseController {
 
       if (courses.length === 0) {
         res.status(404).json({
-          msg: 'Desculpe, não encontramos nenhum curso com essas características. Experimente alterar o filtro.',
+          message: 'Desculpe, não encontramos nenhum curso com essas características. Experimente alterar o filtro.',
         });
       } else {
         res.status(200).json(courses);
       }
     } catch (error) {
-      res.status(500).json({ msg: error });
+      res.status(500).json({ message: error });
     }
   }
 
@@ -40,7 +35,7 @@ class CourseController {
 
       res.status(200).json(course);
     } catch (error) {
-      res.status(404).json({ msg: error });
+      res.status(404).json({ message: error });
     }
   }
 
@@ -53,7 +48,7 @@ class CourseController {
       res.status(200).json(await Course.find());
     } catch (error) {
       res.status(500).json({
-        msg: 'Aconteceu um erro inesperado, tente novamente mais tarde!',
+        message: 'Aconteceu um erro inesperado, tente novamente mais tarde!',
       });
     }
   }
@@ -66,48 +61,48 @@ class CourseController {
     const user = await User.findById(req.user.id);
 
     if (!user.professor) {
-      return res.status(403).json({ msg: 'Acesso Negado!' });
+      return res.status(403).json({ message: 'Acesso Negado!' });
     }
 
     // validations
     if (!professor) {
       return res
         .status(422)
-        .json({ msg: 'Necessário enviar o nome do professor!' });
+        .json({ message: 'Necessário enviar o nome do professor!' });
     }
 
     if (!image) {
       return res
         .status(422)
-        .json({ msg: 'Necessário enviar a imagem do curso!' });
+        .json({ message: 'Necessário enviar a imagem do curso!' });
     }
 
     if (!plan) {
       return res.status(422).json({
-        msg: 'Necessário enviar a qual plano de assinatura o curso pertence!',
+        message: 'Necessário enviar a qual plano de assinatura o curso pertence!',
       });
     }
 
     if (!category) {
       return res
         .status(422)
-        .json({ msg: 'Necessário enviar a qual categoria o curso pertence!' });
+        .json({ message: 'Necessário enviar a qual categoria o curso pertence!' });
     }
 
     if (!title) {
       return res
         .status(422)
-        .json({ msg: 'Necessário enviar o título do curso!' });
+        .json({ message: 'Necessário enviar o título do curso!' });
     }
 
     if (!lessons || lessons.length === 0) {
       return res
         .status(422)
-        .json({ msg: 'Necessário adicionar uma ou mais aulas a esse curso!' });
+        .json({ message: 'Necessário adicionar uma ou mais aulas a esse curso!' });
     }
 
     if (!courseUrl) {
-      return res.status(422).json({ msg: 'Necessário enviar a url do curso!' });
+      return res.status(422).json({ message: 'Necessário enviar a url do curso!' });
     }
 
     try {
@@ -123,10 +118,10 @@ class CourseController {
 
       savedCourse.save();
 
-      res.status(201).json({ msg: 'Curso criado com sucesso!' });
+      res.status(201).json({ message: 'Curso criado com sucesso!' });
     } catch (error) {
       res.status(500).json({
-        msg: 'Aconteceu um erro inesperado, tente novamente mais tarde!',
+        message: 'Aconteceu um erro inesperado, tente novamente mais tarde!',
       });
     }
   }
