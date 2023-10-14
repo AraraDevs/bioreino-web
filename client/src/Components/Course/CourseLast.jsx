@@ -34,14 +34,12 @@ const CourseLast = () => {
         <h3 className={styles.continue}>Continuar de onde parou:</h3>
         <Link to={`/curso/${courseURL}/${lessonURL}`} className={styles.lesson}>
           <Clapperboard />
-          <div>
-            <h2 className={styles.lessonTitle}>
-              {user.lastCourse.lastLesson.lessonTitle}
-            </h2>
-            <p className={styles.lessonDescription}>
-              {user.lastCourse.lastLesson.lessonDescription}
-            </p>
-          </div>
+          <h2 className={styles.lessonTitle}>
+            {user.lastCourse.lastLesson.lessonTitle}
+          </h2>
+          <p className={styles.lessonDescription}>
+            {user.lastCourse.lastLesson.lessonDescription}
+          </p>
         </Link>
       </div>
     </div>
