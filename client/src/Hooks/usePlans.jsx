@@ -16,7 +16,7 @@ const types = [
       '12 meses de acesso ilimitado',
       'Certificado de conclusão',
     ],
-    price: '850,00',
+    price: '849,99',
   },
 ];
 
@@ -25,7 +25,16 @@ const usePlans = () => {
     return types;
   }
 
-  return { allPlans: allPlans() };
+  function getPlanPrice(plan) {
+    if (!plan) return;
+
+    const chosenPlan = types.find((item) => item.name === plan);
+    const price = Number(chosenPlan.price.replace(',', '.')).toFixed(2);
+
+    return price;
+  }
+
+  return { allPlans: allPlans(), getPlanPrice };
 };
 
 export default usePlans;
