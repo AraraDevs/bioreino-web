@@ -40,7 +40,9 @@ const LoginMethodsPaymentCreditCard = ({ price }) => {
             onChange={({ target }) => setInstallment(target.value)}
             className={styleSelect.select}
           >
-            <option value="" disabled>Selecione</option>
+            <option value="" disabled>
+              Selecione
+            </option>
             {installments.map((installment) => (
               <option key={installment}>{installment}</option>
             ))}
