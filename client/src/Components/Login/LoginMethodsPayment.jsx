@@ -1,9 +1,14 @@
 import React from 'react';
 import styles from './LoginMethodsPayment.module.css';
 import LoginMethodsPaymentCreditCard from './LoginMethodsPaymentCreditCard';
+import usePlans from '../../Hooks/usePlans';
+import fixedNumber from '../Helper/fixedNumber';
 
 const LoginMethodsPayment = ({ selectedPlan }) => {
   const [methodPayment, setMethodPayment] = React.useState('');
+
+  const { getPlanPrice } = usePlans(selectedPlan);
+  const planPrice = getPlanPrice(selectedPlan);
 
   return (
     <div className={styles.methodsPayment}>
@@ -19,10 +24,12 @@ const LoginMethodsPayment = ({ selectedPlan }) => {
         />
         <label className={styles.label} htmlFor="credit_card">
           <strong>Cartão de Crédito</strong>
-          <span>até 12x de R$ ...</span>
+          <span>
+            {planPrice && `até 12x de R$ ${fixedNumber(planPrice / 12)}`}
+          </span>
         </label>
         <div className={styles.instructions}>
-          <LoginMethodsPaymentCreditCard selectedPlan={selectedPlan} />
+          <LoginMethodsPaymentCreditCard price={planPrice} />
         </div>
       </div>
       {/* PIX */}
@@ -36,7 +43,8 @@ const LoginMethodsPayment = ({ selectedPlan }) => {
           onChange={({ target }) => setMethodPayment(target.value)}
         />
         <label className={styles.label} htmlFor="pix">
-          <strong>Pix</strong>
+          <strong>Pix (5% de desconto)</strong>
+          <span>{planPrice && `R$ ${fixedNumber(planPrice * 0.95)}`}</span>
         </label>
         <div className={styles.instructions}>
           <p className={styles.instructionsText}>

@@ -3,8 +3,9 @@ import styleSelect from '../Forms/Select.module.css';
 import Input from '../Forms/Input';
 import FieldSplit from '../Layout/FieldSplit';
 import useForm from '../../Hooks/useForm';
+import fixedNumber from '../Helper/fixedNumber';
 
-const LoginMethodsPaymentCreditCard = ({ selectedPlan }) => {
+const LoginMethodsPaymentCreditCard = ({ price }) => {
   const [installment, setInstallment] = React.useState('');
 
   const holderName = useForm();
@@ -12,9 +13,15 @@ const LoginMethodsPaymentCreditCard = ({ selectedPlan }) => {
   const cardValidity = useForm('validity', { canFormat: true });
   const cvv = useForm('cvv', { canFormat: true, regex: /\D/g });
 
+  const installments = setInstallments(price);
+
   return (
     <>
-      <p>Total: R$ ...</p>
+      <p>
+        {price
+          ? `Total: R$ ${price}`
+          : 'Selecione um plano acima para ter acesso a seu preço!'}
+      </p>
       <Input label="Número do cartão *" name="card_number" {...cardNumber} />
       <FieldSplit>
         <Input label="Nome do portador *" name="holder_name" {...holderName} />
@@ -33,8 +40,12 @@ const LoginMethodsPaymentCreditCard = ({ selectedPlan }) => {
             onChange={({ target }) => setInstallment(target.value)}
             className={styleSelect.select}
           >
-            <option value="">Selecione</option>
-            {/* Negócio aqui é fazer retornar uma array contendo todas as parcelas do plano escolhido. Pode criar uma função dentro do hook usePlans. Em seguida, poderá modificar o componente Select para receber apenas uma array pura dentro da prop 'options', pois lá ela está recebendo um array de objetos, o que não é bacana para um componente próprio pra isso, pois está sendo usado apenas nos dados finais no formulário */}
+            <option value="" disabled>Selecione</option>
+            {installments.map((installment) => (
+              <option key={installment}>{installment}</option>
+            ))}
+
+            {/* Negócio aqui é fazer retornar uma array contendo todas as parcelas do plano escolhido. Pra isso pode criar uma função dentro do hook usePlans. Em seguida, poderá modificar o componente Select para receber apenas uma array pura dentro da prop 'options', pois lá ela está recebendo um array de objetos, o que não é bacana para um componente próprio pra isso, pois está sendo usado apenas nos dados finais no formulário */}
           </select>
         </div>
       </FieldSplit>
@@ -43,3 +54,15 @@ const LoginMethodsPaymentCreditCard = ({ selectedPlan }) => {
 };
 
 export default LoginMethodsPaymentCreditCard;
+
+function setInstallments(price) {
+  const installments = [];
+  if (price) {
+    for (let i = 1; i <= 12; i++) {
+      installments.push(`${i}x de R$ ${fixedNumber(price / i)}`);
+    }
+
+    return installments;
+  }
+  return [];
+}

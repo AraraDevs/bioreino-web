@@ -70,7 +70,8 @@
 }
 
 .divisorPayRadio .label span {
-  font-size: var(--font-6);
+  font-family: var(--first-type);
+  font-size: var(--font-7);
   color: var(--bg-1);
 }
 
