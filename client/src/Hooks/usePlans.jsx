@@ -20,8 +20,12 @@ const types = [
   },
 ];
 
-const plans = () => {
-  return types;
+const usePlans = () => {
+  function allPlans() {
+    return types;
+  }
+
+  return { allPlans: allPlans() };
 };
 
-export default plans;
+export default usePlans;
