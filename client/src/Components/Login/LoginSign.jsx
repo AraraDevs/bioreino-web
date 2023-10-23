@@ -4,7 +4,6 @@ import HeaderLoginSign from './HeaderLoginSign';
 import Input from '../Forms/Input';
 import Select from '../Forms/Select';
 import useForm from '../../Hooks/useForm';
-import plans from '../Helper/Plans';
 import { useParams } from 'react-router-dom';
 import Button from '../Forms/Button';
 import { UserContext } from '../../Context/UserContext';
@@ -12,12 +11,15 @@ import Error from '../Helper/Error';
 import { USER_POST } from '../../api';
 import useFetch from '../../Hooks/useFetch';
 import Head from '../Helper/Head';
+import LoginMethodsPayment from './LoginMethodsPayment';
+import usePlans from '../../Hooks/usePlans';
 
 const LoginSign = () => {
   const { id } = useParams();
   const { userLogin } = React.useContext(UserContext);
   const { loading, error, request } = useFetch();
-  const subscriptionPlans = plans();
+  const { allPlans } = usePlans();
+
   const select = useForm();
   const name = useForm();
   const email = useForm('email');
@@ -43,7 +45,7 @@ const LoginSign = () => {
   const price = getPrice();
 
   function getPrice() {
-    const price = subscriptionPlans.find((plan) => plan.name === select.value);
+    const price = allPlans.find((plan) => plan.name === select.value);
 
     return price ? price.price : undefined;
   }
@@ -109,8 +111,23 @@ const LoginSign = () => {
             />
             <Input label="CPF *" type="text" name="cpf" max={14} {...cpf} />
 
-            <h2>Pagamento - cartão de crédito</h2>
-            <div className={styles.divider}>
+            <h2>Plano de assinatura</h2>
+            <Select
+              label="Selecione um plano *"
+              name="plans"
+              options={allPlans}
+              {...select}
+            />
+            <div className={styles.total}>
+              <h2>Total da compra:</h2>
+              <span>{price ? `R$ ${price}` : ''}</span>
+            </div>
+
+            <h2>Pagamento</h2>
+            <LoginMethodsPayment selectedPlan={select.value} />
+
+            {/* <h2>Pagamento - cartão de crédito</h2>
+            <FieldSplit>
               <Input
                 label="Nome do portador *"
                 name="portador"
@@ -122,8 +139,8 @@ const LoginSign = () => {
                 max={19}
                 {...numCard}
               />
-            </div>
-            <div className={styles.divider}>
+            </FieldSplit>
+            <FieldSplit>
               <Input
                 label="Validade *"
                 name="validity"
@@ -139,19 +156,8 @@ const LoginSign = () => {
                 placeholder="CVV"
                 {...cvv}
               />
-            </div>
+            </FieldSplit> */}
 
-            <h2>Dados Finais</h2>
-            <Select
-              label="Selecione um plano *"
-              name="plans"
-              options={subscriptionPlans}
-              {...select}
-            />
-            <div className={styles.total}>
-              <h2>Total da compra:</h2>
-              <span>{price ? `R$ ${price}` : ''}</span>
-            </div>
             {loading ? (
               <Button disabled>Finalizar Compra</Button>
             ) : (
