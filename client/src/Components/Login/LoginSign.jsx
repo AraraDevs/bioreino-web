@@ -13,12 +13,14 @@ import useFetch from '../../Hooks/useFetch';
 import Head from '../Helper/Head';
 import LoginMethodsPayment from './LoginMethodsPayment';
 import usePlans from '../../Hooks/usePlans';
+import FieldSplit from '../Layout/FieldSplit';
 
 const LoginSign = () => {
   const { id } = useParams();
   const { userLogin } = React.useContext(UserContext);
   const { loading, error, request } = useFetch();
   const { allPlans } = usePlans();
+  const [hidden, setHidden] = React.useState(true);
 
   const select = useForm();
   const name = useForm();
@@ -124,39 +126,28 @@ const LoginSign = () => {
             </div>
 
             <h2>Pagamento</h2>
-            <LoginMethodsPayment selectedPlan={select.value} />
+            <LoginMethodsPayment
+              selectedPlan={select.value}
+              hidden={hidden}
+              setHidden={setHidden}
+            />
 
-            {/* <h2>Pagamento - cartão de crédito</h2>
-            <FieldSplit>
-              <Input
-                label="Nome do portador *"
-                name="portador"
-                {...bearerName}
-              />
-              <Input
-                label="Número do cartão *"
-                name="num_card"
-                max={19}
-                {...numCard}
-              />
-            </FieldSplit>
-            <FieldSplit>
-              <Input
-                label="Validade *"
-                name="validity"
-                max={5}
-                placeholder="MM/AA"
-                {...validity}
-              />
-              <Input
-                label="Código de segurança *"
-                type="text"
-                name="security_code"
-                max={3}
-                placeholder="CVV"
-                {...cvv}
-              />
-            </FieldSplit> */}
+            {/* Aqui em endereço pode usar uma API de CEP para buscar dados com base no CEP e já preencher alguns campos */}
+            <div className={hidden ? 'hidden' : ''}>
+              <h2>Endereço</h2>
+              <FieldSplit>
+                <Input label="CEP" name="cep" />
+                <Input label="Número" name="number" />
+              </FieldSplit>
+              <FieldSplit>
+                <Input label="Endereço" name="address" />
+                <Input label="Bairro" name="neighborhood" />
+              </FieldSplit>
+              <FieldSplit>
+                <Input label="Cidade" name="city" />
+                <Input label="Estado" name="state" />
+              </FieldSplit>
+            </div>
 
             {loading ? (
               <Button disabled>Finalizar Compra</Button>

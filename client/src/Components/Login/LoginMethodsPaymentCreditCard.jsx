@@ -61,7 +61,8 @@ function setInstallments(price) {
   const installments = [];
   if (price) {
     for (let i = 1; i <= 12; i++) {
-      installments.push(`${i}x de R$ ${fixedNumber(price / i)}`);
+      const truncatedNumber = Math.floor((price / i) * 100) / 100;
+      installments.push(`${i}x de R$ ${fixedNumber(truncatedNumber)}`);
     }
 
     return installments;
