@@ -34,7 +34,12 @@ const LoginMethodsPayment = ({ selectedPlan, hidden, setHidden }) => {
         />
         <label className={styles.label} htmlFor="pix">
           <strong>Pix (5% de desconto)</strong>
-          <span>{planPrice && `R$ ${fixedNumber(planPrice * 0.95)}`}</span>
+          {planPrice && (
+            <span>
+              <span className={styles.discount}>R$ {planPrice}</span>
+              R$ {fixedNumber(planPrice * 0.95)}
+            </span>
+          )}
         </label>
         <div className={styles.instructions}>
           <p className={styles.instructionsText}>
@@ -55,9 +60,9 @@ const LoginMethodsPayment = ({ selectedPlan, hidden, setHidden }) => {
         />
         <label className={styles.label} htmlFor="credit_card">
           <strong>Cartão de Crédito</strong>
-          <span>
-            {planPrice && `até 12x de R$ ${fixedNumber(planPrice / 12)}`}
-          </span>
+          {planPrice && (
+            <span>até 12x de R$ {fixedNumber(planPrice / 12)}</span>
+          )}
         </label>
         <div className={styles.instructions}>
           <LoginMethodsPaymentCreditCard price={planPrice} hidden={hidden} />

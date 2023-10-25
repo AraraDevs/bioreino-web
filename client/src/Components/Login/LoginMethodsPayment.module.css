@@ -70,9 +70,24 @@
 }
 
 .divisorPayRadio .label span {
+  display: flex;
+  gap: 8px;
   font-family: var(--first-type);
   font-size: var(--font-7);
   color: var(--bg-1);
+}
+
+.divisorPayRadio input + .label span.discount {
+  display: block;
+  text-decoration: line-through;
+  transform: translateX(-10px);
+  opacity: 0;
+  transition: all 0.3s;
+}
+
+.divisorPayRadio input:checked + .label span.discount {
+  opacity: 1;
+  transform: initial;
 }
 
 .divisorPayRadio input + .label + .instructions {

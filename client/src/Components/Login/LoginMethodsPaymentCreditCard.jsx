@@ -1,9 +1,9 @@
 import React from 'react';
-import styleSelect from '../Forms/Select.module.css';
 import Input from '../Forms/Input';
 import FieldSplit from '../Layout/FieldSplit';
 import useForm from '../../Hooks/useForm';
 import fixedNumber from '../Helper/fixedNumber';
+import Select from '../Forms/Select';
 
 const LoginMethodsPaymentCreditCard = ({ price }) => {
   const [installment, setInstallment] = React.useState('');
@@ -30,25 +30,13 @@ const LoginMethodsPaymentCreditCard = ({ price }) => {
       <FieldSplit>
         <Input label="Código de segurança *" name="cvv" {...cvv} />
         <div>
-          <label htmlFor="installments" className={styleSelect.label}>
-            Parcelas
-          </label>
-          <select
+          <Select
+            label="Parcelas"
             name="installments"
-            id="installments"
+            options={installments}
             value={installment}
             onChange={({ target }) => setInstallment(target.value)}
-            className={styleSelect.select}
-          >
-            <option value="" disabled>
-              Selecione
-            </option>
-            {installments.map((installment) => (
-              <option key={installment}>{installment}</option>
-            ))}
-
-            {/* Negócio aqui é fazer retornar uma array contendo todas as parcelas do plano escolhido. Pra isso pode criar uma função dentro do hook usePlans. Em seguida, poderá modificar o componente Select para receber apenas uma array pura dentro da prop 'options', pois lá ela está recebendo um array de objetos, o que não é bacana para um componente próprio pra isso, pois está sendo usado apenas nos dados finais no formulário */}
-          </select>
+          />
         </div>
       </FieldSplit>
     </>
@@ -62,7 +50,9 @@ function setInstallments(price) {
   if (price) {
     for (let i = 1; i <= 12; i++) {
       const truncatedNumber = Math.floor((price / i) * 100) / 100;
-      installments.push(`${i}x de R$ ${fixedNumber(truncatedNumber)}`);
+      installments.push(
+        `${i}x de R$ ${fixedNumber(truncatedNumber).replace('.', ',')}`,
+      );
     }
 
     return installments;

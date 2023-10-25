@@ -118,6 +118,7 @@ const LoginSign = () => {
               label="Selecione um plano *"
               name="plans"
               options={allPlans}
+              isCapitalize={true}
               {...select}
             />
             <div className={styles.total}>
