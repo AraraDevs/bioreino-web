@@ -4,9 +4,12 @@ import LoginMethodsPaymentCreditCard from './LoginMethodsPaymentCreditCard';
 import usePlans from '../../Hooks/usePlans';
 import fixedNumber from '../Helper/fixedNumber';
 
-const LoginMethodsPayment = ({ selectedPlan, hidden, setHidden }) => {
-  const [methodPayment, setMethodPayment] = React.useState('');
-
+const LoginMethodsPayment = ({
+  methodPayment,
+  setMethodPayment,
+  selectedPlan,
+  setVisible,
+}) => {
   const { getPlanPrice } = usePlans(selectedPlan);
   const planPrice = getPlanPrice(selectedPlan);
 
@@ -14,9 +17,9 @@ const LoginMethodsPayment = ({ selectedPlan, hidden, setHidden }) => {
     setMethodPayment(target.value);
 
     if (target.value === 'credit_card' || target.value === 'boleto') {
-      setHidden(false);
+      setVisible(true);
     } else {
-      setHidden(true);
+      setVisible(false);
     }
   }
 
@@ -65,7 +68,7 @@ const LoginMethodsPayment = ({ selectedPlan, hidden, setHidden }) => {
           )}
         </label>
         <div className={styles.instructions}>
-          <LoginMethodsPaymentCreditCard price={planPrice} hidden={hidden} />
+          <LoginMethodsPaymentCreditCard price={planPrice} />
         </div>
       </div>
       {/* Boleto Bancário */}
