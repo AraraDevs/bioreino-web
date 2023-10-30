@@ -58,10 +58,6 @@ input {
   margin: 0 auto;
 }
 
-.hidden {
-  display: none;
-}
-
 @media (max-width: 760px) {
   :root {
     --font-1: 1.5rem; /* 24px */
