@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './Select.module.css';
+import FieldError from '../Helper/FieldError';
 
 const Select = ({
   label,
@@ -7,7 +8,7 @@ const Select = ({
   options,
   value,
   onChange,
-  error,
+  errors,
   isCapitalize,
 }) => {
   return (
@@ -16,7 +17,9 @@ const Select = ({
         {label}
       </label>
       <select
-        className={`${styles.select} ${isCapitalize ? styles.capitalize : ''}`}
+        className={`${styles.select} ${isCapitalize ? styles.capitalize : ''} ${
+          errors[name] ? styles.error : ''
+        }`}
         name={name}
         id={name}
         value={value}
@@ -31,7 +34,7 @@ const Select = ({
           </option>
         ))}
       </select>
-      {error && <p className={styles.error}>{error}</p>}
+      {errors[name] && <FieldError>{errors[name]}</FieldError>}
     </>
   );
 };

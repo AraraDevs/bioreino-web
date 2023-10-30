@@ -25,9 +25,9 @@
   box-shadow: 0 0 0 2px rgb(14, 179, 1, 0.5);
 }
 
-.error {
-  color: #f31;
-  font-size: 0.875rem;
+.select.error {
+  border-color: #ff4c2c;
+  box-shadow: 0 0 0 2px #ffad9e;
 }
 
 .capitalize {
