@@ -170,84 +170,82 @@ const LoginSign = () => {
         description="Inscreva-se em um de nossos planos para ter acesso aos cursos que oferecemos sobre biologia"
       />
       <HeaderLoginSign />
-      <div className={styles.wrapper}>
-        <main className={styles.main}>
-          <h1 className={styles.title}>
-            Registre-se e tenha acesso aos cursos do plano selecionado
-          </h1>
-          <form onSubmit={handleSubmit} className={styles.form}>
-            <h2>Dados Pessoais</h2>
-            <Input
-              label="Nome completo *"
-              type="text"
-              name="name"
-              {...fields}
-              value={fields.values.name}
-            />
-            <Input
-              label="Email *"
-              type="email"
-              name="email"
-              {...fields}
-              value={fields.values.email}
-            />
-            <Input
-              label="Senha *"
-              type="password"
-              name="password"
-              {...fields}
-              value={fields.values.password}
-            />
-            <Input
-              label="Confirme a Senha *"
-              type="password"
-              name="confirm_password"
-              {...fields}
-              value={fields.values.confirm_password}
-            />
-            <Input
-              label="CPF *"
-              type="text"
-              name="cpf"
-              max={14}
-              {...fields}
-              value={fields.values.cpf}
-            />
+      <main className={styles.main}>
+        <h1 className={styles.title}>
+          Registre-se e tenha acesso aos cursos do plano selecionado
+        </h1>
+        <form onSubmit={handleSubmit} className={styles.form}>
+          <h2>Dados Pessoais</h2>
+          <Input
+            label="Nome completo *"
+            type="text"
+            name="name"
+            {...fields}
+            value={fields.values.name}
+          />
+          <Input
+            label="Email *"
+            type="email"
+            name="email"
+            {...fields}
+            value={fields.values.email}
+          />
+          <Input
+            label="Senha *"
+            type="password"
+            name="password"
+            {...fields}
+            value={fields.values.password}
+          />
+          <Input
+            label="Confirme a Senha *"
+            type="password"
+            name="confirm_password"
+            {...fields}
+            value={fields.values.confirm_password}
+          />
+          <Input
+            label="CPF *"
+            type="text"
+            name="cpf"
+            max={14}
+            {...fields}
+            value={fields.values.cpf}
+          />
 
-            <h2>Plano de assinatura</h2>
-            <Select
-              label="Selecione um plano *"
-              name="plans"
-              options={allPlans}
-              isCapitalize={true}
-              {...fields}
-              value={fields.values.plans}
-            />
-            <div className={styles.total}>
-              <h2>Total da compra:</h2>
-              <span>{price ? `R$ ${price}` : ''}</span>
-            </div>
+          <h2>Plano de assinatura</h2>
+          <Select
+            label="Selecione um plano *"
+            name="plans"
+            options={allPlans}
+            isCapitalize={true}
+            {...fields}
+            value={fields.values.plans}
+          />
+          <div className={styles.total}>
+            <h2>Total da compra:</h2>
+            <span>{price ? `R$ ${price}` : ''}</span>
+          </div>
 
-            <h2>Pagamento</h2>
-            <LoginMethodsPayment
-              methodPayment={methodPayment}
-              setMethodPayment={setMethodPayment}
-              fields={fields}
-              selectedPlan={fields.values.plans}
-              setAddressVisible={setAddressVisible}
-            />
+          <h2>Pagamento</h2>
+          <LoginMethodsPayment
+            methodPayment={methodPayment}
+            setMethodPayment={setMethodPayment}
+            fields={fields}
+            selectedPlan={fields.values.plans}
+            setAddressVisible={setAddressVisible}
+          />
 
-            {addressVisible && <LoginSignAddress fields={fields} />}
+          {addressVisible && <LoginSignAddress fields={fields} />}
 
-            {loading ? (
-              <Button disabled>Finalizar Compra</Button>
-            ) : (
-              methodPayment && <Button>Finalizar Compra</Button>
-            )}
-            {error && <Error error={error} />}
-          </form>
-        </main>
-      </div>
+          {loading ? (
+            <Button disabled>Finalizar Compra</Button>
+          ) : (
+            methodPayment && <Button>Finalizar Compra</Button>
+          )}
+          {error && <Error error={error} />}
+        </form>
+      </main>
     </>
   );
 };
