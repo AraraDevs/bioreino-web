@@ -18,7 +18,7 @@ import LoginSignAddress from './LoginSignAddress';
 function getPrice(allPlans, fields) {
   const price = allPlans.find((plan) => plan.name === fields.values.plans);
 
-  return price ? price.price : undefined;
+  return price?.price;
 }
 
 function getCustomValidationRules(initialValue, methodPayment, addressVisible) {
@@ -48,7 +48,7 @@ function getCustomValidationRules(initialValue, methodPayment, addressVisible) {
     value = {
       ...value,
       cep: {
-        regex: /^\d{5}-\d{3}$/,
+        regex: /^[0-9]{8}$/,
         message: 'Digite a quantidade correta de dígitos',
       },
       number: true,
@@ -133,12 +133,11 @@ const LoginSign = () => {
       },
     },
     cpf: { pattern: 'XXX.XXX.XXX-XX' },
-    cep: { pattern: 'XXXXX-XXX' },
   };
   const fields = useForm(
     initialValue,
     customValidationRules,
-    { cvv: 3 },
+    { cvv: 3, cep: 8 },
     customFormattingRules,
   );
 
