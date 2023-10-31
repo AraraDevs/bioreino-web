@@ -22,30 +22,27 @@ export const UserStorage = ({ children }) => {
     navigate('/login');
   }, [navigate]);
 
-  const getUser = React.useCallback(
-    async (token) => {
-      window.localStorage.setItem('token', token);
+  const getUser = React.useCallback(async (token) => {
+    window.localStorage.setItem('token', token);
 
-      const { url, options } = USER_GET(token);
-      const response = await fetch(url, options);
-      const json = await response.json();
+    const { url, options } = USER_GET(token);
+    const response = await fetch(url, options);
+    const json = await response.json();
 
-      setData(json);
-      setLogin(true);
-    },
-    [],
-  );
+    setData(json);
+    setLogin(true);
+  }, []);
 
   async function userLogin(email, password) {
     try {
       setLoading(true);
       setError(null);
-      
+
       const { url, options } = LOGIN({ email, password });
       const response = await fetch(url, options);
       const json = await response.json();
-      
-      if (!response.ok) throw new Error(json.msg);
+
+      if (!response.ok) throw new Error(json.message);
 
       await getUser(json.token);
       navigate('/dashboard');
@@ -69,7 +66,7 @@ export const UserStorage = ({ children }) => {
           const response = await fetch(url, options);
           const json = await response.json();
 
-          if (!response.ok) throw json.msg;
+          if (!response.ok) throw json.message;
 
           await getUser(token);
         } catch (err) {
