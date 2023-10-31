@@ -21,13 +21,82 @@ function getPrice(allPlans, fields) {
   return price ? price.price : undefined;
 }
 
+function getCustomValidationRules(initialValue, methodPayment, addressVisible) {
+  let value = initialValue;
+
+  if (methodPayment === 'credit_card') {
+    value = {
+      ...value,
+      card_number: {
+        regex: /(?:\d{4}\s){3}\d{4}/,
+        message: 'Digite a quantidade correta de dígitos',
+      },
+      holder_name: true,
+      card_validity: {
+        regex: /^(0[1-9]|1[0-2])\/\d{2}$/,
+        message: 'Preencha uma data válida',
+      },
+      cvv: {
+        regex: /^\d{3}$/,
+        message: 'Preencha um CVV válido',
+      },
+      installments: true,
+    };
+  }
+
+  if (addressVisible) {
+    value = {
+      ...value,
+      cep: {
+        regex: /^\d{5}-\d{3}$/,
+        message: 'Digite a quantidade correta de dígitos',
+      },
+      number: true,
+      address: true,
+      neighborhood: true,
+      city: true,
+      state: true,
+    };
+  }
+  return value;
+}
+
 const LoginSign = () => {
   const { id } = useParams();
   const { userLogin } = React.useContext(UserContext);
   const { loading, error, request } = useFetch();
   const { allPlans } = usePlans();
-  const [visible, setVisible] = React.useState(false);
+  const [addressVisible, setAddressVisible] = React.useState(false);
   const [methodPayment, setMethodPayment] = React.useState('');
+
+  const customValidationRules = getCustomValidationRules(
+    {
+      name: true,
+      email: {
+        regex:
+          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+        message: 'Preencha um e-mail válido',
+      },
+      password: {
+        regex: /^.{8,}/,
+        message: 'A senha precisa ter pelo menos 8 caracteres',
+      },
+      confirm_password: {
+        customValidation: (value, values) => {
+          if (value !== values.password) {
+            return 'As senhas devem ser iguais';
+          }
+        },
+      },
+      cpf: {
+        regex: /^\d{3}\.\d{3}\.\d{3}-\d{2}$/,
+        message: 'Preencha um cpf válido',
+      },
+      plans: true,
+    },
+    methodPayment,
+    addressVisible,
+  );
 
   const initialValue = {
     name: '',
@@ -49,60 +118,14 @@ const LoginSign = () => {
     state: '',
   };
 
-  let customValidationRules = {
-    name: true,
-    email: {
-      regex:
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-      message: 'Preencha um e-mail válido',
-    },
-    password: {
-      regex: /^.{8,}/,
-      message: 'A senha precisa ter pelo menos 8 caracteres',
-    },
-    confirm_password: {
-      customValidation: (value, values) => {
-        if (value !== values.password) {
-          return 'As senhas devem ser iguais';
-        }
-      },
-    },
-    cpf: {
-      regex: /^\d{3}\.\d{3}\.\d{3}-\d{2}$/,
-      message: 'Preencha um cpf válido',
-    },
-    plans: true,
-  };
-
-  customValidationRules =
-    methodPayment === 'credit_card'
-      ? {
-          ...customValidationRules,
-          card_number: {
-            regex: /(?:\d{4}\s){3}\d{4}/,
-            message: 'Digite a quantidade correta de dígitos',
-          },
-          holder_name: { required: true },
-          card_validity: {
-            regex: /^(0[1-9]|1[0-2])\/\d{2}$/,
-            message: 'Preencha uma data válida',
-          },
-          cvv: {
-            regex: /^\d{3}$/,
-            message: 'Preencha um CVV válido',
-          },
-          installments: { required: true },
-        }
-      : customValidationRules;
-
-  const fields = useForm(initialValue, customValidationRules, {
+  const customFormattingRules = {
     card_number: {
       pattern: 'XXXX XXXX XXXX XXXX',
     },
     card_validity: {
       pattern: 'XX/XX',
       customFormatting: (value) => {
-        const firstNumberOfTheMonth = Number(value.slice(0));
+        const firstNumberOfTheMonth = Number(value.charAt(0));
         if (firstNumberOfTheMonth > 1) {
           return '0' + firstNumberOfTheMonth;
         }
@@ -110,7 +133,14 @@ const LoginSign = () => {
       },
     },
     cpf: { pattern: 'XXX.XXX.XXX-XX' },
-  });
+    cep: { pattern: 'XXXXX-XXX' },
+  };
+  const fields = useForm(
+    initialValue,
+    customValidationRules,
+    { cvv: 3 },
+    customFormattingRules,
+  );
 
   React.useEffect(() => {
     // moves the scroll to the beginning of the page
@@ -122,15 +152,15 @@ const LoginSign = () => {
   async function handleSubmit(event) {
     event.preventDefault();
 
-    if (fields.isSubmitValid(event)) {
-      // const { url, options } = USER_POST({
-      //     name: fields.values.name,
-      //     email: fields.values.email,
-      //     password: fields.values.password,
-      //     plan: fields.values.plans,
-      //   });
-      //   const { response } = await request(url, options);
-      //   if (response.ok) userLogin(fields.values.email, fields.values.password);
+    if (fields.isSubmitValid()) {
+      const { url, options } = USER_POST({
+        name: fields.values.name,
+        email: fields.values.email,
+        password: fields.values.password,
+        plan: fields.values.plans,
+      });
+      const { response } = await request(url, options);
+      if (response.ok) userLogin(fields.values.email, fields.values.password);
     }
   }
 
@@ -203,12 +233,12 @@ const LoginSign = () => {
             <LoginMethodsPayment
               methodPayment={methodPayment}
               setMethodPayment={setMethodPayment}
+              fields={fields}
               selectedPlan={fields.values.plans}
-              setVisible={setVisible}
+              setAddressVisible={setAddressVisible}
             />
 
-            {/* Aqui em endereço pode usar uma API de CEP para buscar dados com base no CEP e já preencher alguns campos */}
-            {visible && <LoginSignAddress fields={fields} />}
+            {addressVisible && <LoginSignAddress fields={fields} />}
 
             {loading ? (
               <Button disabled>Finalizar Compra</Button>
