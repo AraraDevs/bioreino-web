@@ -175,7 +175,7 @@ const LoginSign = () => {
           Registre-se e tenha acesso aos cursos do plano selecionado
         </h1>
         <form onSubmit={handleSubmit} className={styles.form}>
-          <h2>Dados Pessoais</h2>
+          <h2 className={styles.subtitle}>Dados Pessoais</h2>
           <Input
             label="Nome completo *"
             type="text"
@@ -213,7 +213,7 @@ const LoginSign = () => {
             value={fields.values.cpf}
           />
 
-          <h2>Plano de assinatura</h2>
+          <h2 className={styles.subtitle}>Plano de assinatura</h2>
           <Select
             label="Selecione um plano *"
             name="plans"
@@ -227,7 +227,7 @@ const LoginSign = () => {
             <span>{price ? `R$ ${price}` : ''}</span>
           </div>
 
-          <h2>Pagamento</h2>
+          <h2 className={styles.subtitle}>Pagamento</h2>
           <LoginMethodsPayment
             methodPayment={methodPayment}
             setMethodPayment={setMethodPayment}
