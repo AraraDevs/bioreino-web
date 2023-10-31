@@ -7,8 +7,9 @@ import fixedNumber from '../Helper/fixedNumber';
 const LoginMethodsPayment = ({
   methodPayment,
   setMethodPayment,
+  fields,
   selectedPlan,
-  setVisible,
+  setAddressVisible,
 }) => {
   const { getPlanPrice } = usePlans(selectedPlan);
   const planPrice = getPlanPrice(selectedPlan);
@@ -17,9 +18,9 @@ const LoginMethodsPayment = ({
     setMethodPayment(target.value);
 
     if (target.value === 'credit_card' || target.value === 'boleto') {
-      setVisible(true);
+      setAddressVisible(true);
     } else {
-      setVisible(false);
+      setAddressVisible(false);
     }
   }
 
@@ -68,7 +69,9 @@ const LoginMethodsPayment = ({
           )}
         </label>
         <div className={styles.instructions}>
-          <LoginMethodsPaymentCreditCard price={planPrice} />
+          {methodPayment === 'credit_card' && (
+            <LoginMethodsPaymentCreditCard price={planPrice} fields={fields} />
+          )}
         </div>
       </div>
       {/* Boleto Bancário */}
