@@ -13,16 +13,24 @@ import { ReactComponent as VisibilityOff } from '../../Assets/visibility-off.svg
 import { ReactComponent as VisibilityOn } from '../../Assets/visibility.svg';
 
 const LoginForm = () => {
-  const [visibility, setVisibility] = React.useState(null);
-  const email = useForm('email');
-  const password = useForm();
+  const [visiblePassword, setVisiblePassword] = React.useState(false);
+  const initialValue = { email: '', password: '' };
+  const customValidationRules = {
+    email: {
+      regex:
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+      message: 'Preencha um e-mail válido',
+    },
+    password: true,
+  };
+  const fields = useForm(initialValue, customValidationRules);
   const { userLogin, loading, error } = React.useContext(UserContext);
 
   function handleSubmit(event) {
     event.preventDefault();
 
-    if (email.validate() && password.validate()) {
-      userLogin(email.value, password.value);
+    if (fields.isSubmitValid()) {
+      userLogin(fields.values.email, fields.values.password);
     }
   }
 
@@ -45,19 +53,26 @@ const LoginForm = () => {
         <section className={styles.sectionForm}>
           <h1 className={styles.loginTitle}>Login</h1>
           <form className={styles.form} onSubmit={handleSubmit}>
-            <Input label="E-mail" type="email" name="email" {...email} />
+            <Input
+              label="E-mail"
+              type="email"
+              name="email"
+              {...fields}
+              value={fields.values.email}
+            />
             <div className={styles.groupPassword}>
               <Input
                 label="Senha"
-                type={visibility ? 'text' : 'password'}
+                type={visiblePassword ? 'text' : 'password'}
                 name="password"
-                {...password}
+                {...fields}
+                value={fields.values.password}
               />
               <span
                 className={styles.visibility}
-                onClick={() => setVisibility(!visibility)}
+                onClick={() => setVisiblePassword(!visiblePassword)}
               >
-                {visibility ? <VisibilityOn /> : <VisibilityOff />}
+                {visiblePassword ? <VisibilityOn /> : <VisibilityOff />}
               </span>
             </div>
             <p className={styles.sign}>
