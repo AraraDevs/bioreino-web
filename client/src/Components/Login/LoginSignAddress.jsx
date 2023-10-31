@@ -1,10 +1,11 @@
 import React from 'react';
+import styles from './LoginSignAddress.module.css';
 import FieldSplit from '../Layout/FieldSplit';
 import Input from '../Forms/Input';
 
 const LoginSignAddress = ({ fields }) => {
   return (
-    <div>
+    <div className={styles.address}>
       <h2>Endereço</h2>
       <FieldSplit>
         <Input label="CEP" name="cep" {...fields} value={fields.values.cep} />

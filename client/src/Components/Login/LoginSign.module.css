@@ -18,6 +18,10 @@
   padding: 0 0.625rem;
 }
 
+.form > div:nth-last-child(2) {
+  margin-bottom: 1.5rem;
+}
+
 .form h2 {
   font-size: var(--font-4);
   font-weight: 800;
