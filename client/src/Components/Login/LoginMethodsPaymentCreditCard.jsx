@@ -6,7 +6,7 @@ import Select from '../Forms/Select';
 
 function setInstallments(price) {
   const installments = [];
-  
+
   if (price) {
     for (let i = 1; i <= 12; i++) {
       const truncatedNumber = Math.floor((price / i) * 100) / 100;
@@ -39,7 +39,7 @@ const LoginMethodsPaymentCreditCard = ({ price, fields }) => {
           value={fields.values.holder_name}
         />
         <Input
-          label="Validade *"
+          label="Validade (mm/aa) *"
           name="card_validity"
           {...fields}
           value={fields.values.card_validity}
