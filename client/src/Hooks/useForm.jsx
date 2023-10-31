@@ -1,6 +1,11 @@
 import React from 'react';
 
-const useForm = (initialState, customValidationRules, formats) => {
+const useForm = (
+  initialState,
+  customValidationRules,
+  maxCharacterLimits,
+  formats,
+) => {
   const [values, setValues] = React.useState(initialState);
   const [errors, setErrors] = React.useState({});
 
@@ -42,7 +47,12 @@ const useForm = (initialState, customValidationRules, formats) => {
   function onChange({ target }) {
     const { value, name } = target;
 
-    formattedInputs(target);
+    if (maxCharacterLimits && maxCharacterLimits[name]) {
+      if (value.length > maxCharacterLimits[name]) return;
+    }
+
+    const newInputValue = formattedInputs(target);
+    setValues({ ...values, [name]: newInputValue });
 
     if (errors[name]) {
       const { validationErrors } = validate({ ...values, [name]: value });
@@ -50,9 +60,7 @@ const useForm = (initialState, customValidationRules, formats) => {
     }
   }
 
-  function isSubmitValid(e) {
-    e.preventDefault();
-
+  function isSubmitValid() {
     const { validationErrors, invalidFields } = validate(values);
     setErrors(validationErrors);
 
@@ -70,7 +78,7 @@ const useForm = (initialState, customValidationRules, formats) => {
   function formattedInputs(target) {
     const { value, name } = target;
 
-    const fieldFormatting = formats[name];
+    const fieldFormatting = formats && formats[name];
 
     const pattern = fieldFormatting?.pattern;
 
@@ -95,10 +103,9 @@ const useForm = (initialState, customValidationRules, formats) => {
         formattedValue = fieldFormatting.customFormatting(formattedValue);
       }
 
-      setValues({ ...values, [name]: formattedValue });
-      return;
+      return formattedValue;
     }
-    setValues({ ...values, [name]: value });
+    return value;
   }
 
   return {
