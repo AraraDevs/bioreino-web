@@ -11,10 +11,10 @@
   width: 100%;
   padding: 0.5rem;
   font-family: var(--first-type);
+  font-size: 1em;
   background: #eee;
   border: 1px solid #eee;
   border-radius: 0.3125rem;
-  text-transform: capitalize;
 }
 
 .select:hover,
@@ -25,7 +25,11 @@
   box-shadow: 0 0 0 2px rgb(14, 179, 1, 0.5);
 }
 
-.error {
-  color: #f31;
-  font-size: 0.875rem;
+.select.error {
+  border-color: #ff4c2c;
+  box-shadow: 0 0 0 2px #ffad9e;
+}
+
+.capitalize {
+  text-transform: capitalize;
 }

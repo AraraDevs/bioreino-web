@@ -1,96 +1,118 @@
 import React from 'react';
 
-const types = {
-  email: {
-    regex:
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-    message: 'Preencha um e-mail válido',
-  },
-  cpf: {
-    regex: /^\d{3}\.\d{3}\.\d{3}-\d{2}$/,
-    message: 'Preencha um cpf válido',
-    formats: {
-      regex: [/(\d{3})(\d)/, /(\d{3})(\d)/, /(\d{3})(\d{1,2})$/],
-      replaces: ['$1.$2', '$1.$2', '$1-$2'],
-    },
-  },
-  numCard: {
-    regex: /(?:\d{4}\s){3}\d{4}/,
-    message: 'Digite a quantidade correta de dígitos',
-    formats: {
-      regex: [/(\d{4})(\d)/, /(\d{4})(\d)/, /(\d{4})(\d)/],
-      replaces: ['$1 $2', '$1 $2', '$1 $2'],
-    },
-  },
-  validity: {
-    regex: /^\d{2}\/\d{2}$/,
-    message: 'Preencha uma data válida',
-    formats: {
-      regex: [/(\d{2})(\d)/],
-      replaces: ['$1/$2'],
-    },
-  },
-  cvv: {
-    regex: /^\d{3}$/,
-    message: 'Preencha um CVV válido',
-  },
-};
+const useForm = (
+  initialState,
+  customValidationRules,
+  maxCharacterLimits,
+  formats,
+) => {
+  const [values, setValues] = React.useState(initialState);
+  const [errors, setErrors] = React.useState({});
 
-const useForm = (type, optionsFormat) => {
-  const [value, setValue] = React.useState('');
-  const [error, setError] = React.useState(null);
+  const validationRules = customValidationRules;
 
-  function validate(value) {
-    if (type === false) return true;
-    if (value.length === 0) {
-      setError('Preencha este campo');
-      return false;
-    } else if (types[type] && !types[type].regex.test(value)) {
-      setError(types[type].message);
-      return false;
-    } else {
-      setError(null);
-      return true;
-    }
-  }
+  function validate(values) {
+    const validationErrors = {};
+    const invalidFields = [];
 
-  function clearInputValue(valueInput, regex) {
-    return valueInput.replace(regex, '');
-  }
+    Object.keys(validationRules).forEach((fieldName) => {
+      const validation = validationRules[fieldName];
 
-  function setFormat(value) {
-    let newInputValue = value;
-    if (types[type].formats) {
-      types[type].formats.regex.forEach((format, i) => {
-        const newFormat = types[type].formats.replaces[i];
-        newInputValue = newInputValue.replace(format, newFormat);
-      });
-    }
+      if (validation) {
+        if (values[fieldName] === '') {
+          invalidFields.push(fieldName);
+          validationErrors[fieldName] = 'Preencha este campo';
+        } else if (
+          validation.regex &&
+          !validation.regex.test(values[fieldName])
+        ) {
+          invalidFields.push(fieldName);
+          validationErrors[fieldName] = validation.message;
+        } else if (validation.customValidation) {
+          const customError = validation.customValidation(
+            values[fieldName],
+            values,
+          );
 
-    setValue(newInputValue);
+          if (customError) {
+            invalidFields.push(fieldName);
+            validationErrors[fieldName] = customError;
+          }
+        }
+      }
+    });
+    return { validationErrors, invalidFields };
   }
 
   function onChange({ target }) {
-    if (optionsFormat && optionsFormat.canFormat) {
-      const value = optionsFormat.regex
-        ? clearInputValue(target.value, optionsFormat.regex)
-        : target.value;
+    const { value, name } = target;
 
-      setFormat(value);
-    } else {
-      setValue(target.value);
+    if (maxCharacterLimits && maxCharacterLimits[name]) {
+      if (value.length > maxCharacterLimits[name]) return;
     }
-    if (error) validate(target.value);
+
+    const newInputValue = formattedInputs(target);
+    setValues({ ...values, [name]: newInputValue });
+
+    if (errors[name]) {
+      const { validationErrors } = validate({ ...values, [name]: value });
+      setErrors(validationErrors);
+    }
+  }
+
+  function isSubmitValid() {
+    const { validationErrors, invalidFields } = validate(values);
+    setErrors(validationErrors);
+
+    if (Object.keys(validationErrors).length === 0) {
+      return true;
+    } else {
+      const firstErrorField = document.querySelector(
+        `[name="${invalidFields[0]}"]`,
+      );
+      firstErrorField.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return false;
+    }
+  }
+
+  function formattedInputs(target) {
+    const { value, name } = target;
+
+    const fieldFormatting = formats && formats[name];
+
+    const pattern = fieldFormatting?.pattern;
+
+    if (pattern) {
+      let formattedValue = '';
+      const numericValue = value.replace(/\D/g, '');
+
+      let digitIndex = 0;
+      for (let maskChar of pattern) {
+        if (maskChar === 'X' && digitIndex < numericValue.length) {
+          formattedValue += numericValue[digitIndex];
+          digitIndex++;
+        } else if (maskChar !== 'X' && numericValue[digitIndex]) {
+          formattedValue += maskChar;
+        } else {
+          break;
+        }
+      }
+
+      // Executes the custom formatting method if the fieldFormatting has it
+      if (fieldFormatting.customFormatting) {
+        formattedValue = fieldFormatting.customFormatting(formattedValue);
+      }
+
+      return formattedValue;
+    }
+    return value;
   }
 
   return {
-    value,
-    setValue,
-    error,
-    setError,
+    values,
     onChange,
-    onBlur: () => validate(value),
-    validate: () => validate(value),
+    errors,
+    isSubmitValid,
   };
 };
 

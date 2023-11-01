@@ -1,10 +1,10 @@
 import React from 'react';
 import styles from './HomeSign.module.css';
 import HomeCard from './HomeCard';
-import plans from '../Helper/Plans';
+import usePlans from '../../Hooks/usePlans';
 
 const HomeSign = () => {
-  const plansArray = plans();
+  const { allPlans } = usePlans();
 
   return (
     <section id="inscreva" className={`container sectionSpacing`}>
@@ -14,15 +14,9 @@ const HomeSign = () => {
       </p>
 
       <div className={styles.wrapper}>
-        {plansArray &&
-          plansArray.map(({ name, benefits, price }) => (
-            <HomeCard
-              key={name}
-              title={name}
-              benefits={benefits}
-              price={price}
-            />
-          ))}
+        {allPlans.map(({ name, benefits, price }) => (
+          <HomeCard key={name} title={name} benefits={benefits} price={price} />
+        ))}
       </div>
     </section>
   );

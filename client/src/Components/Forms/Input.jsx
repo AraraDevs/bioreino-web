@@ -1,11 +1,12 @@
 import React from 'react';
 import styles from './Input.module.css';
+import FieldError from '../Helper/FieldError';
 
 const Input = ({
   label,
   type,
   name,
-  error,
+  errors,
   value,
   onChange,
   onBlur,
@@ -18,7 +19,7 @@ const Input = ({
         {label}
       </label>
       <input
-        className={styles.input}
+        className={`${styles.input} ${errors[name] ? styles.error : ''}`}
         type={type}
         id={name}
         name={name}
@@ -28,7 +29,7 @@ const Input = ({
         placeholder={placeholder}
         maxLength={max}
       />
-      {error && <p className={styles.error}>{error}</p>}
+      {errors[name] && <FieldError>{errors[name]}</FieldError>}
     </div>
   );
 };
