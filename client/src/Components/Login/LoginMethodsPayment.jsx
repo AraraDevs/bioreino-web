@@ -12,7 +12,7 @@ const LoginMethodsPayment = ({
   setAddressVisible,
 }) => {
   const { getPlanPrice } = usePlans(selectedPlan);
-  const planPrice = getPlanPrice(selectedPlan);
+  const planPrice = Number(getPlanPrice(selectedPlan));
 
   function handlePaymentChange({ target }) {
     setMethodPayment(target.value);
@@ -38,9 +38,9 @@ const LoginMethodsPayment = ({
         />
         <label className={styles.label} htmlFor="pix">
           <strong>Pix (5% de desconto)</strong>
-          {planPrice && (
+          {selectedPlan && (
             <span>
-              <span className={styles.discount}>R$ {planPrice}</span>
+              <span className={styles.discount}>R$ {fixedNumber(planPrice)}</span>
               R$ {fixedNumber(planPrice * 0.95)}
             </span>
           )}
@@ -64,7 +64,7 @@ const LoginMethodsPayment = ({
         />
         <label className={styles.label} htmlFor="credit_card">
           <strong>Cartão de Crédito</strong>
-          {planPrice && (
+          {selectedPlan && (
             <span>até 12x de R$ {fixedNumber(planPrice / 12)}</span>
           )}
         </label>
