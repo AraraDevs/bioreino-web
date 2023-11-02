@@ -22,16 +22,14 @@ export const UserStorage = ({ children }) => {
     navigate('/login');
   }, [navigate]);
 
-  const getUser = React.useCallback(async (token) => {
-    window.localStorage.setItem('token', token);
-
+  async function getUser(token) {
     const { url, options } = USER_GET(token);
     const response = await fetch(url, options);
     const json = await response.json();
 
     setData(json);
     setLogin(true);
-  }, []);
+  }
 
   async function userLogin(email, password) {
     try {
@@ -40,11 +38,13 @@ export const UserStorage = ({ children }) => {
 
       const { url, options } = LOGIN({ email, password });
       const response = await fetch(url, options);
-      const json = await response.json();
+      const { token, message } = await response.json();
 
-      if (!response.ok) throw new Error(json.message);
+      if (!response.ok) throw new Error(message);
 
-      await getUser(json.token);
+      window.localStorage.setItem('token', token);
+
+      await getUser(token);
       navigate('/dashboard');
     } catch (err) {
       setError(err.message);
@@ -79,7 +79,7 @@ export const UserStorage = ({ children }) => {
       }
     }
     autoLogin();
-  }, [userLogout, getUser]);
+  }, [userLogout]);
 
   return (
     <UserContext.Provider
