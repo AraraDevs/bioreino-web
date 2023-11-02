@@ -1,23 +1,27 @@
 import React from 'react';
 import styles from './CourseItem.module.css';
 import { Link } from 'react-router-dom';
-import FormatURL from '../Helper/FormatURL';
+import FormatURL from '../Helper/formatURL';
 import { UserContext } from '../../Context/UserContext';
+
+function setCoursesProgress(user, course) {
+  let progress = 0;
+  if (user?.coursesProgress[course.title]) {
+    const totalOfLessonsViewed = user.coursesProgress[course.title].length;
+    const totalOfLessonsInTheCourse = course.lessons.length;
+
+    progress = Math.round(
+      (totalOfLessonsViewed / totalOfLessonsInTheCourse) * 100,
+    );
+  }
+  return progress;
+}
 
 const CourseItem = ({ course }) => {
   const { data } = React.useContext(UserContext);
-  const [progress, setProgress] = React.useState(0);
   const courseURL = FormatURL(course.title);
 
-  React.useEffect(() => {
-    if (data.coursesProgress && data.coursesProgress[course.title]) {
-      const totalOfLessonsViewed = data.coursesProgress[course.title].length;
-      const totalOfLessonsInTheCourse = course.lessons.length;
-      setProgress(
-        Math.round((totalOfLessonsViewed / totalOfLessonsInTheCourse) * 100),
-      );
-    }
-  }, [course, data]);
+  const progress = setCoursesProgress(data, course);
 
   if (!data) return null;
   return (

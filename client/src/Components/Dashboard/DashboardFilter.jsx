@@ -7,6 +7,13 @@ import { UserContext } from '../../Context/UserContext';
 import DashboardFilterPlan from './Filters/DashboardFilterPlan';
 import DashboardFilterCategories from './Filters/DashboardFilterCategories';
 
+const getFilteredCategories = (filter) => (category) => {
+  if (filter.plan === 'scholar') {
+    return category.plan === 'scholar';
+  }
+  return true;
+};
+
 const DashboardFilter = ({ filter, setFilter }) => {
   const [categories, setCategories] = React.useState([]);
   const { data } = React.useContext(UserContext);
@@ -55,10 +62,3 @@ const DashboardFilter = ({ filter, setFilter }) => {
 };
 
 export default DashboardFilter;
-
-const getFilteredCategories = (filter) => (category) => {
-  if (filter.plan === 'scholar') {
-    return category.plan === 'scholar';
-  }
-  return true;
-};
