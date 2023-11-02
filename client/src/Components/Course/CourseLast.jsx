@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './CourseLast.module.css';
 import { Link } from 'react-router-dom';
 import { ReactComponent as Clapperboard } from '../../Assets/claquete_aberta.svg';
-import FormatURL from '../Helper/FormatURL';
+import FormatURL from '../Helper/formatURL';
 import { UserContext } from '../../Context/UserContext';
 
 const CourseLast = () => {
