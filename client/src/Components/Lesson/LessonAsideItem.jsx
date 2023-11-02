@@ -5,7 +5,7 @@ import { ReactComponent as OpenClapperboard } from '../../Assets/claquete_aberta
 import { ReactComponent as ClosedClapperboard } from '../../Assets/claquete_fechada.svg';
 import { UserContext } from '../../Context/UserContext';
 
-import FormatURL from '../Helper/FormatURL';
+import FormatURL from '../Helper/formatURL';
 
 const LessonAsideItem = ({ lesson, courseTitle, currentLessonTitle }) => {
   const { lesson: lessonUrlName } = useParams();
