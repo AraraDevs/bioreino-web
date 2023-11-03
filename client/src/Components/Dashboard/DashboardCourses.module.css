@@ -10,7 +10,7 @@
   }
 }
 
-@media (max-width: 770px) {
+@media (max-width: 600px) {
   .listCourses {
     grid-template-columns: 1fr;
   }

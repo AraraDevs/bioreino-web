@@ -20,11 +20,10 @@ const CourseLast = () => {
   const lessonURL = FormatURL(user.lastCourse.lastLesson.lessonTitle);
 
   return (
-    <div className={styles.cardLast}>
-      <div
-        className={styles.background}
-        style={{ backgroundImage: `url(${user.lastCourse.imageUrl})` }}
-      ></div>
+    <div className={styles.cardLast} title={user.lastCourse.courseTitle}>
+      <div className={styles.containerImg}>
+        <img src={user.lastCourse.imageUrl} alt={user.lastCourse.courseTitle} />
+      </div>
       <div className={styles.details}>
         <h1 className={styles.courseTitle}>{user.lastCourse.courseTitle}</h1>
         <span className={styles.teacher}>

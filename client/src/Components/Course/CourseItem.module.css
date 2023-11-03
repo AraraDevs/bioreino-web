@@ -1,16 +1,27 @@
 .card {
-  display: flex;
-  flex-direction: column;
   border-radius: 1.25rem;
   box-shadow: var(--card-shadow);
   overflow: hidden;
 }
 
-.background {
-  background-color: black;
-  background-size: cover;
-  background-position: center;
-  padding-bottom: 26%;
+.containerImg {
+  position: relative;
+}
+
+.containerImg::before {
+  content: '';
+  display: block;
+  padding-top: 30%;
+}
+
+.card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
 }
 
 .details {
@@ -28,7 +39,7 @@
 }
 
 .courseTitle {
-  font-size: 1.75rem;
+  font-size: 1.5rem;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
@@ -47,7 +58,7 @@
   grid-template-columns: 1fr auto;
   align-items: center;
   gap: 1.5rem;
-  margin-top: 1.25rem;
+  margin-top: 1rem;
 }
 
 .progress .progressBar {
@@ -64,16 +75,20 @@
 }
 
 .progress .percentage {
-  font-size: var(--font-9);
+  font-size: 1rem;
 }
 
-@media (max-width: 430px) {
+@media (max-width: 850px) {
+  .containerImg::before {
+    padding-top: 25%;
+  }
+
   .details {
     padding: 1rem;
   }
 
   .courseTitle {
-    font-size: 1.25rem;
+    font-size: 1.125rem;
   }
 
   .teacher {
@@ -86,9 +101,5 @@
 
   .progress .progressBar {
     height: 1rem;
-  }
-
-  .progress .percentage {
-    font-size: 1rem;
   }
 }

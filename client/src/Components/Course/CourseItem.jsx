@@ -25,11 +25,10 @@ const CourseItem = ({ course }) => {
 
   if (!data) return null;
   return (
-    <Link to={`/curso/${courseURL}`} className={styles.card}>
-      <div
-        className={styles.background}
-        style={{ backgroundImage: `url(${course.imageUrl})` }}
-      ></div>
+    <Link to={`/curso/${courseURL}`} className={styles.card} title={course.title}>
+      <div className={styles.containerImg}>
+        <img src={course.imageUrl} alt={course.title} />
+      </div>
       <div className={styles.details}>
         <h1 className={styles.courseTitle}>{course.title}</h1>
         <span className={styles.teacher}>Prof: {course.professor}</span>
