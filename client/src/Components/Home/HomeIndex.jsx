@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './HomeIndex.module.css';
 import PropTypes from 'prop-types';
+import debounce from '../Helper/debounce';
 
 const Index = ({ scroll, items, onAction, setOnAction }) => {
   const [distSectionArray, setDistSectionArray] = React.useState(null);
@@ -69,18 +70,6 @@ const Index = ({ scroll, items, onAction, setOnAction }) => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, [checkDistance, onAction, distSectionArray]);
-
-  function debounce(callback, delay) {
-    let timer;
-
-    return () => {
-      if (timer) clearTimeout(timer);
-      timer = setTimeout(() => {
-        timer = null;
-        callback();
-      }, delay);
-    };
-  }
 
   return (
     <ul className={styles.index} data-indexes>
