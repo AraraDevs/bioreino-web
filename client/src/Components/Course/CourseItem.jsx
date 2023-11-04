@@ -6,7 +6,7 @@ import { UserContext } from '../../Context/UserContext';
 
 function setCoursesProgress(user, course) {
   let progress = 0;
-  if (user?.coursesProgress[course.title]) {
+  if (user.coursesProgress?.[course.title]) {
     const totalOfLessonsViewed = user.coursesProgress[course.title].length;
     const totalOfLessonsInTheCourse = course.lessons.length;
 
