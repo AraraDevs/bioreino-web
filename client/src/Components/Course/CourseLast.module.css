@@ -96,7 +96,7 @@
   overflow: hidden;
   margin-bottom: 0.25rem;
   grid-column: 2 / -1;
-  line-height: 1;
+  line-height: 1.2;
 }
 
 .cardLast .lessonDescription {
@@ -106,7 +106,7 @@
   white-space: nowrap;
   overflow: hidden;
   grid-column: 2 / -1;
-  line-height: 1;
+  line-height: 1.2;
 }
 
 .info {
