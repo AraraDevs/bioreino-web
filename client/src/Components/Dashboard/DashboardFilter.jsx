@@ -33,6 +33,24 @@ const DashboardFilter = ({ filter, setFilter }) => {
 
   const filteredCategories = categories.filter(getFilteredCategories(filter));
 
+  React.useEffect(() => {
+    // checks if the plan contains the selected category
+    if (
+      filter.plan === 'scholar' &&
+      filter.category !== 'all' &&
+      !containsCategory()
+    ) {
+      setFilter({ ...filter, category: 'all' });
+    }
+
+    function containsCategory() {
+      const index = filteredCategories.findIndex(
+        (category) => category.name === filter.category,
+      );
+      return index === -1 ? false : true;
+    }
+  }, [filter, setFilter, filteredCategories]);
+
   function handleFilter({ target }) {
     if (target.name === 'plans') {
       if (data.plan === 'scholar' && target.value === 'professional') return;
