@@ -4,6 +4,11 @@
   gap: 1.5rem;
 }
 
+.soon {
+  font-family: var(--first-type);
+  grid-column: 1 / -1;
+}
+
 @media (max-width: 1025px) {
   .listCourses {
     grid-template-columns: repeat(2, 1fr);
@@ -14,8 +19,4 @@
   .listCourses {
     grid-template-columns: 1fr;
   }
-}
-
-.soon {
-  font-family: var(--first-type);
 }
