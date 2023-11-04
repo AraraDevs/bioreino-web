@@ -37,13 +37,12 @@ const DashboardCourses = ({ user, filter }) => {
       request(url, options);
     }
     fetchCourses();
-  }, [user, request]);
+  }, [user.plan, request]);
 
   const coursesFiltered = getFilteredCourses(data, filter);
 
   if (loading) return <p>Carregando...</p>;
   if (error) return <Error error={error} />;
-  if (!coursesFiltered) return null;
   return (
     <div className={styles.listCourses}>
       {coursesFiltered.map((course) => (
