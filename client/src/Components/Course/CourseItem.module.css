@@ -4,24 +4,18 @@
   overflow: hidden;
 }
 
-.containerImg {
-  position: relative;
-}
-
-.containerImg::before {
-  content: '';
-  display: block;
-  padding-top: 30%;
-}
-
 .card img {
   width: 100%;
   height: 100%;
+  max-height: 90px;
   object-fit: cover;
-  position: absolute;
-  top: 0;
-  left: 0;
   z-index: -1;
+}
+
+@media (max-width: 400px) {
+  .card img {
+    max-height: 80px;
+  }
 }
 
 .details {
@@ -39,14 +33,14 @@
 }
 
 .courseTitle {
-  font-size: 1.5rem;
+  font-size: 1.375rem;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
 }
 
 .teacher {
-  font-size: var(--font-3);
+  font-size: 1rem;
   color: var(--contrast-1);
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -58,7 +52,7 @@
   grid-template-columns: 1fr auto;
   align-items: center;
   gap: 1.5rem;
-  margin-top: 1rem;
+  margin-top: 0.875rem;
 }
 
 .progress .progressBar {
@@ -78,11 +72,7 @@
   font-size: 1rem;
 }
 
-@media (max-width: 850px) {
-  .containerImg::before {
-    padding-top: 25%;
-  }
-
+@media (max-width: 1025px) {
   .details {
     padding: 1rem;
   }

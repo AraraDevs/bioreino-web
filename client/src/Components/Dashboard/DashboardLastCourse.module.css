@@ -1,23 +1,23 @@
-.wrapper {
+.container_lastcourse {
   display: grid;
+  grid-template-columns: 1fr 1fr;
   align-items: start;
   gap: 5.625rem;
-  grid-template-columns: 1fr 1fr;
 }
 
-.lastCourse .leopard {
-  width: 100%;
-  height: auto;
+.leopard {
+  max-height: 380px;
+  align-self: center;
 }
 
 @media (max-width: 860px) {
-  .wrapper {
+  .container_lastcourse {
     max-width: 31.25rem;
     margin: 0 auto;
     grid-template-columns: 1fr;
   }
 
-  .lastCourse .leopard {
+  .leopard {
     display: none;
   }
 }

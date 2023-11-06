@@ -2,8 +2,9 @@ import React from 'react';
 import styles from './CourseLast.module.css';
 import { Link } from 'react-router-dom';
 import { ReactComponent as Clapperboard } from '../../Assets/claquete_aberta.svg';
-import FormatURL from '../Helper/formatURL';
+import formatURL from '../Helper/formatURL';
 import { UserContext } from '../../Context/UserContext';
+import Image from '../Helper/Image';
 
 const CourseLast = () => {
   const { data: user } = React.useContext(UserContext);
@@ -16,16 +17,16 @@ const CourseLast = () => {
     );
   }
 
-  const courseURL = FormatURL(user.lastCourse.courseTitle);
-  const lessonURL = FormatURL(user.lastCourse.lastLesson.lessonTitle);
+  const courseURL = formatURL(user.lastCourse.courseTitle);
+  const lessonURL = formatURL(user.lastCourse.lastLesson.lessonTitle);
 
   return (
-    <div className={styles.cardLast} title={user.lastCourse.courseTitle}>
-      <div className={styles.containerImg}>
-        <img src={user.lastCourse.imageUrl} alt={user.lastCourse.courseTitle} />
-      </div>
+    <div className={styles.cardLast}>
+      <Image src={user.lastCourse.imageUrl} alt={user.lastCourse.courseTitle} />
       <div className={styles.details}>
-        <h1 className={styles.courseTitle}>{user.lastCourse.courseTitle}</h1>
+        <h1 className={styles.courseTitle} title={user.lastCourse.courseTitle}>
+          {user.lastCourse.courseTitle}
+        </h1>
         <span className={styles.teacher}>
           Prof: {user.lastCourse.professor}
         </span>
@@ -33,10 +34,16 @@ const CourseLast = () => {
         <h3 className={styles.continue}>Continuar de onde parou:</h3>
         <Link to={`/curso/${courseURL}/${lessonURL}`} className={styles.lesson}>
           <Clapperboard />
-          <h2 className={styles.lessonTitle}>
+          <h2
+            className={styles.lessonTitle}
+            title={user.lastCourse.lastLesson.lessonTitle}
+          >
             {user.lastCourse.lastLesson.lessonTitle}
           </h2>
-          <p className={styles.lessonDescription}>
+          <p
+            className={styles.lessonDescription}
+            title={user.lastCourse.lastLesson.lessonDescription}
+          >
             {user.lastCourse.lastLesson.lessonDescription}
           </p>
         </Link>
