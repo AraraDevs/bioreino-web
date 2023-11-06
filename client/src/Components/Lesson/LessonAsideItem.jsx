@@ -5,14 +5,14 @@ import { ReactComponent as OpenClapperboard } from '../../Assets/claquete_aberta
 import { ReactComponent as ClosedClapperboard } from '../../Assets/claquete_fechada.svg';
 import { UserContext } from '../../Context/UserContext';
 
-import FormatURL from '../Helper/formatURL';
+import formatURL from '../Helper/formatURL';
 
 const LessonAsideItem = ({ lesson, courseTitle, currentLessonTitle }) => {
   const { lesson: lessonUrlName } = useParams();
   const { course: courseUrlName } = useParams();
   const { data } = React.useContext(UserContext);
   const [lessonViewed, setLessonViewed] = React.useState(false);
-  const lessonURL = FormatURL(lesson.title);
+  const lessonURL = formatURL(lesson.title);
 
   React.useEffect(() => {
     if (data.coursesProgress && data.coursesProgress[courseTitle]) {
