@@ -1,8 +1,9 @@
 import React from 'react';
 import styles from './CourseItem.module.css';
 import { Link } from 'react-router-dom';
-import FormatURL from '../Helper/formatURL';
+import formatURL from '../Helper/formatURL';
 import { UserContext } from '../../Context/UserContext';
+import Image from '../Helper/Image';
 
 function setCoursesProgress(user, course) {
   let progress = 0;
@@ -19,16 +20,18 @@ function setCoursesProgress(user, course) {
 
 const CourseItem = ({ course }) => {
   const { data } = React.useContext(UserContext);
-  const courseURL = FormatURL(course.title);
+  const courseURL = formatURL(course.title);
 
   const progress = setCoursesProgress(data, course);
 
   if (!data) return null;
   return (
-    <Link to={`/curso/${courseURL}`} className={styles.card} title={course.title}>
-      <div className={styles.containerImg}>
-        <img src={course.imageUrl} alt={course.title} />
-      </div>
+    <Link
+      to={`/curso/${courseURL}`}
+      className={styles.card}
+      title={course.title}
+    >
+      <Image src={course.imageUrl} alt={course.title} />
       <div className={styles.details}>
         <h1 className={styles.courseTitle}>{course.title}</h1>
         <span className={styles.teacher}>Prof: {course.professor}</span>
