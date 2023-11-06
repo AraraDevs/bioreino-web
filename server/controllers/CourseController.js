@@ -16,7 +16,8 @@ class CourseController {
 
       if (courses.length === 0) {
         res.status(404).json({
-          message: 'Desculpe, não encontramos nenhum curso com essas características. Experimente alterar o filtro.',
+          message:
+            'Desculpe, não encontramos nenhum curso com essas características. Experimente alterar o filtro.',
         });
       } else {
         res.status(200).json(courses);
@@ -26,12 +27,12 @@ class CourseController {
     }
   }
 
-  static async getCourseByUrlTitle(req, res) {
+  static async getCourse(req, res) {
     const { title } = req.params;
 
     try {
       // get course by title
-      const course = await Course.findOne({ courseUrl: title });
+      const course = await Course.findOne({ slug: title });
 
       res.status(200).json(course);
     } catch (error) {
@@ -79,14 +80,17 @@ class CourseController {
 
     if (!plan) {
       return res.status(422).json({
-        message: 'Necessário enviar a qual plano de assinatura o curso pertence!',
+        message:
+          'Necessário enviar a qual plano de assinatura o curso pertence!',
       });
     }
 
     if (!category) {
       return res
         .status(422)
-        .json({ message: 'Necessário enviar a qual categoria o curso pertence!' });
+        .json({
+          message: 'Necessário enviar a qual categoria o curso pertence!',
+        });
     }
 
     if (!title) {
@@ -98,11 +102,15 @@ class CourseController {
     if (!lessons || lessons.length === 0) {
       return res
         .status(422)
-        .json({ message: 'Necessário adicionar uma ou mais aulas a esse curso!' });
+        .json({
+          message: 'Necessário adicionar uma ou mais aulas a esse curso!',
+        });
     }
 
     if (!courseUrl) {
-      return res.status(422).json({ message: 'Necessário enviar a url do curso!' });
+      return res
+        .status(422)
+        .json({ message: 'Necessário enviar a url do curso!' });
     }
 
     try {
