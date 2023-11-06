@@ -10,6 +10,6 @@ router.post('/create', verifyToken, CourseController.create);
 
 router.get('/filter/:plan', CourseController.getCoursesFiltered);
 router.get('/all/:limit', CourseController.allCourses);
-router.get('/:title', CourseController.getCourseByUrlTitle);
+router.get('/:title', CourseController.getCourse);
 
 module.exports = router;
