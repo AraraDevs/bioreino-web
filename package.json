@@ -21,6 +21,7 @@
     "mongoose": "^7.0.4"
   },
   "devDependencies": {
-    "nodemon": "^2.0.22"
+    "nodemon": "^2.0.22",
+    "vite-plugin-radar": "^0.9.1"
   }
 }
