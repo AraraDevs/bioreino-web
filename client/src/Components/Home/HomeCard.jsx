@@ -6,10 +6,10 @@ import { ReactComponent as Checked } from '../../Assets/checked.svg';
 import useAnalyticsEventTracker from '../../Hooks/useAnalyticsEventTracker';
 
 const HomeCard = ({ title, benefits, price }) => {
-  const gaEventTracker = useAnalyticsEventTracker('Plan');
+  const gaEventTracker = useAnalyticsEventTracker('Button');
 
   function handleClick() {
-    gaEventTracker('scholar', 'test_label');
+    gaEventTracker('click', 'scholar');
   }
 
   return (
