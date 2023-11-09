@@ -10,7 +10,7 @@ import ProtectedRoute from './Components/Helper/ProtectedRoute';
 import Lesson from './Components/Lesson/Lesson';
 
 const TRACKING_ID = 'G-9CX73DLPH8';
-ReactGA.initialize(TRACKING_ID);
+ReactGA.initialize(TRACKING_ID, { debug: true });
 
 function App() {
   React.useEffect(() => {
