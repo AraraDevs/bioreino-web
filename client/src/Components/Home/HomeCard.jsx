@@ -9,7 +9,7 @@ const HomeCard = ({ title, benefits, price }) => {
   const gaEventTracker = useAnalyticsEventTracker('Plan');
 
   function handleClick() {
-    gaEventTracker('scholar');
+    gaEventTracker('scholar', 'test_label');
   }
 
   return (
