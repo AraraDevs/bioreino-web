@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './HomeCard.module.css';
 import stylesButton from '../Forms/Button.module.css';
+import ReactGA from 'react-ga4';
 import { Link } from 'react-router-dom';
 import { ReactComponent as Checked } from '../../Assets/checked.svg';
 import useAnalyticsEventTracker from '../../Hooks/useAnalyticsEventTracker';
@@ -9,8 +10,14 @@ const HomeCard = ({ title, benefits, price }) => {
   const gaEventTracker = useAnalyticsEventTracker('Plan');
 
   function handleClick() {
-    gaEventTracker('click', 'scholar');
+    // gaEventTracker('click', 'scholar');
   }
+
+  ReactGA.event({
+    category: "Teste",
+    action: "teste action",
+    label: "teste label", // optional
+  });
 
   return (
     <div className={styles.card}>
