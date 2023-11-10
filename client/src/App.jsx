@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import ReactGA from 'react-ga';
+import ReactGA from 'react-ga4';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Login from './Components/Login/Login';
 import Home from './Components/Home/Home';
