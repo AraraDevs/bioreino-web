@@ -20,12 +20,6 @@ function App() {
     });
   }, []);
 
-  ReactGA.event({
-    category: "Teste",
-    action: "teste action",
-    label: "teste label", // optional
-  });
-
   return (
     <>
       <BrowserRouter>

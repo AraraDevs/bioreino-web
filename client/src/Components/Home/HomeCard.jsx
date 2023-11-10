@@ -3,15 +3,8 @@ import styles from './HomeCard.module.css';
 import stylesButton from '../Forms/Button.module.css';
 import { Link } from 'react-router-dom';
 import { ReactComponent as Checked } from '../../Assets/checked.svg';
-import useAnalyticsEventTracker from '../../Hooks/useAnalyticsEventTracker';
 
 const HomeCard = ({ title, benefits, price }) => {
-  const gaEventTracker = useAnalyticsEventTracker('Plan');
-
-  function handleClick() {
-    // gaEventTracker('click', 'scholar');
-  }
-
   return (
     <div className={styles.card}>
       <h2 className={styles.title}>{title}</h2>
@@ -28,7 +21,6 @@ const HomeCard = ({ title, benefits, price }) => {
         <Link
           to={`/login/inscreva/${title}`}
           className={stylesButton.button}
-          onClick={handleClick}
         >
           Assine já!
         </Link>
