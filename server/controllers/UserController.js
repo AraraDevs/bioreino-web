@@ -122,8 +122,15 @@ class UserController {
   }
 
   static async updateLastCourse(req, res) {
-    const { courseTitle, professor, imageUrl, lessonTitle, lessonDescription } =
-      req.body;
+    const {
+      courseTitle,
+      slug,
+      professor,
+      imageUrl,
+      lessonTitle,
+      lessonDescription,
+      slugLesson,
+    } = req.body;
     const userId = req.user.id;
 
     // validations
@@ -131,6 +138,12 @@ class UserController {
       return res
         .status(422)
         .json({ message: 'É necessário enviar o título do curso!' });
+    }
+
+    if (!slug) {
+      return res
+        .status(422)
+        .json({ message: 'É necessário enviar o slug do curso!' });
     }
 
     if (!professor) {
@@ -157,14 +170,22 @@ class UserController {
         .json({ message: 'É necessário enviar a descrição da aula!' });
     }
 
+    if (!slugLesson) {
+      return res
+        .status(422)
+        .json({ message: 'É necessário enviar o slug da aula!' });
+    }
+
     // update values of the lastCourse
     const lastCourse = {
       courseTitle,
+      slug,
       professor,
       imageUrl,
       lastLesson: {
         lessonTitle,
         lessonDescription,
+        slug: slugLesson,
       },
     };
 
@@ -195,7 +216,9 @@ class UserController {
         await Student.findByIdAndUpdate(userId, {
           [`coursesProgress.${courseTitle}`]: [lessonTitle],
         });
-        return res.status(201).json({ message: 'Adicionado progresso de curso' });
+        return res
+          .status(201)
+          .json({ message: 'Adicionado progresso de curso' });
       }
 
       // checks if the student already has the lesson saved
