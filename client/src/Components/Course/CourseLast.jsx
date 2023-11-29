@@ -2,7 +2,6 @@ import React from 'react';
 import styles from './CourseLast.module.css';
 import { Link } from 'react-router-dom';
 import { ReactComponent as Clapperboard } from '../../Assets/claquete_aberta.svg';
-import formatURL from '../Helper/formatURL';
 import { UserContext } from '../../Context/UserContext';
 import Image from '../Helper/Image';
 
@@ -17,8 +16,8 @@ const CourseLast = () => {
     );
   }
 
-  const courseURL = formatURL(user.lastCourse.courseTitle);
-  const lessonURL = formatURL(user.lastCourse.lastLesson.lessonTitle);
+  const slugCourse = user.lastCourse.slug;
+  const slug = user.lastCourse.lastLesson.slug;
 
   return (
     <div className={styles.cardLast}>
@@ -32,7 +31,7 @@ const CourseLast = () => {
         </span>
         <hr className={styles.divisor} />
         <h3 className={styles.continue}>Continuar de onde parou:</h3>
-        <Link to={`/curso/${courseURL}/${lessonURL}`} className={styles.lesson}>
+        <Link to={`/curso/${slugCourse}/${slug}`} className={styles.lesson}>
           <Clapperboard />
           <h2
             className={styles.lessonTitle}
