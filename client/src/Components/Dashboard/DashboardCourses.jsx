@@ -9,11 +9,10 @@ function getFilteredCourses(courses, filter) {
   if (courses) {
     return courses.filter((course) => {
       if (filter.plan === 'professional') {
-        if (filter.category === 'all') {
-          return true;
-        } else {
+        if (filter.category !== 'all') {
           return course.category === filter.category;
         }
+        return true;
       } else {
         if (filter.category === 'all') {
           return course.plan === filter.plan;
@@ -24,8 +23,6 @@ function getFilteredCourses(courses, filter) {
       }
     });
   }
-
-  return [];
 }
 
 const DashboardCourses = ({ user, filter }) => {
@@ -39,7 +36,7 @@ const DashboardCourses = ({ user, filter }) => {
     fetchCourses();
   }, [user.plan, request]);
 
-  const coursesFiltered = getFilteredCourses(data, filter);
+  const coursesFiltered = getFilteredCourses(data, filter) || [];
 
   if (loading) return <p>Carregando...</p>;
   if (error) return <Error error={error} />;
