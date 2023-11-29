@@ -1,7 +1,6 @@
 import React from 'react';
 import styles from './CourseItem.module.css';
 import { Link } from 'react-router-dom';
-import formatURL from '../Helper/formatURL';
 import { UserContext } from '../../Context/UserContext';
 import Image from '../Helper/Image';
 
@@ -20,14 +19,13 @@ function setCoursesProgress(user, course) {
 
 const CourseItem = ({ course }) => {
   const { data } = React.useContext(UserContext);
-  const courseURL = formatURL(course.title);
 
   const progress = setCoursesProgress(data, course);
 
   if (!data) return null;
   return (
     <Link
-      to={`/curso/${courseURL}`}
+      to={`/curso/${course.slug}`}
       className={styles.card}
       title={course.title}
     >
@@ -49,4 +47,4 @@ const CourseItem = ({ course }) => {
   );
 };
 
-export default CourseItem;
+export default React.memo(CourseItem);
