@@ -4,7 +4,7 @@ import { ReactComponent as Arrow } from '../../Assets/arrow.svg';
 import { Link } from 'react-router-dom';
 import useMedia from '../../Hooks/useMedia';
 
-const LessonFooter = ({ currentCourse, nextLesson, menuAside, courseUrlName }) => {
+const LessonFooter = ({ currentCourse, nextLesson, menuAside, slugCourse }) => {
   const mobile = useMedia('(max-width: 930px)');
 
   if (!currentCourse) return null;
@@ -17,7 +17,7 @@ const LessonFooter = ({ currentCourse, nextLesson, menuAside, courseUrlName }) =
         </div>
         {nextLesson ? (
           <Link
-            to={`/curso/${courseUrlName}/${nextLesson.lessonUrl}`}
+            to={`/curso/${slugCourse}/${nextLesson.slug}`}
             className={styles.next}
           >
             Próxima Aula <Arrow />

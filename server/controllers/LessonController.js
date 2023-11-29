@@ -10,8 +10,8 @@ class LessonController {
       transcription,
       title,
       courseTitle,
-      courseUrl,
-      lessonUrl,
+      slugCourse,
+      slug,
     } = req.body;
 
     // checks if user is a professor
@@ -44,11 +44,11 @@ class LessonController {
         .json({ message: 'Necessário enviar o título do curso!' });
     }
 
-    if (!courseUrl) {
+    if (!slugCourse) {
       return res.status(422).json({ message: 'Necessário enviar a url do curso!' });
     }
 
-    if (!lessonUrl) {
+    if (!slug) {
       return res.status(422).json({ message: 'Necessário enviar a url da aula!' });
     }
 
@@ -59,8 +59,8 @@ class LessonController {
         transcription: transcription || '',
         title,
         courseTitle,
-        courseUrl,
-        lessonUrl,
+        slugCourse,
+        slug,
       });
 
       savedLesson.save();
@@ -69,7 +69,7 @@ class LessonController {
         _id: savedLesson._id,
         title: savedLesson.title,
         description: savedLesson.description,
-        lessonUrl: savedLesson.lessonUrl,
+        slug: savedLesson.slug,
         transcription: savedLesson.transcription,
         videoUrl: savedLesson.videoUrl,
       };
@@ -78,7 +78,6 @@ class LessonController {
         { title: courseTitle },
         { $push: { lessons: updatedData } },
       );
-      // POR ALGUMA RAZÃO ESTÁ DANDO ERRO NO FRONTEND MSM TENDO A AULA CRIADA NO CURSO, VERIFIQUE
 
       res.status(201).json({ message: 'Aula criada com sucesso!' });
     } catch (error) {

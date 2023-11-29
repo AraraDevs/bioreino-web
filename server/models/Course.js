@@ -8,7 +8,7 @@ const Course = new mongoose.Schema(
     plan: { type: String, required: true },
     category: { type: String, required: true },
     lessons: { type: Array, required: true },
-    courseUrl: { type: String, required: true }
+    slug: { type: String, required: true }
   },
   { timestamps: true },
 );

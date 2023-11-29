@@ -5,7 +5,7 @@ import { ReactComponent as Arrow } from '../../Assets/arrow.svg';
 import { Link } from 'react-router-dom';
 import LessonLessonsItem from './LessonAsideItem';
 
-const LessonAside = ({ menu, setMenu, lessons, currentCourse, currentLesson }) => {
+const LessonAside = ({ menu, setMenu, lessons, currentCourse }) => {
   return (
     <aside className={`${styles.aside} ${menu && styles.active}`}>
       <div className={styles.closeMenu}>
@@ -22,15 +22,13 @@ const LessonAside = ({ menu, setMenu, lessons, currentCourse, currentLesson }) =
         </div>
         <nav className={styles.nav}>
           <ul className={styles.lessonList}>
-            {lessons.length > 0 &&
-              lessons.map((lesson) => (
-                <LessonLessonsItem
-                  key={lesson._id}
-                  lesson={lesson}
-                  courseTitle={currentCourse.title}
-                  currentLessonTitle={currentLesson.title}
-                />
-              ))}
+            {lessons.map((lesson) => (
+              <LessonLessonsItem
+                key={lesson._id}
+                lesson={lesson}
+                courseTitle={currentCourse.title}
+              />
+            ))}
           </ul>
         </nav>
         <div className={styles.bioreino}>

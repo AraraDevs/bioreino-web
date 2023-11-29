@@ -11,105 +11,100 @@ import {
 import LessonFooter from './LessonFooter';
 import Head from '../Helper/Head';
 
+function getCurrentAndNextLesson(lessons, slug) {
+  const indexCurrentLesson = lessons.findIndex((lesson) => {
+    return lesson.slug === slug;
+  });
+  const currentLesson = lessons[indexCurrentLesson];
+  const nextLesson = lessons[indexCurrentLesson + 1] || null;
+
+  return [currentLesson, nextLesson];
+}
+
 const Lesson = () => {
-  const { course: courseUrlName, lesson: lessonUrlName } = useParams();
+  const { course: slugCourse, lesson: slugLesson } = useParams();
   const [token] = React.useState(localStorage.getItem('token'));
-  const [currentCourse, setCurrentCourse] = React.useState({});
-  const [lessons, setLessons] = React.useState([]);
+  const [currentCourse, setCurrentCourse] = React.useState(null);
   const [menu, setMenu] = React.useState(true);
 
   React.useEffect(() => {
-    async function getCurrentCourse() {
-      const { url, options } = COURSES_BY_URL_TITLE_GET(courseUrlName);
+    async function currentCourse() {
+      const { url, options } = COURSES_BY_URL_TITLE_GET(slugCourse);
 
       const response = await fetch(url, options);
       const json = await response.json();
 
       setCurrentCourse(json);
-      setLessons(json.lessons);
     }
-    getCurrentCourse();
-  }, [courseUrlName]);
+    currentCourse();
+  }, [slugCourse]);
 
-  const { indexCurrentLesson, indexNextLesson } =
-    getIndexOfCurrentAndNextLesson(lessons, lessonUrlName);
+  const lessons = currentCourse?.lessons || [];
+  const [currentLesson, nextLesson] = getCurrentAndNextLesson(
+    lessons,
+    slugLesson,
+  );
 
   React.useEffect(() => {
     async function updateUserLastLessonAndCourse() {
-      if (currentCourse && lessons[indexCurrentLesson]) {
-        const { url, options } = USER_LAST_LESSON_COURSE_PATCH(token, {
-          courseTitle: currentCourse.title,
-          professor: currentCourse.professor,
-          imageUrl: currentCourse.imageUrl,
-          lessonTitle: lessons[indexCurrentLesson].title,
-          lessonDescription: lessons[indexCurrentLesson].description,
-        });
-        await fetch(url, options);
-      }
+      const { url, options } = USER_LAST_LESSON_COURSE_PATCH(token, {
+        courseTitle: currentCourse.title,
+        slug: currentCourse.slug,
+        professor: currentCourse.professor,
+        imageUrl: currentCourse.imageUrl,
+        lessonTitle: currentLesson.title,
+        lessonDescription: currentLesson.description,
+        slugLesson: currentLesson.slug,
+      });
+      await fetch(url, options);
     }
-    updateUserLastLessonAndCourse();
-  }, [currentCourse, lessons, token, lessonUrlName, indexCurrentLesson]);
+    if (currentCourse && currentLesson) {
+      updateUserLastLessonAndCourse();
+    }
+  }, [currentCourse, currentLesson, token]);
 
   React.useEffect(() => {
     async function updateUserCoursesProgress() {
-      if (currentCourse && lessons[indexCurrentLesson]) {
+      if (currentCourse && currentLesson) {
         const { url, options } = USER_COURSES_PROGRESS_PATCH(token, {
           courseTitle: currentCourse.title,
-          lessonTitle: lessons[indexCurrentLesson].title,
+          lessonTitle: currentLesson.title,
         });
         await fetch(url, options);
       }
     }
     updateUserCoursesProgress();
-  }, [lessons, currentCourse, indexCurrentLesson, token]);
+  }, [currentCourse, currentLesson, token]);
 
-  if (lessons.length && !lessonUrlName) {
-    return <Navigate to={`/curso/${courseUrlName}/${lessons[0].lessonUrl}`} />;
+  if (lessons.length && !slugLesson) {
+    return <Navigate to={`/curso/${slugCourse}/${lessons[0].slug}`} />;
   }
 
   if (!currentCourse) return null;
   return (
     <div className={styles.lessonWrapper}>
       <Head
-        title={
-          lessons[indexCurrentLesson] ? lessons[indexCurrentLesson].title : ''
-        }
-        description={
-          lessons[indexCurrentLesson] && lessons[indexCurrentLesson].description
-        }
+        title={currentLesson ? currentLesson.title : ''}
+        description={currentLesson && currentLesson.description}
       />
       <LessonAside
         menu={menu}
         setMenu={setMenu}
         lessons={lessons}
-        courseUrlName={courseUrlName}
+        slugCourse={slugCourse}
         currentCourse={currentCourse}
-        currentLesson={lessons[indexCurrentLesson]}
       />
       <main className={styles.main}>
-        <LessonVideo currentLesson={lessons[indexCurrentLesson]} />
+        <LessonVideo currentLesson={currentLesson} />
       </main>
       <LessonFooter
         currentCourse={currentCourse}
-        nextLesson={lessons[indexNextLesson]}
+        nextLesson={nextLesson}
         menuAside={menu}
-        courseUrlName={courseUrlName}
+        slugCourse={slugCourse}
       />
     </div>
   );
 };
 
 export default Lesson;
-
-function getIndexOfCurrentAndNextLesson(lessons, lessonUrl) {
-  const indexCurrentLesson = lessons.findIndex((lesson) => {
-    return lesson.lessonUrl === lessonUrl;
-  });
-
-  const indexNextLesson = indexCurrentLesson + 1;
-
-  return {
-    indexCurrentLesson,
-    indexNextLesson: lessons[indexNextLesson] ? indexNextLesson : null,
-  };
-}

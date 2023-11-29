@@ -5,29 +5,22 @@ import { ReactComponent as OpenClapperboard } from '../../Assets/claquete_aberta
 import { ReactComponent as ClosedClapperboard } from '../../Assets/claquete_fechada.svg';
 import { UserContext } from '../../Context/UserContext';
 
-import formatURL from '../Helper/formatURL';
+const LessonAsideItem = ({ lesson, courseTitle }) => {
+  const { course: slugCourse } = useParams();
+  const { data: user } = React.useContext(UserContext);
 
-const LessonAsideItem = ({ lesson, courseTitle, currentLessonTitle }) => {
-  const { lesson: lessonUrlName } = useParams();
-  const { course: courseUrlName } = useParams();
-  const { data } = React.useContext(UserContext);
-  const [lessonViewed, setLessonViewed] = React.useState(false);
-  const lessonURL = formatURL(lesson.title);
+  let lessonViewed = false;
+  if (user?.coursesProgress?.[courseTitle]) {
+    const lessonIsViewed = user.coursesProgress[courseTitle].includes(
+      lesson.title,
+    );
 
-  React.useEffect(() => {
-    if (data.coursesProgress && data.coursesProgress[courseTitle]) {
-      const lessonIsViewed = data.coursesProgress[courseTitle].includes(lesson.title);
-
-      setLessonViewed(lessonIsViewed);
-    }
-  }, [courseTitle, currentLessonTitle, lesson, data, lessonUrlName]);
+    lessonViewed = lessonIsViewed;
+  }
 
   return (
     <li className={styles.listItem}>
-      <NavLink
-        to={`/curso/${courseUrlName}/${lessonURL}`}
-        className={styles.link}
-      >
+      <NavLink to={`/curso/${slugCourse}/${lesson.slug}`} className={styles.link}>
         {lessonViewed ? (
           <ClosedClapperboard className={styles.clapperboard} />
         ) : (

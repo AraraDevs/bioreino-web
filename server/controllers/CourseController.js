@@ -55,7 +55,7 @@ class CourseController {
   }
 
   static async create(req, res) {
-    const { professor, image, plan, category, title, lessons, courseUrl } =
+    const { professor, image, plan, category, title, lessons, slug } =
       req.body;
 
     // checks if user is a professor
@@ -107,7 +107,7 @@ class CourseController {
         });
     }
 
-    if (!courseUrl) {
+    if (!slug) {
       return res
         .status(422)
         .json({ message: 'Necessário enviar a url do curso!' });
@@ -121,7 +121,7 @@ class CourseController {
         category,
         title,
         lessons,
-        courseUrl,
+        slug,
       });
 
       savedCourse.save();

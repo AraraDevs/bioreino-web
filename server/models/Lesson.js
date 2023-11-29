@@ -8,7 +8,7 @@ const Lesson = new mongoose.Schema(
     courseTitle: { type: String, required: true },
     transcription: String,
     courseUrl: { type: String, required: true },
-    lessonUrl: { type: String, required: true },
+    slug: { type: String, required: true },
   },
   { timestamps: true },
 );
