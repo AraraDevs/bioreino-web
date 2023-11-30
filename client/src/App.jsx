@@ -2,12 +2,12 @@ import React from 'react';
 import './App.css';
 import ReactGA from 'react-ga4';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Login from './Components/Login/Login';
-import Home from './Components/Home/Home';
+import Auth from './Components/Pages/Auth';
+import Home from './Components/Pages/Home';
 import { UserStorage } from './Context/UserContext';
-import Dashboard from './Components/Dashboard/Dashboard';
+import Dashboard from './Components/Pages/Dashboard';
 import ProtectedRoute from './Components/Helper/ProtectedRoute';
-import Lesson from './Components/Lesson/Lesson';
+import Lesson from './Components/Pages/Lesson';
 
 const TRACKING_ID = 'G-9CX73DLPH8';
 ReactGA.initialize(TRACKING_ID);
@@ -26,7 +26,7 @@ function App() {
         <UserStorage>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/login/*" element={<Login />} />
+            <Route path="/login/*" element={<Auth />} />
             <Route
               path="/dashboard"
               element={

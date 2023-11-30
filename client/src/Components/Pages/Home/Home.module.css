@@ -1,0 +1,60 @@
+.home :global(.sectionSpacing) {
+  padding-top: 3.125rem;
+  padding-bottom: 3.125rem;
+}
+
+.home :global(.title) {
+  font-size: var(--font-4);
+  font-weight: 800;
+  line-height: 1;
+  text-align: center;
+  padding: 0 1rem;
+}
+
+.home :global(.subtitle) {
+  font-family: var(--first-type);
+  font-size: var(--font-2);
+  font-weight: 500;
+  color: var(--contrast-1);
+  text-align: center;
+  margin-top: 0.625rem;
+  margin-bottom: 3.125rem;
+  padding: 0 1rem;
+}
+
+@media (max-width: 760px) {
+  .home :global(.title) {
+    font-size: var(--font-1);
+  }
+}
+
+.wrapper {
+  background: #eee;
+  padding: 1.25rem 1.875rem;
+  border-radius: 1.25rem;
+  font-family: var(--first-type);
+  margin-top: 2.8125rem;
+  margin-bottom: 2.8125rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.github {
+  margin-left: 0.5rem;
+  padding: 0.5rem;
+  display: flex;
+  align-items: flex-start;
+}
+
+@media (max-width: 760px) {
+  .wrapper {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .github {
+    margin-top: 1rem;
+    margin-left: 0;
+  }
+}
