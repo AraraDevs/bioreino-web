@@ -1,8 +1,8 @@
-import React from 'react'
+import React from 'react';
 import styles from './Courses.module.css';
 import { COURSES_FILTERED_GET } from '../../../../../api';
 import useFetch from '../../../../../Hooks/useFetch';
-import CourseItem from '../../../../Course/CourseItem';
+import Course from './Course';
 import Error from '../../../../Helper/Error';
 
 function getFilteredCourses(courses, filter) {
@@ -43,7 +43,7 @@ const Courses = ({ user, filter }) => {
   return (
     <div className={styles.listCourses}>
       {coursesFiltered.map((course) => (
-        <CourseItem key={course._id} course={course} />
+        <Course key={course._id} course={course} />
       ))}
       {coursesFiltered.length === 0 && (
         <p className={styles.soon}>
@@ -54,4 +54,4 @@ const Courses = ({ user, filter }) => {
   );
 };
 
-export default Courses
+export default Courses;

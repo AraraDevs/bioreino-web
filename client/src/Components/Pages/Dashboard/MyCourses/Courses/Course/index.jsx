@@ -1,8 +1,8 @@
 import React from 'react';
-import styles from './CourseItem.module.css';
+import styles from './Course.module.css';
 import { Link } from 'react-router-dom';
-import { UserContext } from '../../Context/UserContext';
-import Image from '../Helper/Image';
+import { UserContext } from '../../../../../../Context/UserContext';
+import Image from '../../../../../Helper/Image';
 
 function setCoursesProgress(user, course) {
   let progress = 0;
@@ -17,7 +17,7 @@ function setCoursesProgress(user, course) {
   return progress;
 }
 
-const CourseItem = ({ course }) => {
+const Course = ({ course }) => {
   const { data } = React.useContext(UserContext);
 
   const progress = setCoursesProgress(data, course);
@@ -47,4 +47,4 @@ const CourseItem = ({ course }) => {
   );
 };
 
-export default React.memo(CourseItem);
+export default React.memo(Course);

@@ -1,11 +1,11 @@
 import React from 'react';
-import styles from './CourseLast.module.css';
+import styles from './Course.module.css';
 import { Link } from 'react-router-dom';
-import { ReactComponent as Clapperboard } from '../../Assets/claquete_aberta.svg';
-import { UserContext } from '../../Context/UserContext';
-import Image from '../Helper/Image';
+import { ReactComponent as Clapperboard } from '../../../../../Assets/claquete_aberta.svg';
+import { UserContext } from '../../../../../Context/UserContext';
+import Image from '../../../../Helper/Image';
 
-const CourseLast = () => {
+const Course = () => {
   const { data: user } = React.useContext(UserContext);
 
   if (!user.lastCourse) {
@@ -51,4 +51,4 @@ const CourseLast = () => {
   );
 };
 
-export default CourseLast;
+export default Course;

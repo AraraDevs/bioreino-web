@@ -1,7 +1,7 @@
-import React from 'react'
+import React from 'react';
 import styles from './LastCourse.module.css';
 import { ReactComponent as Leopard } from '../../../../Assets/leopardo.svg';
-import CourseLast from '../../../Course/CourseLast';
+import Course from './Course';
 import Title from '../Title';
 
 const LastCourse = () => {
@@ -10,10 +10,10 @@ const LastCourse = () => {
       <Title>Último curso</Title>
       <div className={styles.container_lastcourse}>
         <Leopard className={styles.leopard} />
-        <CourseLast />
+        <Course />
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default LastCourse
+export default LastCourse;
