@@ -1,0 +1,29 @@
+.item {
+  display: flex;
+  align-items: center;
+}
+
+.item + .item::before {
+  content: '';
+  display: inline-block;
+  background: var(--contrast-1);
+  width: 0.3125rem;
+  height: 0.3125rem;
+  border-radius: 50%;
+  margin: 0 0.9375rem;
+}
+
+.item a {
+  text-transform: uppercase;
+  font-family: var(--first-type);
+  font-size: 0.8125rem;
+  padding: 0.3125rem;
+  letter-spacing: 1px;
+  transition: 0.15s ease-in-out;
+}
+
+.item a:hover,
+.item a:global(.active) {
+  font-size: 1rem;
+  color: var(--bg-1);
+}
