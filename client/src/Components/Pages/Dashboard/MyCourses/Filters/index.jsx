@@ -3,8 +3,8 @@ import styles from './Filter.module.css';
 import { ReactComponent as Arrow } from '../../../../../Assets/seta.svg';
 import { CATEGORIES_GET } from '../../../../../api';
 
-import FilterPlan from '../Filters/FilterPlan';
-import FilterCategories from '../Filters/FilterCategories';
+import Plans from './Plans';
+import Categories from './Categories';
 
 const getFilteredCategories = (filter) => (category) => {
   if (filter.plan === 'scholar') {
@@ -61,14 +61,14 @@ const Search = ({ filter, setFilter, user }) => {
   return (
     <div className={styles.filter}>
       <p>Filtrar por</p>
-      <FilterPlan
+      <Plans
         filter={filter}
         setFilter={setFilter}
         handleFilter={handleFilter}
         user={user}
       />
       <Arrow />
-      <FilterCategories
+      <Categories
         filter={filter}
         categories={filteredCategories}
         handleFilter={handleFilter}

@@ -1,4 +1,4 @@
-const FilterPlan = ({ filter, handleFilter, user }) => {
+const Plans = ({ filter, handleFilter, user }) => {
   return (
     <select name="plans" value={filter.plan} onChange={handleFilter}>
       <option value="scholar">Scholar</option>
@@ -13,4 +13,4 @@ const FilterPlan = ({ filter, handleFilter, user }) => {
   );
 };
 
-export default FilterPlan;
+export default Plans;

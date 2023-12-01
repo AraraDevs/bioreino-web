@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './MyCourses.module.css';
 import Title from '../Title';
-import Search from './Search';
+import Filters from './Filters';
 import Courses from './Courses';
 import { UserContext } from '../../../../Context/UserContext';
 
@@ -15,7 +15,7 @@ const MyCourses = () => {
   return (
     <section className={`container ${styles.section}`}>
       <Title>Meus cursos</Title>
-      <Search filter={filter} setFilter={setFilter} user={data} />
+      <Filters filter={filter} setFilter={setFilter} user={data} />
       <Courses user={data} filter={filter} />
     </section>
   );
