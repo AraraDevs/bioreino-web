@@ -13,7 +13,7 @@ const getFilteredCategories = (filter) => (category) => {
   return true;
 };
 
-const Search = ({ filter, setFilter, user }) => {
+const Filters = ({ filter, setFilter, user }) => {
   const [categories, setCategories] = React.useState([]);
 
   React.useEffect(() => {
@@ -77,4 +77,4 @@ const Search = ({ filter, setFilter, user }) => {
   );
 };
 
-export default Search;
+export default Filters;

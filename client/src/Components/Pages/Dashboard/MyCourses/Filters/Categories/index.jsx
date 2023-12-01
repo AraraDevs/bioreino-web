@@ -1,4 +1,4 @@
-const FilterCategories = ({ filter, categories, handleFilter }) => {
+const Categories = ({ filter, categories, handleFilter }) => {
   return (
     <select name="categories" value={filter.category} onChange={handleFilter}>
       <option value="all">Todos</option>
@@ -12,4 +12,4 @@ const FilterCategories = ({ filter, categories, handleFilter }) => {
   );
 };
 
-export default FilterCategories;
+export default Categories;
