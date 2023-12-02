@@ -25,6 +25,10 @@ const MyCourses = () => {
     getCategories();
   }, []);
 
+  React.useEffect(() => {
+    setCategory(null);
+  }, [plan, setCategory]);
+
   return (
     <section className={`container ${styles.section}`}>
       <Title>Meus cursos</Title>

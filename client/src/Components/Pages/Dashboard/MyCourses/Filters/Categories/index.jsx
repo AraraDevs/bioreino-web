@@ -4,10 +4,6 @@ const Categories = ({ categories, category, setCategory, plan }) => {
   const [filter, setFilter] = React.useState(categories);
 
   React.useEffect(() => {
-    setCategory(null);
-  }, [plan, setCategory]);
-
-  React.useEffect(() => {
     const filteredCategories = categories.filter(
       (category) => category.plan === plan,
     );
