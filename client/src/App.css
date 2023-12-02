@@ -52,6 +52,10 @@ input {
   font-family: var(--second-type);
 }
 
+h1 {
+  margin: 0;
+}
+
 .container {
   max-width: 76.25rem;
   padding: 0 1rem;
