@@ -5,27 +5,26 @@ import useFetch from '../../../../../Hooks/useFetch';
 import Course from './Course';
 import Error from '../../../../Helper/Error';
 
-function getFilteredCourses(courses, filter) {
+function getFilteredCourses(courses, plan, category, categories) {
   if (courses) {
+    if (category === null) {
+      const categoryFilter = categories.filter((item) => item.plan === plan);
+      return courses.filter((course) =>
+        categoryFilter.find((item) => {
+          return item.name === course.category;
+        }),
+      );
+    }
+
     return courses.filter((course) => {
-      if (filter.plan === 'professional') {
-        if (filter.category !== 'all') {
-          return course.category === filter.category;
-        }
-        return true;
-      } else {
-        if (filter.category === 'all') {
-          return course.plan === filter.plan;
-        }
-        return (
-          course.plan === filter.plan && course.category === filter.category
-        );
-      }
+      const filterByPlan = category?.plan === plan;
+      const filterByCategory = course?.category === category?.name;
+      return filterByPlan && filterByCategory;
     });
   }
 }
 
-const Courses = ({ user, filter }) => {
+const Courses = ({ user, plan, category, categories }) => {
   const { data, request, loading, error } = useFetch();
 
   React.useEffect(() => {
@@ -36,7 +35,8 @@ const Courses = ({ user, filter }) => {
     fetchCourses();
   }, [user.plan, request]);
 
-  const coursesFiltered = getFilteredCourses(data, filter) || [];
+  const coursesFiltered =
+    getFilteredCourses(data, plan, category, categories) || [];
 
   if (loading) return <p>Carregando...</p>;
   if (error) return <Error error={error} />;

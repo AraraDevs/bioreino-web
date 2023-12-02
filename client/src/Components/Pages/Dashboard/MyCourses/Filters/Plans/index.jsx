@@ -1,6 +1,13 @@
-const Plans = ({ filter, handleFilter, user }) => {
+import React from 'react';
+
+const Plans = ({ plan, setPlan, user }) => {
+  function handleChange({ target }) {
+    if (target.value === 'professional' && user.plan === 'scholar') return;
+    setPlan(target.value);
+  }
+
   return (
-    <select name="plans" value={filter.plan} onChange={handleFilter}>
+    <select name="plans" value={plan} onChange={handleChange}>
       <option value="scholar">Scholar</option>
       {user.plan === 'professional' ? (
         <option value="professional">Professional</option>
@@ -13,4 +20,4 @@ const Plans = ({ filter, handleFilter, user }) => {
   );
 };
 
-export default Plans;
+export default React.memo(Plans);
