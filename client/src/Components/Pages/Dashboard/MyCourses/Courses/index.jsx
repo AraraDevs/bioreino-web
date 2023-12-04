@@ -6,22 +6,20 @@ import Course from './Course';
 import Error from '../../../../Helper/Error';
 
 function getFilteredCourses(courses, plan, category, categories) {
-  if (courses) {
-    if (category === null) {
-      const categoryFilter = categories.filter((item) => item.plan === plan);
-      return courses.filter((course) =>
-        categoryFilter.find((item) => {
-          return item.name === course.category;
-        }),
-      );
-    }
-
-    return courses.filter((course) => {
-      const filterByPlan = category?.plan === plan;
-      const filterByCategory = course?.category === category?.name;
-      return filterByPlan && filterByCategory;
-    });
+  if (category === null) {
+    const planCategories = categories.filter((item) => item.plan === plan);
+    return courses.filter((course) =>
+      planCategories.find((item) => {
+        return item.name === course.category;
+      }),
+    );
   }
+
+  return courses.filter((course) => {
+    const filterByPlan = category?.plan === plan;
+    const filterByCategory = course?.category === category?.name;
+    return filterByPlan && filterByCategory;
+  });
 }
 
 const Courses = ({ user, plan, category, categories }) => {
@@ -35,8 +33,10 @@ const Courses = ({ user, plan, category, categories }) => {
     fetchCourses();
   }, [user.plan, request]);
 
-  const coursesFiltered =
-    getFilteredCourses(data, plan, category, categories) || [];
+  let coursesFiltered = [];
+  if (data) {
+    coursesFiltered = getFilteredCourses(data, plan, category, categories);
+  }
 
   if (loading) return <p>Carregando...</p>;
   if (error) return <Error error={error} />;

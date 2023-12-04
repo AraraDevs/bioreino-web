@@ -15,9 +15,10 @@ const Categories = ({ categories, category, setCategory, plan }) => {
       name="categories"
       value={category?.name || ''}
       onChange={({ target }) => {
-        const selectedCategory =
-          categories.find((category) => category.name === target.value) || null;
-        setCategory(selectedCategory);
+        const selectedCategory = categories.find(
+          (category) => category.name === target.value,
+        );
+        setCategory(selectedCategory || null);
       }}
     >
       <option value="">Todos</option>
