@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import styles from './Register.module.css';
 import Header from './Header';
 import Input from '../../../Forms/Input';
@@ -6,7 +6,7 @@ import Select from '../../../Forms/Select';
 import useForm from '../../../../Hooks/useForm';
 import { useParams } from 'react-router-dom';
 import Button from '../../../Forms/Button';
-import { UserContext } from '../../../../Context/UserContext';
+import { UserContext } from '../../../../Context/User';
 import Error from '../../../Helper/Error';
 import { USER_POST } from '../../../../api';
 import useFetch from '../../../../Hooks/useFetch';
@@ -249,6 +249,6 @@ const Register = () => {
       </main>
     </>
   );
-}
+};
 
-export default Register
+export default Register;

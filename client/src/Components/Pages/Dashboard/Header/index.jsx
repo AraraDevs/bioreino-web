@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './Header.module.css';
 import { ReactComponent as Sair } from '../../../../Assets/sair.svg';
 import LogoBioreino from '../../../Layout/LogoBioreino';
-import { UserContext } from '../../../../Context/UserContext';
+import { UserContext } from '../../../../Context/User';
 
 const Header = () => {
   const { data, userLogout } = React.useContext(UserContext);

@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './Course.module.css';
 import { Link } from 'react-router-dom';
-import { UserContext } from '../../../../../../Context/UserContext';
+import { UserContext } from '../../../../../../Context/User';
 import Image from '../../../../../Helper/Image';
 
 function setCoursesProgress(user, course) {

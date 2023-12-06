@@ -3,7 +3,7 @@ import styles from './MyCourses.module.css';
 import Title from '../Title';
 import Filters from './Filters';
 import Courses from './Courses';
-import { UserContext } from '../../../../Context/UserContext';
+import { UserContext } from '../../../../Context/User';
 import { CATEGORIES_GET } from '../../../../api';
 
 const MyCourses = () => {

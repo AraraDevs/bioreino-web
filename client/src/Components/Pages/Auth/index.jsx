@@ -2,7 +2,7 @@ import React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import Login from './Login';
 import Register from './Register';
-import { UserContext } from '../../../Context/UserContext';
+import { UserContext } from '../../../Context/User';
 
 const Auth = () => {
   const { login } = React.useContext(UserContext);

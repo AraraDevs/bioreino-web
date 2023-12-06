@@ -1,10 +1,10 @@
-import React from 'react'
+import React from 'react';
 import styles from './Login.module.css';
 import Input from '../../../Forms/Input';
 import { Link } from 'react-router-dom';
 import stylesButton from '../../../Forms/Button.module.css';
 import useForm from '../../../../Hooks/useForm';
-import { UserContext } from '../../../../Context/UserContext';
+import { UserContext } from '../../../../Context/User';
 import Error from '../../../Helper/Error';
 import { ReactComponent as Arrow } from '../../../../Assets/arrow.svg';
 import Head from '../../../Helper/Head';
@@ -93,6 +93,6 @@ const Login = () => {
       </div>
     </section>
   );
-}
+};
 
-export default Login
+export default Login;

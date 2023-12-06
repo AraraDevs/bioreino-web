@@ -3,8 +3,9 @@ import { LOGIN, LOGIN_VALIDATE_TOKEN, USER_GET } from '../api';
 import { useNavigate } from 'react-router-dom';
 
 export const UserContext = React.createContext();
+UserContext.displayName = 'User';
 
-export const UserStorage = ({ children }) => {
+export const UserProvider = ({ children }) => {
   const [data, setData] = React.useState(null);
   const [login, setLogin] = React.useState(null);
   const [error, setError] = React.useState(null);

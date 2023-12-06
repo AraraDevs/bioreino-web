@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import ReactGA from 'react-ga4';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { UserStorage } from './Context/UserContext';
+import { UserProvider } from './Context/User';
 import ProtectedRoute from './Components/Helper/ProtectedRoute';
 
 const Home = React.lazy(() => import('./Components/Pages/Home'));
@@ -24,7 +24,7 @@ function App() {
   return (
     <>
       <BrowserRouter>
-        <UserStorage>
+        <UserProvider>
           <React.Suspense fallback={<p>Carregando...</p>}>
             <Routes>
               <Route path="/" element={<Home />} />
@@ -47,7 +47,7 @@ function App() {
               />
             </Routes>
           </React.Suspense>
-        </UserStorage>
+        </UserProvider>
       </BrowserRouter>
     </>
   );
