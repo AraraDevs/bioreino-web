@@ -90,21 +90,12 @@ export function ALL_COURSES_GET({ limit }) {
   };
 }
 
-export function COURSES_FILTERED_GET({ plan }) {
+export function COURSES_GET() {
   return {
-    url: API_URL_COURSE + `/filter/${plan}`,
+    url: API_URL_COURSE,
     options: {
       method: 'GET',
       cache: 'no-store',
-    },
-  };
-}
-
-export function COURSES_BY_URL_TITLE_GET(title) {
-  return {
-    url: API_URL_COURSE + '/' + title,
-    options: {
-      method: 'GET',
     },
   };
 }
