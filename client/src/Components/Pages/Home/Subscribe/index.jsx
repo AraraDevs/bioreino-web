@@ -1,6 +1,6 @@
 import styles from './Subscribe.module.css';
 import Card from './Card';
-import usePlans from '../../../../Hooks/usePlans';
+import usePlans from 'Hooks/usePlans';
 
 const Subscribe = () => {
   const { allPlans } = usePlans();

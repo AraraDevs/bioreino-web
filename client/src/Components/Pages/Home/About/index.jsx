@@ -1,7 +1,7 @@
 import styles from './About.module.css';
-import Kids from '../../../../Assets/kids.jpg';
-import Scholar from '../../../../Assets/scholar.jpg';
-import Professional from '../../../../Assets/professional.jpg';
+import Kids from 'src/Assets/kids.jpg';
+import Scholar from 'src/Assets/scholar.jpg';
+import Professional from 'src/Assets/professional.jpg';
 import Details from './Details';
 
 const About = () => {

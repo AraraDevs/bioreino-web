@@ -1,7 +1,7 @@
 import styles from './Testimonies.module.css';
-import Student1 from '../../../../Assets/students/sophia.png';
-import Student2 from '../../../../Assets/students/mark.png';
-import Student3 from '../../../../Assets/students/gustavo.png';
+import Student1 from 'src/Assets/students/sophia.png';
+import Student2 from 'src/Assets/students/mark.png';
+import Student3 from 'src/Assets/students/gustavo.png';
 import Testimony from './Testimony';
 
 const Testimonies = () => {

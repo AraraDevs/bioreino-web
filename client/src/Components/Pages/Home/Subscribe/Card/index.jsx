@@ -1,7 +1,7 @@
 import styles from './Card.module.css';
-import stylesButton from '../../../../Forms/Button.module.css';
+import stylesButton from 'Components/Forms/Button.module.css';
 import { Link } from 'react-router-dom';
-import { ReactComponent as Checked } from '../../../../../Assets/checked.svg';
+import { ReactComponent as Checked } from 'src/Assets/checked.svg';
 
 const Card = ({ title, benefits, price }) => {
   return (

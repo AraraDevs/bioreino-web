@@ -1,8 +1,8 @@
 import React from 'react';
 import styles from './Footer.module.css';
-import { ReactComponent as Arrow } from '../../../../Assets/arrow.svg';
+import { ReactComponent as Arrow } from 'src/Assets/arrow.svg';
 import { Link } from 'react-router-dom';
-import useMedia from '../../../../Hooks/useMedia';
+import useMedia from 'Hooks/useMedia';
 
 const Footer = ({ currentCourse, nextLesson, menuAside, slugCourse }) => {
   const mobile = useMedia('(max-width: 930px)');

@@ -6,9 +6,9 @@ import Courses from './Courses';
 import About from './About';
 import Testimonies from './Testimonies';
 import Subscribe from './Subscribe';
-import Footer from '../../Layout/Footer';
-import Head from '../../Helper/Head';
-import { ReactComponent as GitHub } from '../../../Assets/github.svg';
+import Footer from 'Components/Layout/Footer';
+import Head from 'Components/Helper/Head';
+import { ReactComponent as GitHub } from 'src/Assets/github.svg';
 
 const Home = () => {
   return (

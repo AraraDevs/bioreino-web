@@ -1,8 +1,8 @@
 import React from 'react';
 import styles from './Item.module.css';
 import { Link } from 'react-router-dom';
-import { UserContext } from '../../../../../../Context/User';
-import Image from '../../../../../Helper/Image';
+import { UserContext } from 'Context/User';
+import Image from 'Components/Helper/Image';
 
 function setCoursesProgress(user, course) {
   let progress = 0;

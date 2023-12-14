@@ -1,18 +1,18 @@
 import React from 'react';
 import styles from './Register.module.css';
 import Header from './Header';
-import Input from '../../../Forms/Input';
-import Select from '../../../Forms/Select';
-import useForm from '../../../../Hooks/useForm';
+import Input from 'Components/Forms/Input';
+import Select from 'Components/Forms/Select';
+import useForm from 'Hooks/useForm';
 import { useParams } from 'react-router-dom';
-import Button from '../../../Forms/Button';
-import { UserContext } from '../../../../Context/User';
-import Error from '../../../Helper/Error';
-import { USER_POST } from '../../../../api';
-import useFetch from '../../../../Hooks/useFetch';
-import Head from '../../../Helper/Head';
+import Button from 'Components/Forms/Button';
+import { UserContext } from 'Context/User';
+import Error from 'Components/Helper/Error';
+import { USER_POST } from 'src/api';
+import useFetch from 'Hooks/useFetch';
+import Head from 'Components/Helper/Head';
 import Payments from './Payments';
-import usePlans from '../../../../Hooks/usePlans';
+import usePlans from 'Hooks/usePlans';
 import Address from './Address';
 import Subtitle from './Subtitle';
 

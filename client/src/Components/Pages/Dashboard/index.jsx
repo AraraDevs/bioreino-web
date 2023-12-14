@@ -1,7 +1,7 @@
 import React from 'react';
 import LastCourse from './LastCourse';
 import MyCourses from './MyCourses';
-import Head from '../../Helper/Head';
+import Head from 'Components/Helper/Head';
 import Header from './Header';
 
 const Dashboard = () => {

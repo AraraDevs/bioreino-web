@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './Filter.module.css';
-import { ReactComponent as Arrow } from '../../../../../Assets/seta.svg';
+import { ReactComponent as Arrow } from 'src/Assets/seta.svg';
 
 import Plans from './Plans';
 import Categories from './Categories';

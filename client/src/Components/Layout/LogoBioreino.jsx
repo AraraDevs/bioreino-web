@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './LogoBioreino.module.css';
 import { Link } from 'react-router-dom';
-import { ReactComponent as Bioreino } from '../../Assets/bioreino.svg';
+import { ReactComponent as Bioreino } from 'src/Assets/bioreino.svg';
 
 const LogoBioreino = () => {
   return (

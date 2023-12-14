@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './Introduction.module.css';
-import { ReactComponent as AraraDevs } from '../../../../Assets/araradevs.svg';
-import { ReactComponent as Planeta } from '../../../../Assets/planeta.svg';
+import { ReactComponent as AraraDevs } from 'src/Assets/araradevs.svg';
+import { ReactComponent as Planeta } from 'src/Assets/planeta.svg';
 
 const Introduction = () => {
   return (

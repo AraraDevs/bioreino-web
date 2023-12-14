@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './LastCourse.module.css';
-import { ReactComponent as Leopard } from '../../../../Assets/leopardo.svg';
+import { ReactComponent as Leopard } from 'src/Assets/leopardo.svg';
 import Course from './Course';
 import Title from '../Title';
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './Navigation.module.css';
 import { Link } from 'react-router-dom';
-import LogoBioreino from '../../../../Layout/LogoBioreino';
+import LogoBioreino from 'Components/Layout/LogoBioreino';
 import Item from '../Item';
 
 const sections = [

@@ -1,9 +1,9 @@
 import React from 'react';
 import styles from './Course.module.css';
 import { Link } from 'react-router-dom';
-import { ReactComponent as Clapperboard } from '../../../../../Assets/claquete_aberta.svg';
-import { UserContext } from '../../../../../Context/User';
-import Image from '../../../../Helper/Image';
+import { ReactComponent as Clapperboard } from 'src/Assets/claquete_aberta.svg';
+import { UserContext } from 'Context/User';
+import Image from 'Components/Helper/Image';
 
 const Course = () => {
   const { data: user } = React.useContext(UserContext);

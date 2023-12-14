@@ -1,8 +1,8 @@
 import React from 'react';
 import styles from './Courses.module.css';
 import Item from './Item';
-import { ALL_COURSES_GET } from '../../../../api';
-import useFetch from '../../../../Hooks/useFetch';
+import { ALL_COURSES_GET } from 'src/api';
+import useFetch from 'Hooks/useFetch';
 
 const Courses = () => {
   const { data, request } = useFetch();

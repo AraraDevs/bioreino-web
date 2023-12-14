@@ -1,9 +1,9 @@
 import React from 'react';
 import styles from './Item.module.css';
 import { NavLink, useParams } from 'react-router-dom';
-import { ReactComponent as OpenClapperboard } from '../../../../../Assets/claquete_aberta.svg';
-import { ReactComponent as ClosedClapperboard } from '../../../../../Assets/claquete_fechada.svg';
-import { UserContext } from '../../../../../Context/User';
+import { ReactComponent as OpenClapperboard } from 'src/Assets/claquete_aberta.svg';
+import { ReactComponent as ClosedClapperboard } from 'src/Assets/claquete_fechada.svg';
+import { UserContext } from 'Context/User';
 
 const Item = ({ lesson, courseTitle }) => {
   const { course: slugCourse } = useParams();

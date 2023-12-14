@@ -4,9 +4,9 @@ import { Navigate, useParams } from 'react-router-dom';
 import Aside from './Aside';
 import Video from './Video';
 import Footer from './Footer';
-import Head from '../../Helper/Head';
-import { useCoursesContext } from '../../../Context/Courses';
-import { UserContext } from '../../../Context/User';
+import Head from 'Components/Helper/Head';
+import { useCoursesContext } from 'Context/Courses';
+import { UserContext } from 'Context/User';
 
 function getCurrentAndNextLesson(lessons, slug) {
   const indexCurrentLesson = lessons.findIndex((lesson) => {

@@ -3,8 +3,8 @@ import styles from './MyCourses.module.css';
 import Title from '../Title';
 import Filters from './Filters';
 import Courses from './Courses';
-import { UserContext } from '../../../../Context/User';
-import { useCategoriesContext } from '../../../../Context/Categories';
+import { UserContext } from 'Context/User';
+import { useCategoriesContext } from 'Context/Categories';
 
 const MyCourses = () => {
   const { data } = React.useContext(UserContext);

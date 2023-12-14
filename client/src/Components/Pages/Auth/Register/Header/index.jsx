@@ -1,6 +1,6 @@
 import styles from './Header.module.css';
 import { Link } from 'react-router-dom';
-import LogoBioreino from '../../../../Layout/LogoBioreino';
+import LogoBioreino from 'Components/Layout/LogoBioreino';
 
 const Header = () => {
   return (

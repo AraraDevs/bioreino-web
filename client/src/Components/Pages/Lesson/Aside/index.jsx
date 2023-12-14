@@ -1,6 +1,6 @@
 import styles from './Aside.module.css';
-import LogoBioreino from '../../../Layout/LogoBioreino';
-import { ReactComponent as Arrow } from '../../../../Assets/arrow.svg';
+import LogoBioreino from 'Components/Layout/LogoBioreino';
+import { ReactComponent as Arrow } from 'src/Assets/arrow.svg';
 import { Link } from 'react-router-dom';
 import Item from './Item';
 

@@ -1,16 +1,16 @@
 import React from 'react';
 import styles from './Login.module.css';
-import Input from '../../../Forms/Input';
+import Input from 'Components/Forms/Input';
 import { Link } from 'react-router-dom';
-import stylesButton from '../../../Forms/Button.module.css';
-import useForm from '../../../../Hooks/useForm';
-import { UserContext } from '../../../../Context/User';
-import Error from '../../../Helper/Error';
-import { ReactComponent as Arrow } from '../../../../Assets/arrow.svg';
-import Head from '../../../Helper/Head';
+import stylesButton from 'Components/Forms/Button.module.css';
+import useForm from 'Hooks/useForm';
+import { UserContext } from 'Context/User';
+import Error from 'Components/Helper/Error';
+import { ReactComponent as Arrow } from 'src/Assets/arrow.svg';
+import Head from 'Components/Helper/Head';
 
-import { ReactComponent as VisibilityOff } from '../../../../Assets/visibility-off.svg';
-import { ReactComponent as VisibilityOn } from '../../../../Assets/visibility.svg';
+import { ReactComponent as VisibilityOff } from 'src/Assets/visibility-off.svg';
+import { ReactComponent as VisibilityOn } from 'src/Assets/visibility.svg';
 
 const Login = () => {
   const [visiblePassword, setVisiblePassword] = React.useState(false);

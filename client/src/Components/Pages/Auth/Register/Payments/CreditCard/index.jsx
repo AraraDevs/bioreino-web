@@ -1,7 +1,7 @@
-import Input from '../../../../../Forms/Input';
-import FieldSplit from '../../../../../Layout/FieldSplit';
-import fixedNumber from '../../../../../Helper/fixedNumber';
-import Select from '../../../../../Forms/Select';
+import Input from 'Components/Forms/Input';
+import FieldSplit from 'Components/Layout/FieldSplit';
+import fixedNumber from 'Components/Helper/fixedNumber';
+import Select from 'Components/Forms/Select';
 
 function setInstallments(price) {
   const installments = [];

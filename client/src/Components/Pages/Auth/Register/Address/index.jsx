@@ -1,7 +1,7 @@
 import styles from './Address.module.css';
 import Subtitle from '../Subtitle';
-import FieldSplit from '../../../../Layout/FieldSplit';
-import Input from '../../../../Forms/Input';
+import FieldSplit from 'Components/Layout/FieldSplit';
+import Input from 'Components/Forms/Input';
 
 const Address = ({ fields }) => {
   return (

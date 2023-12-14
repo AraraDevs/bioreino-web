@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './Item.module.css';
 import PropTypes from 'prop-types';
-import debounce from '../../../../Helper/debounce';
+import debounce from 'Components/Helper/debounce';
 
 const Item = ({ scroll, link, text, onAction, setOnAction }) => {
   const [distSectionArray, setDistSectionArray] = React.useState(null);

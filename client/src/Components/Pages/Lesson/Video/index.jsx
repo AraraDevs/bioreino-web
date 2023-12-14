@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './Video.module.css';
-import { ReactComponent as Arrow } from '../../../../Assets/arrow.svg';
+import { ReactComponent as Arrow } from 'src/Assets/arrow.svg';
 
 const Video = ({ currentLesson }) => {
   const [expandButton, setExpandButton] = React.useState(false);

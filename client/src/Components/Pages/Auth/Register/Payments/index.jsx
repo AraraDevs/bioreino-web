@@ -1,7 +1,7 @@
 import styles from './Payments.module.css';
 import CreditCard from './CreditCard';
-import usePlans from '../../../../../Hooks/usePlans';
-import fixedNumber from '../../../../Helper/fixedNumber';
+import usePlans from 'Hooks/usePlans';
+import fixedNumber from 'Components/Helper/fixedNumber';
 
 const Payments = ({
   methodPayment,

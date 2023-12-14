@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './Courses.module.css';
 import Item from './Item';
-import { useCoursesContext } from '../../../../../Context/Courses';
+import { useCoursesContext } from 'Context/Courses';
 
 const Courses = ({ plan }) => {
   const { courses, filteredCourses, loading } = useCoursesContext();
