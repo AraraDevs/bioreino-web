@@ -2,41 +2,13 @@ const Course = require('../models/Course');
 const User = require('../models/Student');
 
 class CourseController {
-  static async getCoursesFiltered(req, res) {
-    const { plan } = req.params;
-
+  static async courses(req, res) {
     try {
-      let courses;
+      const courses = await Course.find();
 
-      if (plan === 'professional') {
-        courses = await Course.find();
-      } else {
-        courses = await Course.find({ plan });
-      }
-
-      if (courses.length === 0) {
-        res.status(404).json({
-          message:
-            'Desculpe, não encontramos nenhum curso com essas características. Experimente alterar o filtro.',
-        });
-      } else {
-        res.status(200).json(courses);
-      }
+      res.status(200).json(courses);
     } catch (error) {
       res.status(500).json({ message: error });
-    }
-  }
-
-  static async getCourse(req, res) {
-    const { title } = req.params;
-
-    try {
-      // get course by title
-      const course = await Course.findOne({ slug: title });
-
-      res.status(200).json(course);
-    } catch (error) {
-      res.status(404).json({ message: error });
     }
   }
 
@@ -55,8 +27,7 @@ class CourseController {
   }
 
   static async create(req, res) {
-    const { professor, image, plan, category, title, lessons, slug } =
-      req.body;
+    const { professor, image, plan, category, title, lessons, slug } = req.body;
 
     // checks if user is a professor
     const user = await User.findById(req.user.id);
@@ -86,11 +57,9 @@ class CourseController {
     }
 
     if (!category) {
-      return res
-        .status(422)
-        .json({
-          message: 'Necessário enviar a qual categoria o curso pertence!',
-        });
+      return res.status(422).json({
+        message: 'Necessário enviar a qual categoria o curso pertence!',
+      });
     }
 
     if (!title) {
@@ -100,11 +69,9 @@ class CourseController {
     }
 
     if (!lessons || lessons.length === 0) {
-      return res
-        .status(422)
-        .json({
-          message: 'Necessário adicionar uma ou mais aulas a esse curso!',
-        });
+      return res.status(422).json({
+        message: 'Necessário adicionar uma ou mais aulas a esse curso!',
+      });
     }
 
     if (!slug) {

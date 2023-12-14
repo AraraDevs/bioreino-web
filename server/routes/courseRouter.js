@@ -8,7 +8,7 @@ const verifyToken = require('../helpers/verify-token');
 
 router.post('/create', verifyToken, CourseController.create);
 
-router.get('/', CourseController.allCourses);
+router.get('/', CourseController.courses);
 router.get('/all/:limit', CourseController.allCourses);
 
 module.exports = router;
