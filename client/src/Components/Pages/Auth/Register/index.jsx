@@ -16,12 +16,6 @@ import usePlans from '../../../../Hooks/usePlans';
 import Address from './Address';
 import Subtitle from './Subtitle';
 
-function getPrice(allPlans, fields) {
-  const price = allPlans.find((plan) => plan.name === fields.values.plans);
-
-  return price?.price;
-}
-
 function getCustomValidationRules(initialValue, methodPayment, addressVisible) {
   let value = initialValue;
 
@@ -60,6 +54,11 @@ function getCustomValidationRules(initialValue, methodPayment, addressVisible) {
     };
   }
   return value;
+}
+
+function getPrice(allPlans, selectedPlan) {
+  const price = allPlans.find((plan) => plan.name === selectedPlan);
+  return price?.price || '';
 }
 
 const Register = () => {
@@ -147,7 +146,10 @@ const Register = () => {
     document.documentElement.scrollTop = 0;
   }, []);
 
-  const price = getPrice(allPlans, fields);
+  const price = React.useMemo(
+    () => getPrice(allPlans, fields.values.plans),
+    [allPlans, fields.values.plans],
+  );
 
   async function handleSubmit(event) {
     event.preventDefault();
