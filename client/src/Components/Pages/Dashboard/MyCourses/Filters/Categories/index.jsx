@@ -1,6 +1,8 @@
 import React from 'react';
+import { useCategoriesContext } from '../../../../../../Context/Categories';
 
-const Categories = ({ categories, category, setCategory, plan }) => {
+const Categories = ({ plan }) => {
+  const { categories, selectedCategory, setSelectedCategory } = useCategoriesContext();
   const [filter, setFilter] = React.useState(categories);
 
   React.useEffect(() => {
@@ -13,12 +15,12 @@ const Categories = ({ categories, category, setCategory, plan }) => {
   return (
     <select
       name="categories"
-      value={category?.name || ''}
+      value={selectedCategory?.name || ''}
       onChange={({ target }) => {
-        const selectedCategory = categories.find(
+        const category = categories.find(
           (category) => category.name === target.value,
         );
-        setCategory(selectedCategory || null);
+        setSelectedCategory(category || null);
       }}
     >
       <option value="">Todos</option>

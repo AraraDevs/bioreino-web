@@ -1,6 +1,9 @@
+import { useCategoriesContext } from '../../../../../Context/Categories';
 import styles from './Item.module.css';
 
 const Item = ({ course }) => {
+  const { filterCategory } = useCategoriesContext();
+
   function handleClick(event) {
     event.preventDefault();
 
@@ -13,10 +16,12 @@ const Item = ({ course }) => {
     window.scroll({ top, behavior: 'smooth' });
   }
 
+  const plan = filterCategory(course.category)?.plan;
+
   return (
     <li className={styles.coursesItem}>
       <a href="#sobre" onClick={handleClick}>
-        <span className={styles.plan}>{course.plan}</span>
+        <span className={styles.plan}>{plan}</span>
         <div
           className={styles.background}
           style={{ backgroundImage: `url(${course.imageUrl})` }}

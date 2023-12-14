@@ -3,13 +3,10 @@ import styles from './Lesson.module.css';
 import { Navigate, useParams } from 'react-router-dom';
 import Aside from './Aside';
 import Video from './Video';
-import {
-  COURSES_BY_URL_TITLE_GET,
-  USER_LAST_LESSON_COURSE_PATCH,
-  USER_COURSES_PROGRESS_PATCH,
-} from '../../../api';
 import Footer from './Footer';
 import Head from '../../Helper/Head';
+import { useCoursesContext } from '../../../Context/Courses';
+import { UserContext } from '../../../Context/User';
 
 function getCurrentAndNextLesson(lessons, slug) {
   const indexCurrentLesson = lessons.findIndex((lesson) => {
@@ -17,37 +14,34 @@ function getCurrentAndNextLesson(lessons, slug) {
   });
   const currentLesson = lessons[indexCurrentLesson];
   const nextLesson = lessons[indexCurrentLesson + 1] || null;
-
   return [currentLesson, nextLesson];
 }
 
 const Lesson = () => {
   const { course: slugCourse, lesson: slugLesson } = useParams();
-  const [token] = React.useState(localStorage.getItem('token'));
+  const { updateLastLessonAndCourse, updateCoursesProgress } =
+    React.useContext(UserContext);
+  const { courses } = useCoursesContext();
   const [currentCourse, setCurrentCourse] = React.useState(null);
   const [menu, setMenu] = React.useState(true);
 
   React.useEffect(() => {
-    async function currentCourse() {
-      const { url, options } = COURSES_BY_URL_TITLE_GET(slugCourse);
+    const course = courses.find((course) => course.slug === slugCourse);
+    setCurrentCourse(course);
+  }, [courses, slugCourse]);
 
-      const response = await fetch(url, options);
-      const json = await response.json();
-
-      setCurrentCourse(json);
-    }
-    currentCourse();
-  }, [slugCourse]);
-
-  const lessons = currentCourse?.lessons || [];
+  const lessons = React.useMemo(
+    () => currentCourse?.lessons || [],
+    [currentCourse?.lessons],
+  );
   const [currentLesson, nextLesson] = getCurrentAndNextLesson(
     lessons,
     slugLesson,
   );
 
   React.useEffect(() => {
-    async function updateUserLastLessonAndCourse() {
-      const { url, options } = USER_LAST_LESSON_COURSE_PATCH(token, {
+    if (currentLesson) {
+      updateLastLessonAndCourse({
         courseTitle: currentCourse.title,
         slug: currentCourse.slug,
         professor: currentCourse.professor,
@@ -56,28 +50,22 @@ const Lesson = () => {
         lessonDescription: currentLesson.description,
         slugLesson: currentLesson.slug,
       });
-      await fetch(url, options);
-    }
-    if (currentCourse && currentLesson) {
-      updateUserLastLessonAndCourse();
-    }
-  }, [currentCourse, currentLesson, token]);
 
-  React.useEffect(() => {
-    async function updateUserCoursesProgress() {
-      if (currentCourse && currentLesson) {
-        const { url, options } = USER_COURSES_PROGRESS_PATCH(token, {
-          courseTitle: currentCourse.title,
-          lessonTitle: currentLesson.title,
-        });
-        await fetch(url, options);
-      }
+      updateCoursesProgress({
+        courseTitle: currentCourse.title,
+        lessonTitle: currentLesson.title,
+      });
     }
-    updateUserCoursesProgress();
-  }, [currentCourse, currentLesson, token]);
+  }, [
+    currentCourse,
+    currentLesson,
+    updateLastLessonAndCourse,
+    updateCoursesProgress,
+  ]);
 
   if (lessons.length && !slugLesson) {
-    return <Navigate to={`/curso/${slugCourse}/${lessons[0].slug}`} />;
+    const firstLessonSlug = lessons[0].slug;
+    return <Navigate to={`/curso/${slugCourse}/${firstLessonSlug}`} />;
   }
 
   if (!currentCourse) return null;

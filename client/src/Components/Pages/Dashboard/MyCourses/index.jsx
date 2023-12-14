@@ -4,48 +4,26 @@ import Title from '../Title';
 import Filters from './Filters';
 import Courses from './Courses';
 import { UserContext } from '../../../../Context/User';
-import { CATEGORIES_GET } from '../../../../api';
+import { useCategoriesContext } from '../../../../Context/Categories';
 
 const MyCourses = () => {
   const { data } = React.useContext(UserContext);
-  const [categories, setCategories] = React.useState([]);
-  const [plan, setPlan] = React.useState(data.plan);
-  const [category, setCategory] = React.useState(null);
+  const { resetSelectedCategory } = useCategoriesContext();
+  const [plan, setPlan] = React.useState(window.sessionStorage.getItem('planFilter') || data.plan);
 
   React.useEffect(() => {
-    async function getCategories() {
-      const token = localStorage.getItem('token');
-
-      const { url, options } = CATEGORIES_GET(token);
-      const responseCourses = await fetch(url, options);
-      const json = await responseCourses.json();
-
-      setCategories(json);
-    }
-    getCategories();
-  }, []);
+    window.sessionStorage.setItem('planFilter', plan);
+  }, [plan]);
 
   React.useEffect(() => {
-    setCategory(null);
-  }, [plan, setCategory]);
+    resetSelectedCategory();
+  }, [plan, resetSelectedCategory]);
 
   return (
     <section className={`container ${styles.section}`}>
       <Title>Meus cursos</Title>
-      <Filters
-        categories={categories}
-        category={category}
-        setCategory={setCategory}
-        plan={plan}
-        setPlan={setPlan}
-        user={data}
-      />
-      <Courses
-        user={data}
-        plan={plan}
-        category={category}
-        categories={categories}
-      />
+      <Filters plan={plan} setPlan={setPlan} user={data} />
+      <Courses plan={plan} />
     </section>
   );
 };
