@@ -3,7 +3,6 @@ import react from '@vitejs/plugin-react';
 import eslintPlugin from 'vite-plugin-eslint';
 import svgr from 'vite-plugin-svgr';
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     react(),
@@ -19,6 +18,14 @@ export default defineConfig({
         target: 'http://localhost:3000',
         changeOrigin: true,
       },
+    },
+  },
+  resolve: {
+    alias: {
+      src: '/src',
+      Components: '/src/Components',
+      Context: '/src/Context',
+      Hooks: '/src/Hooks',
     },
   },
 });
