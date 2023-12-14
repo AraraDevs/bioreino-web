@@ -1,11 +1,17 @@
 import React from 'react';
-import { LOGIN, LOGIN_VALIDATE_TOKEN, USER_GET } from '../api';
+import {
+  LOGIN,
+  LOGIN_VALIDATE_TOKEN,
+  USER_COURSES_PROGRESS_PATCH,
+  USER_GET,
+  USER_LAST_LESSON_COURSE_PATCH,
+} from '../api';
 import { useNavigate } from 'react-router-dom';
 
 export const UserContext = React.createContext();
 UserContext.displayName = 'User';
 
-export const UserProvider = ({ children }) => {
+export function UserProvider({ children }) {
   const [data, setData] = React.useState(null);
   const [login, setLogin] = React.useState(null);
   const [error, setError] = React.useState(null);
@@ -82,6 +88,18 @@ export const UserProvider = ({ children }) => {
     autoLogin();
   }, [userLogout]);
 
+  const updateLastLessonAndCourse = React.useCallback(async (courseData) => {
+    const token = window.localStorage.getItem('token');
+    const { url, options } = USER_LAST_LESSON_COURSE_PATCH(token, courseData);
+    await fetch(url, options);
+  }, []);
+
+  const updateCoursesProgress = React.useCallback(async (courseData) => {
+    const token = window.localStorage.getItem('token');
+    const { url, options } = USER_COURSES_PROGRESS_PATCH(token, courseData);
+    await fetch(url, options);
+  }, []);
+
   return (
     <UserContext.Provider
       value={{
@@ -91,9 +109,11 @@ export const UserProvider = ({ children }) => {
         error,
         userLogin,
         userLogout,
+        updateLastLessonAndCourse,
+        updateCoursesProgress,
       }}
     >
       {children}
     </UserContext.Provider>
   );
-};
+}
