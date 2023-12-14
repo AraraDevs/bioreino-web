@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './Course.module.css';
+import styles from './Item.module.css';
 import { Link } from 'react-router-dom';
 import { UserContext } from '../../../../../../Context/User';
 import Image from '../../../../../Helper/Image';
@@ -17,7 +17,7 @@ function setCoursesProgress(user, course) {
   return progress;
 }
 
-const Course = ({ course }) => {
+const Item = ({ course }) => {
   const { data } = React.useContext(UserContext);
 
   const progress = setCoursesProgress(data, course);
@@ -47,4 +47,4 @@ const Course = ({ course }) => {
   );
 };
 
-export default React.memo(Course);
+export default React.memo(Item);
