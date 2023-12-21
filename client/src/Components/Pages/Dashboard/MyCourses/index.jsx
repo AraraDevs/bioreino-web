@@ -7,9 +7,17 @@ import { UserContext } from 'Context/User';
 import { useCategoriesContext } from 'Context/Categories';
 
 const MyCourses = () => {
-  const { data } = React.useContext(UserContext);
+  const { data: user } = React.useContext(UserContext);
   const { resetSelectedCategory } = useCategoriesContext();
-  const [plan, setPlan] = React.useState(window.sessionStorage.getItem('planFilter') || data.plan);
+  const [plan, setPlan] = React.useState(() => {
+    const plan = 'professional';
+    const sessionStoragePlan = window.sessionStorage.getItem('planFilter');
+
+    if (user.plan !== plan && sessionStoragePlan === plan) {
+      return user.plan;
+    }
+    return window.sessionStorage.getItem('planFilter') || user.plan;
+  });
 
   React.useEffect(() => {
     window.sessionStorage.setItem('planFilter', plan);
@@ -22,7 +30,7 @@ const MyCourses = () => {
   return (
     <section className={`container ${styles.section}`}>
       <Title>Meus cursos</Title>
-      <Filters plan={plan} setPlan={setPlan} user={data} />
+      <Filters plan={plan} setPlan={setPlan} user={user} />
       <Courses plan={plan} />
     </section>
   );
