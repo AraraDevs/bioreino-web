@@ -2,12 +2,13 @@ import React from 'react';
 import { useCategoriesContext } from 'Context/Categories';
 
 const Categories = ({ plan }) => {
-  const { categories, selectedCategory, setSelectedCategory } = useCategoriesContext();
-  const [filter, setFilter] = React.useState(categories);
+  const { categories, selectedCategory, setSelectedCategory } =
+    useCategoriesContext();
+  const [filter, setFilter] = React.useState([]);
 
   React.useEffect(() => {
     const filteredCategories = categories.filter(
-      (category) => category.plan === plan,
+      (category) => !category.plan || category.plan === plan,
     );
     setFilter(filteredCategories);
   }, [categories, plan]);
@@ -15,17 +16,16 @@ const Categories = ({ plan }) => {
   return (
     <select
       name="categories"
-      value={selectedCategory?.name || ''}
+      value={selectedCategory?.value || ''}
       onChange={({ target }) => {
         const category = categories.find(
-          (category) => category.name === target.value,
+          (category) => category.value === target.value,
         );
         setSelectedCategory(category || null);
       }}
     >
-      <option value="">Todos</option>
       {filter.map((category) => (
-        <option key={category._id} value={category.name}>
+        <option key={category._id} value={category.value}>
           {category.name}
         </option>
       ))}
