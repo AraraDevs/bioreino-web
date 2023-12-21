@@ -2,19 +2,38 @@ import React from 'react';
 import styles from './Courses.module.css';
 import Item from './Item';
 import { useCoursesContext } from 'Context/Courses';
+import { useCategoriesContext } from 'src/Context/Categories';
 
 const Courses = ({ plan }) => {
-  const { courses, filteredCourses, loading } = useCoursesContext();
+  const { courses, loading } = useCoursesContext();
+  const { selectedCategory } = useCategoriesContext();
+  const [filter, setFilter] = React.useState([]);
 
-  const coursesFiltered = courses ? filteredCourses(plan) : [];
+  const filteredCourses = React.useCallback(
+    (plan) => {
+      if (!selectedCategory?.value) {
+        return courses.filter((course) => course.category.plan === plan);
+      }
+      return courses.filter((course) => {
+        const filterByPlan = selectedCategory?.plan === plan;
+        const filterByCategory = course.category._id === selectedCategory?._id;
+        return filterByPlan && filterByCategory;
+      });
+    },
+    [courses, selectedCategory],
+  );
+
+  React.useEffect(() => {
+    setFilter(filteredCourses(plan));
+  }, [courses, plan, filteredCourses]);
 
   if (loading) return <p>Carregando...</p>;
   return (
     <div className={styles.listCourses}>
-      {coursesFiltered.map((course) => (
+      {filter.map((course) => (
         <Item key={course._id} course={course} />
       ))}
-      {coursesFiltered.length === 0 && (
+      {filter.length === 0 && (
         <p className={styles.soon}>
           Em breve teremos aulas para esta categoria...
         </p>
