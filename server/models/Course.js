@@ -5,9 +5,9 @@ const Course = new mongoose.Schema(
     title: { type: String, required: true },
     professor: { type: String, required: true },
     imageUrl: { type: String, required: true },
-    category: { type: String, required: true },
+    category: { type: Object, required: true },
     lessons: { type: Array, required: true },
-    slug: { type: String, required: true }
+    slug: { type: String, required: true },
   },
   { timestamps: true },
 );
