@@ -6,7 +6,7 @@ import Item from './Item';
 
 const Aside = ({ menu, setMenu, lessons, currentCourse }) => {
   return (
-    <aside className={`${styles.aside} ${menu && styles.active}`}>
+    <aside className={`${styles.aside} ${menu ? styles.active : ''}`}>
       <div className={styles.closeMenu}>
         <button onClick={() => setMenu(!menu)}>
           <Arrow className={styles.arrowMenu} />
