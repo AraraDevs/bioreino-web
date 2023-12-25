@@ -1,4 +1,4 @@
-import { useCategoriesContext } from 'Hooks/Categories';
+import useCategoriesContext from 'Hooks/useCategoriesContext';
 import styles from './Item.module.css';
 
 const Item = ({ course }) => {
