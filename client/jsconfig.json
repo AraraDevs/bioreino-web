@@ -2,10 +2,10 @@
   "compilerOptions": {
     "baseUrl": "./src",
     "paths": {
-      "src/*": ["./*"],
       "Components/*": ["Components/*"],
       "Context/*": ["Context/*"],
-      "Hooks/*": ["Hooks/*"]
+      "Hooks/*": ["Hooks/*"],
+      "src/*": ["./*"]
     }
   },
   "exclude": ["node_modules", "dist"]
