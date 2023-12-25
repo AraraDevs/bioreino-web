@@ -2,7 +2,7 @@ import React from 'react';
 import { COURSES_GET } from '../api';
 import useFetch from '../Hooks/useFetch';
 
-const CoursesContext = React.createContext();
+export const CoursesContext = React.createContext();
 CoursesContext.displayName = 'Courses';
 
 export default function CoursesProvider({ children }) {
@@ -23,10 +23,4 @@ export default function CoursesProvider({ children }) {
       {children}
     </CoursesContext.Provider>
   );
-}
-
-export function useCoursesContext() {
-  const { courses, loading } = React.useContext(CoursesContext);
-
-  return { courses, loading };
 }
