@@ -1,5 +1,5 @@
 import React from 'react';
-import { useCategoriesContext } from 'Context/Categories';
+import useCategoriesContext from 'Hooks/useCategoriesContext';
 
 const Categories = ({ plan }) => {
   const { categories, selectedCategory, setSelectedCategory } =

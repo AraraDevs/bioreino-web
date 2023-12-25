@@ -4,7 +4,7 @@ import Title from '../Title';
 import Filters from './Filters';
 import Courses from './Courses';
 import { UserContext } from 'Context/User';
-import { useCategoriesContext } from 'Context/Categories';
+import useCategoriesContext from 'Hooks/useCategoriesContext';
 
 const MyCourses = () => {
   const { data: user } = React.useContext(UserContext);

@@ -5,7 +5,7 @@ import Aside from './Aside';
 import Video from './Video';
 import Footer from './Footer';
 import Head from 'Components/Helper/Head';
-import { useCoursesContext } from 'Context/Courses';
+import { CoursesContext } from 'Context/Courses';
 import { UserContext } from 'Context/User';
 
 function getCurrentAndNextLesson(lessons, slug) {
@@ -21,7 +21,7 @@ const Lesson = () => {
   const { course: slugCourse, lesson: slugLesson } = useParams();
   const { updateLastLessonAndCourse, updateCoursesProgress } =
     React.useContext(UserContext);
-  const { courses } = useCoursesContext();
+  const { courses } = React.useContext(CoursesContext);
   const [currentCourse, setCurrentCourse] = React.useState(null);
   const [menu, setMenu] = React.useState(true);
 

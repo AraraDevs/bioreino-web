@@ -1,11 +1,11 @@
 import React from 'react';
 import styles from './Courses.module.css';
 import Item from './Item';
-import { useCoursesContext } from 'Context/Courses';
-import { useCategoriesContext } from 'src/Context/Categories';
+import { CoursesContext } from 'Context/Courses';
+import useCategoriesContext from 'Hooks/useCategoriesContext';
 
 const Courses = ({ plan }) => {
-  const { courses, loading } = useCoursesContext();
+  const { courses, loading } = React.useContext(CoursesContext);
   const { selectedCategory } = useCategoriesContext();
   const [filter, setFilter] = React.useState([]);
 
