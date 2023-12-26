@@ -21,5 +21,5 @@ DB = bioreino
 DB_USER = Visitante
 DB_PASS = NLTnH30orrMLaW7z
 TOKEN_SECRET = mfcoi32jc8903jm,v90835MJVCJTM3cfmkpowVM<.</code>
-7. Por fim, execute no terminal o comando <code>npm run start_dev</code>;
+7. Por fim, execute no terminal o comando <code>npm start</code>;
 8. Pronto, agora é só ir no navegador e colar a seguinte url: <code>http://localhost:5173/</code>;
