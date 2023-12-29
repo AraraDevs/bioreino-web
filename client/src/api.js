@@ -2,6 +2,7 @@ const API_URL_USER = '/api/user';
 const API_URL_COURSE = '/api/course';
 const API_URL_LESSON = '/api/lesson';
 const API_URL_CATEGORY = '/api/category';
+const API_URL_PLAN = '/api/plan';
 
 export function LOGIN(body) {
   return {
@@ -109,15 +110,20 @@ export function LESSONS_BY_URL_COURSE_GET(courseUrl) {
   };
 }
 
-export function CATEGORIES_GET(token) {
+export function CATEGORIES_GET() {
   return {
     url: API_URL_CATEGORY,
     options: {
       method: 'GET',
-      headers: {
-        Authorization: 'Bearer ' + token,
-        'Content-Type': 'application/json',
-      },
+    },
+  };
+}
+
+export function PLANS_GET() {
+  return {
+    url: API_URL_PLAN,
+    options: {
+      method: 'GET',
     },
   };
 }
