@@ -11,9 +11,7 @@ export default function CategoriesProvider({ children }) {
 
   React.useEffect(() => {
     async function getCategories() {
-      const token = localStorage.getItem('token');
-
-      const { url, options } = CATEGORIES_GET(token);
+      const { url, options } = CATEGORIES_GET();
       const responseCourses = await fetch(url, options);
       const json = await responseCourses.json();
 

@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 export const UserContext = React.createContext();
 UserContext.displayName = 'User';
 
-export function UserProvider({ children }) {
+export default function UserProvider({ children }) {
   const [data, setData] = React.useState(null);
   const [login, setLogin] = React.useState(null);
   const [error, setError] = React.useState(null);
