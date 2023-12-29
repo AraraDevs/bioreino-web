@@ -3,9 +3,10 @@ import './App.css';
 import ReactGA from 'react-ga4';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import ProtectedRoute from './Components/Helper/ProtectedRoute';
-import { UserProvider } from './Context/User';
+import UserProvider from './Context/User';
 import CoursesProvider from './Context/Courses';
 import CategoriesProvider from './Context/Categories';
+import PlansProvider from './Context/Plans';
 
 const Home = React.lazy(() => import('./Components/Pages/Home'));
 const Auth = React.lazy(() => import('./Components/Pages/Auth'));
@@ -27,33 +28,35 @@ function App() {
     <>
       <BrowserRouter>
         <UserProvider>
-          <CoursesProvider>
-            <CategoriesProvider>
-              <React.Suspense fallback={<p>Carregando...</p>}>
-                <Routes>
-                  <Route path="/" element={<Home />} />
-                  <Route path="/login/*" element={<Auth />} />
+          <PlansProvider>
+            <CoursesProvider>
+              <CategoriesProvider>
+                <React.Suspense fallback={<p>Carregando...</p>}>
+                  <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/login/*" element={<Auth />} />
 
-                  <Route
-                    path="/dashboard"
-                    element={
-                      <ProtectedRoute>
-                        <Dashboard />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/curso/:course/:lesson?"
-                    element={
-                      <ProtectedRoute>
-                        <Lesson />
-                      </ProtectedRoute>
-                    }
-                  />
-                </Routes>
-              </React.Suspense>
-            </CategoriesProvider>
-          </CoursesProvider>
+                    <Route
+                      path="/dashboard"
+                      element={
+                        <ProtectedRoute>
+                          <Dashboard />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/curso/:course/:lesson?"
+                      element={
+                        <ProtectedRoute>
+                          <Lesson />
+                        </ProtectedRoute>
+                      }
+                    />
+                  </Routes>
+                </React.Suspense>
+              </CategoriesProvider>
+            </CoursesProvider>
+          </PlansProvider>
         </UserProvider>
       </BrowserRouter>
     </>
