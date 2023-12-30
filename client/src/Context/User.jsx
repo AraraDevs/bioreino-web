@@ -25,6 +25,7 @@ export default function UserProvider({ children }) {
     setLoading(false);
 
     window.localStorage.removeItem('token');
+    window.sessionStorage.removeItem('planFilter');
 
     navigate('/login');
   }, [navigate]);
