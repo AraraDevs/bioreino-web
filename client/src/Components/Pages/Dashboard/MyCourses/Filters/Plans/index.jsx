@@ -1,21 +1,33 @@
 import React from 'react';
+import { PlansContext } from 'Context/Plans';
 
-const Plans = ({ plan, setPlan, user }) => {
+const Plans = ({ selectedPlan, setSelectedPlan, user }) => {
+  const { plans } = React.useContext(PlansContext);
+  const currentPlan = plans.find((plan) => plan._id === selectedPlan);
+  const userPlan = plans.find((plan) => plan._id === user.plan);
+
   function handleChange({ target }) {
-    if (target.value === 'professional' && user.plan === 'scholar') return;
-    setPlan(target.value);
+    if (currentPlan._id === target.value) return;
+    setSelectedPlan(target.value);
   }
 
   return (
-    <select name="plans" value={plan} onChange={handleChange}>
-      <option value="scholar">Scholar</option>
-      {user.plan === 'professional' ? (
-        <option value="professional">Professional</option>
-      ) : (
-        <option value="professional" disabled>
-          Professional
-        </option>
-      )}
+    <select name="plans" value={selectedPlan} onChange={handleChange}>
+      {plans.map((plan) => {
+        if (plan.fullaccess && !userPlan.fullaccess) {
+          return (
+            <option key={plan._id} value={currentPlan._id} disabled>
+              {plan.name}
+            </option>
+          );
+        }
+
+        return (
+          <option key={plan._id} value={plan._id}>
+            {plan.name}
+          </option>
+        );
+      })}
     </select>
   );
 };
