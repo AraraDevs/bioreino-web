@@ -16,12 +16,12 @@ const Item = ({ course }) => {
     window.scroll({ top, behavior: 'smooth' });
   }
 
-  const plan = filterCategory(course.category)?.plan;
+  const plan = filterCategory(course.category._id);
 
   return (
     <li className={styles.coursesItem}>
       <a href="#sobre" onClick={handleClick}>
-        <span className={styles.plan}>{plan}</span>
+        <span className={styles.plan}>{plan.name}</span>
         <div
           className={styles.background}
           style={{ backgroundImage: `url(${course.imageUrl})` }}
