@@ -1,17 +1,17 @@
 import React from 'react';
 import useCategoriesContext from 'Hooks/useCategoriesContext';
 
-const Categories = ({ plan }) => {
+const Categories = ({ selectedPlan }) => {
   const { categories, selectedCategory, setSelectedCategory } =
     useCategoriesContext();
   const [filter, setFilter] = React.useState([]);
 
   React.useEffect(() => {
     const filteredCategories = categories.filter(
-      (category) => !category.plan || category.plan === plan,
+      (category) => !category.plan || category.plan === selectedPlan,
     );
     setFilter(filteredCategories);
-  }, [categories, plan]);
+  }, [categories, selectedPlan]);
 
   return (
     <select
