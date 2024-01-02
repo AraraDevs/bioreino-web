@@ -1,7 +1,8 @@
+import React from 'react';
 import styles from './Payments.module.css';
 import CreditCard from './CreditCard';
-import usePlans from 'Hooks/usePlans';
-import fixedNumber from 'Components/Helper/fixedNumber';
+import currencyFormat from 'Components/Helper/currencyFormat';
+import { PlansContext } from 'Context/Plans';
 
 const Payments = ({
   methodPayment,
@@ -10,8 +11,9 @@ const Payments = ({
   selectedPlan,
   setAddressVisible,
 }) => {
-  const { getPlanPrice } = usePlans(selectedPlan);
-  const planPrice = Number(getPlanPrice(selectedPlan));
+  const { plans } = React.useContext(PlansContext);
+  const plan = plans.find((plan) => plan._id === selectedPlan);
+  const price = plan.price.replace(',', '.');
 
   function handlePaymentChange({ target }) {
     setMethodPayment(target.value);
@@ -39,8 +41,8 @@ const Payments = ({
           <strong>Pix (5% de desconto)</strong>
           {selectedPlan && (
             <span>
-              <span className={styles.discount}>R$ {fixedNumber(planPrice)}</span>
-              R$ {fixedNumber(planPrice * 0.95)}
+              <span className={styles.discount}>{currencyFormat(price)}</span>
+              {currencyFormat(price * 0.95)}
             </span>
           )}
         </label>
@@ -63,13 +65,11 @@ const Payments = ({
         />
         <label className={styles.label} htmlFor="credit_card">
           <strong>Cartão de Crédito</strong>
-          {selectedPlan && (
-            <span>até 12x de R$ {fixedNumber(planPrice / 12)}</span>
-          )}
+          {selectedPlan && <span>até 12x de {currencyFormat(price / 12)}</span>}
         </label>
         <div className={styles.instructions}>
           {methodPayment === 'credit_card' && (
-            <CreditCard price={planPrice} fields={fields} />
+            <CreditCard price={price} fields={fields} />
           )}
         </div>
       </div>
@@ -94,6 +94,6 @@ const Payments = ({
       </div>
     </div>
   );
-}
+};
 
-export default Payments
+export default Payments;
