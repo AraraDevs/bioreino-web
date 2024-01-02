@@ -5,15 +5,15 @@ import { ReactComponent as Arrow } from 'src/Assets/seta.svg';
 import Plans from './Plans';
 import Categories from './Categories';
 
-const Filters = ({ plan, setPlan, user }) => {
+const Filters = ({ selectedPlan, setSelectedPlan, user }) => {
   const ArrowElement = React.useMemo(() => <Arrow />, []);
 
   return (
     <div className={styles.filter}>
       <p>Filtrar por</p>
-      <Plans selectedPlan={plan} setSelectedPlan={setPlan} user={user} />
+      <Plans selectedPlan={selectedPlan} setSelectedPlan={setSelectedPlan} user={user} />
       {ArrowElement}
-      <Categories selectedPlan={plan} />
+      <Categories selectedPlan={selectedPlan} />
     </div>
   );
 };
