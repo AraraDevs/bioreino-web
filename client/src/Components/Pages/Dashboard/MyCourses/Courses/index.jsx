@@ -4,28 +4,26 @@ import Item from './Item';
 import { CoursesContext } from 'Context/Courses';
 import useCategoriesContext from 'Hooks/useCategoriesContext';
 
-const Courses = ({ plan }) => {
+const Courses = ({ selectedPlan }) => {
   const { courses, loading } = React.useContext(CoursesContext);
   const { selectedCategory } = useCategoriesContext();
   const [filter, setFilter] = React.useState([]);
 
-  const filteredCourses = React.useCallback(
-    (plan) => {
-      if (!selectedCategory?.value) {
-        return courses.filter((course) => course.category.plan === plan);
-      }
-      return courses.filter((course) => {
-        const filterByPlan = selectedCategory?.plan === plan;
-        const filterByCategory = course.category._id === selectedCategory?._id;
+  const filterCourses = React.useCallback(
+    (plan) =>
+      courses.filter((course) => {
+        if (!selectedCategory.value) return course.category.plan === plan;
+
+        const filterByPlan = selectedCategory.plan === plan;
+        const filterByCategory = course.category._id === selectedCategory._id;
         return filterByPlan && filterByCategory;
-      });
-    },
+      }),
     [courses, selectedCategory],
   );
 
   React.useEffect(() => {
-    setFilter(filteredCourses(plan));
-  }, [courses, plan, filteredCourses]);
+    setFilter(filterCourses(selectedPlan));
+  }, [courses, selectedPlan, filterCourses]);
 
   if (loading) return <p>Carregando...</p>;
   return (
