@@ -1,9 +1,10 @@
+import React from 'react';
 import styles from './Subscribe.module.css';
 import Card from './Card';
-import usePlans from 'Hooks/usePlans';
+import { PlansContext } from 'Context/Plans';
 
 const Subscribe = () => {
-  const { allPlans } = usePlans();
+  const { plans } = React.useContext(PlansContext);
 
   return (
     <section id="inscreva" className={`container sectionSpacing`}>
@@ -13,8 +14,8 @@ const Subscribe = () => {
       </p>
 
       <div className={styles.wrapper}>
-        {allPlans.map(({ name, benefits, price }) => (
-          <Card key={name} title={name} benefits={benefits} price={price} />
+        {plans.map((plan) => (
+          <Card key={plan._id} {...plan} />
         ))}
       </div>
     </section>
