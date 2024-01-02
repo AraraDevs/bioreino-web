@@ -1,6 +1,9 @@
 const Student = require('../models/Student');
+
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+
+const ObjectId = require('mongoose').Types.ObjectId;
 
 // helpers
 const createUserToken = require('../helpers/create-user-token');
@@ -19,6 +22,12 @@ class UserController {
     // create a password
     const salt = bcrypt.genSaltSync(10);
     const passwordHash = bcrypt.hashSync(password, salt);
+
+    // check if id is valid
+    const isValidId = ObjectId.isValid(plan);
+    if (!isValidId) {
+      return res.status(422).json({ message: 'ID inválido!' });
+    }
 
     // create a user
     const savedUser = new Student({
