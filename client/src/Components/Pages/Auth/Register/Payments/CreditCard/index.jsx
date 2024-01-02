@@ -1,26 +1,27 @@
 import Input from 'Components/Forms/Input';
 import FieldSplit from 'Components/Layout/FieldSplit';
-import fixedNumber from 'Components/Helper/fixedNumber';
+import currentFormat from 'Components/Helper/currencyFormat';
 import Select from 'Components/Forms/Select';
+import React from 'react';
 
-function setInstallments(price) {
+function getInstallments(price) {
   const installments = [];
 
-  if (price) {
-    for (let i = 1; i <= 12; i++) {
-      const truncatedNumber = Math.floor((price / i) * 100) / 100;
-      installments.push(
-        `${i}x de R$ ${fixedNumber(truncatedNumber).replace('.', ',')}`,
-      );
-    }
-
-    return installments;
+  for (let i = 1; i <= 12; i++) {
+    const truncatedNumber = Math.floor((price / i) * 100) / 100;
+    installments.push(`${i}x de ${currentFormat(truncatedNumber)}`);
   }
-  return [];
+
+  return installments;
 }
 
 const CreditCard = ({ price, fields }) => {
-  const installments = setInstallments(price);
+  const [installments, setInstallments] = React.useState([]);
+
+  React.useEffect(() => {
+    const newInstallments = getInstallments(price);
+    setInstallments(newInstallments);
+  }, [price]);
 
   return (
     <>
