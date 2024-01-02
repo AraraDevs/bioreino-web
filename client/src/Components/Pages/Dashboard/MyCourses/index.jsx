@@ -9,23 +9,23 @@ import useCategoriesContext from 'Hooks/useCategoriesContext';
 const MyCourses = () => {
   const { data: user } = React.useContext(UserContext);
   const { resetSelectedCategory } = useCategoriesContext();
-  const [plan, setPlan] = React.useState(
+  const [selectedPlan, setSelectedPlan] = React.useState(
     window.sessionStorage.getItem('planFilter') || user.plan,
   );
 
   React.useEffect(() => {
-    window.sessionStorage.setItem('planFilter', plan);
-  }, [plan]);
+    window.sessionStorage.setItem('planFilter', selectedPlan);
+  }, [selectedPlan]);
 
   React.useEffect(() => {
     resetSelectedCategory();
-  }, [plan, resetSelectedCategory]);
+  }, [selectedPlan, resetSelectedCategory]);
 
   return (
     <section className={`container ${styles.section}`}>
       <Title>Meus cursos</Title>
-      <Filters plan={plan} setPlan={setPlan} user={user} />
-      <Courses plan={plan} />
+      <Filters selectedPlan={selectedPlan} setSelectedPlan={setSelectedPlan} user={user} />
+      <Courses selectedPlan={selectedPlan} />
     </section>
   );
 };
