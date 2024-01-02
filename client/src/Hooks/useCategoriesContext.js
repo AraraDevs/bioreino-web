@@ -6,7 +6,7 @@ export default function useCategoriesContext() {
     React.useContext(CategoriesContext);
 
   const resetSelectedCategory = React.useCallback(() => {
-    setSelectedCategory(null);
+    setSelectedCategory({});
   }, [setSelectedCategory]);
 
   function filterCategory(id) {

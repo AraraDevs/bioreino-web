@@ -7,7 +7,7 @@ CategoriesContext.displayName = 'Categories';
 
 export default function CategoriesProvider({ children }) {
   const [categories, setCategories] = React.useState([]);
-  const [selectedCategory, setSelectedCategory] = React.useState(null);
+  const [selectedCategory, setSelectedCategory] = React.useState({});
 
   React.useEffect(() => {
     async function getCategories() {
