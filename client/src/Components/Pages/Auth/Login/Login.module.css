@@ -1,7 +1,7 @@
 .login {
   width: 100%;
   min-height: 100vh;
-  background: url('../../../../Assets/bg-login.jpg') no-repeat center;
+  background: url('/images/bg-login.jpg') no-repeat center;
   background-size: cover;
   display: flex;
   justify-content: center;
