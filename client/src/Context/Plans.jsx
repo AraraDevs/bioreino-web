@@ -2,6 +2,7 @@ import React from 'react';
 import { PLANS_GET } from '../api';
 
 export const PlansContext = React.createContext();
+PlansContext.displayName = 'Planos de assinatura';
 
 export default function PlansProvider({ children }) {
   const [plans, setPlans] = React.useState();
