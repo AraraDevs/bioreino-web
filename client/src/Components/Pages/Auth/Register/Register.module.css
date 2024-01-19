@@ -20,29 +20,6 @@
   padding: 0 0.625rem;
 }
 
-.form > div:nth-last-child(2) {
-  margin-bottom: 1.5rem;
-}
-
-.total {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 1.5rem;
-}
-
-.total > h2 {
-  margin: 0;
-  font-size: var(--font-3);
-  text-transform: uppercase;
-}
-
-.total span {
-  font-family: var(--first-type);
-  font-size: var(--font-3);
-  font-weight: 500;
-}
-
 @media (max-width: 535px) {
   .title {
     font-size: 1.25rem;
