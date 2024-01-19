@@ -1,9 +1,0 @@
-.address > div:last-child > div:last-child {
-  margin-bottom: 0;
-}
-
-@media (min-width: 590px) {
-  .address > div:last-child > div {
-    margin-bottom: 0;
-  }
-}
