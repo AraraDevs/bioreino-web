@@ -32,11 +32,11 @@ const Lesson = () => {
 
   const lessons = React.useMemo(
     () => currentCourse?.lessons || [],
-    [currentCourse?.lessons],
+    [currentCourse?.lessons]
   );
   const [currentLesson, nextLesson] = getCurrentAndNextLesson(
     lessons,
-    slugLesson,
+    slugLesson
   );
 
   React.useEffect(() => {
@@ -52,8 +52,8 @@ const Lesson = () => {
       });
 
       updateCoursesProgress({
-        courseTitle: currentCourse.title,
-        lessonTitle: currentLesson.title,
+        courseData: currentCourse,
+        lessonData: currentLesson,
       });
     }
   }, [
