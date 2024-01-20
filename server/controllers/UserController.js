@@ -1,4 +1,5 @@
 const Student = require('../models/Student');
+const Course = require('../models/Course');
 
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -41,8 +42,8 @@ class UserController {
       await savedUser.save();
 
       res.status(201).json({ message: 'Usuário criado com sucesso!' });
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.log(error);
 
       res.status(500).json({
         message: 'Aconteceu um erro inesperado, tente novamente mais tarde!',
@@ -211,39 +212,96 @@ class UserController {
     }
   }
 
+  static async newCourseProgress(userId, courseId) {
+    // get updated student data
+    const studentUpdated = await Student.findById(userId);
+    const courseUpdated = studentUpdated.coursesProgress.find(
+      (course) => course._id.toString() === courseId.toString()
+    );
+
+    const totalLessonViewed = courseUpdated.lessonsViewed.length;
+    // all course lessons
+    const course = await Course.findById(courseUpdated._id);
+
+    const totalOfLessons = course.lessons.length;
+    const progress = Math.round((totalLessonViewed / totalOfLessons) * 100);
+
+    return progress;
+  }
+
+  static async addCourseToProgress(userId, course, lesson) {
+    await Student.findByIdAndUpdate(userId, {
+      $push: {
+        coursesProgress: {
+          _id: course._id,
+          title: course.title,
+          progress: 0,
+          lessonsViewed: lesson._id,
+        },
+      },
+    });
+  }
+
+  static async addLessonToCourse(userId, course, lesson) {
+    await Student.updateOne(
+      { _id: userId, 'coursesProgress._id': course._id },
+      {
+        $push: {
+          'coursesProgress.$.lessonsViewed': lesson._id,
+        },
+      }
+    );
+  }
+
+  static async updateProgress(userId, course) {
+    const newProgress = await UserController.newCourseProgress(
+      userId,
+      course._id
+    );
+
+    await Student.updateOne(
+      { _id: userId, 'coursesProgress._id': course._id },
+      {
+        $set: {
+          'coursesProgress.$.progress': newProgress,
+        },
+      }
+    );
+  }
+
   static async updateCoursesProgress(req, res) {
-    const { courseTitle, lessonTitle } = req.body;
+    const { courseData, lessonData } = req.body;
     const userId = req.user.id;
 
     try {
       const studentSaved = await Student.findById(userId);
+      // checks if the student already has the course in coursesProgress
+      const course = studentSaved.coursesProgress.find(
+        (course) => course._id.toString() === courseData._id.toString()
+      );
 
-      const coursesProgress = studentSaved.coursesProgress;
-
-      // checks if the student has coursesProgress
-      if (!coursesProgress || !coursesProgress[courseTitle]) {
-        await Student.findByIdAndUpdate(userId, {
-          [`coursesProgress.${courseTitle}`]: [lessonTitle],
-        });
-        return res
-          .status(201)
-          .json({ message: 'Adicionado progresso de curso' });
+      if (course) {
+        const lessonExists = course.lessonsViewed.some((lesson) =>
+          lesson.equals(lessonData._id)
+        );
+        if (!lessonExists) {
+          await UserController.addLessonToCourse(
+            userId,
+            courseData,
+            lessonData
+          );
+          UserController.updateProgress(userId, courseData);
+        }
+      } else {
+        await UserController.addCourseToProgress(
+          userId,
+          courseData,
+          lessonData
+        );
+        UserController.updateProgress(userId, courseData);
       }
 
-      // checks if the student already has the lesson saved
-      const lessonExists = coursesProgress[courseTitle].includes(lessonTitle);
-
-      if (lessonExists) {
-        return res
-          .status(200)
-          .json({ message: 'Já existe uma aula semelhante a essa salva' });
-      }
-
-      await Student.findByIdAndUpdate(userId, {
-        $push: { [`coursesProgress.${courseTitle}`]: lessonTitle },
-      });
-
-      return res
+      res
         .status(200)
         .json({ message: 'Progresso de curso atualizado com sucesso!' });
     } catch (error) {
