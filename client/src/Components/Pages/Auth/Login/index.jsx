@@ -14,23 +14,16 @@ import { ReactComponent as VisibilityOn } from 'src/Assets/visibility.svg';
 
 const Login = () => {
   const [visiblePassword, setVisiblePassword] = React.useState(false);
-  const initialValue = { email: '', password: '' };
-  const customValidationRules = {
-    email: {
-      regex:
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-      message: 'Preencha um e-mail válido',
-    },
-    password: true,
-  };
-  const fields = useForm(initialValue, customValidationRules);
   const { userLogin, loading, error } = React.useContext(UserContext);
+
+  const email = useForm({ type: 'email' });
+  const password = useForm({ type: 'password' });
 
   function handleSubmit(event) {
     event.preventDefault();
 
-    if (fields.isSubmitValid()) {
-      userLogin(fields.values.email, fields.values.password);
+    if (email.validate() && password.validate()) {
+      userLogin(email.value, password.value);
     }
   }
 
@@ -53,20 +46,13 @@ const Login = () => {
         <section className={styles.sectionForm}>
           <h1 className={styles.loginTitle}>Login</h1>
           <form className={styles.form} onSubmit={handleSubmit}>
-            <Input
-              label="E-mail"
-              type="email"
-              name="email"
-              {...fields}
-              value={fields.values.email}
-            />
+            <Input label="E-mail" type="email" name="email" {...email} />
             <div className={styles.groupPassword}>
               <Input
                 label="Senha"
                 type={visiblePassword ? 'text' : 'password'}
                 name="password"
-                {...fields}
-                value={fields.values.password}
+                {...password}
               />
               <span
                 className={styles.visibility}
