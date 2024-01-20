@@ -1,41 +1,42 @@
 import React from 'react';
 import styles from './Select.module.css';
-import FieldError from '../Helper/FieldError';
+import Label from './Label';
+import FieldError from 'Components/Helper/FieldError';
 
 const Select = ({
   label,
   name,
+  error,
   options,
+  firstOption,
   value,
   onChange,
-  errors,
   isCapitalize,
 }) => {
   return (
-    <>
-      <label htmlFor={name} className={styles.label}>
-        {label}
-      </label>
+    <Label label={label} name={name}>
       <select
         className={`${styles.select} ${isCapitalize ? styles.capitalize : ''} ${
-          errors[name] ? styles.error : ''
+          error && styles.error
         }`}
         name={name}
         id={name}
         value={value}
         onChange={onChange}
       >
-        <option disabled value="">
-          Selecione
-        </option>
+        {firstOption ? (
+          <option disabled value="">
+            {firstOption.length ? firstOption : 'Selecione'}
+          </option>
+        ) : null}
         {options.map((option) => (
-          <option key={option.name || option} value={option.name || option}>
+          <option key={option._id || option} value={option._id || option}>
             {option.name || option}
           </option>
         ))}
       </select>
-      {errors[name] && <FieldError>{errors[name]}</FieldError>}
-    </>
+      {error && <FieldError>{error}</FieldError>}
+    </Label>
   );
 };
 
