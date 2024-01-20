@@ -10,7 +10,7 @@ const Item = ({ course }) => {
   const courseInProgress = data.coursesProgress.find(
     ({ _id }) => _id === course._id
   );
-  const progress = courseInProgress.progress || 0;
+  const progress = courseInProgress?.progress || 0;
 
   if (!data) return null;
   return (
