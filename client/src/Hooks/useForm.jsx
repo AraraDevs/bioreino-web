@@ -1,118 +1,89 @@
 import React from 'react';
 
-const useForm = (
-  initialState,
-  customValidationRules,
-  maxCharacterLimits,
-  formats,
-) => {
-  const [values, setValues] = React.useState(initialState);
-  const [errors, setErrors] = React.useState({});
+const types = {
+  email: {
+    regex:
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+    message: 'Preencha um e-mail válido',
+  },
+  password: {
+    regex: /^.{8,}/,
+    message: 'A senha precisa ter pelo menos 8 caracteres',
+  },
+  cpf: {
+    regex: /^\d{3}\.\d{3}\.\d{3}-\d{2}$/,
+    message: 'Preencha um cpf válido',
+  },
+};
 
-  const validationRules = customValidationRules;
-
-  function validate(values) {
-    const validationErrors = {};
-    const invalidFields = [];
-
-    Object.keys(validationRules).forEach((fieldName) => {
-      const validation = validationRules[fieldName];
-
-      if (validation) {
-        if (values[fieldName] === '') {
-          invalidFields.push(fieldName);
-          validationErrors[fieldName] = 'Preencha este campo';
-        } else if (
-          validation.regex &&
-          !validation.regex.test(values[fieldName])
-        ) {
-          invalidFields.push(fieldName);
-          validationErrors[fieldName] = validation.message;
-        } else if (validation.customValidation) {
-          const customError = validation.customValidation(
-            values[fieldName],
-            values,
-          );
-
-          if (customError) {
-            invalidFields.push(fieldName);
-            validationErrors[fieldName] = customError;
-          }
-        }
-      }
-    });
-    return { validationErrors, invalidFields };
-  }
+const useForm = (input, customValidate, pattern) => {
+  const [value, setValue] = React.useState('');
+  const [error, setError] = React.useState('');
 
   function onChange({ target }) {
-    const { value, name } = target;
-
-    if (maxCharacterLimits && maxCharacterLimits[name]) {
-      if (value.length > maxCharacterLimits[name]) return;
-    }
-
-    const newInputValue = formattedInputs(target);
-    setValues({ ...values, [name]: newInputValue });
-
-    if (errors[name]) {
-      const { validationErrors } = validate({ ...values, [name]: value });
-      setErrors(validationErrors);
-    }
-  }
-
-  function isSubmitValid() {
-    const { validationErrors, invalidFields } = validate(values);
-    setErrors(validationErrors);
-
-    if (Object.keys(validationErrors).length === 0) {
-      return true;
-    } else {
-      const firstErrorField = document.querySelector(
-        `[name="${invalidFields[0]}"]`,
-      );
-      firstErrorField.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      return false;
-    }
-  }
-
-  function formattedInputs(target) {
-    const { value, name } = target;
-
-    const fieldFormatting = formats && formats[name];
-
-    const pattern = fieldFormatting?.pattern;
-
+    let value = target.value;
     if (pattern) {
-      let formattedValue = '';
-      const numericValue = value.replace(/\D/g, '');
-
-      let digitIndex = 0;
-      for (let maskChar of pattern) {
-        if (maskChar === 'X' && digitIndex < numericValue.length) {
-          formattedValue += numericValue[digitIndex];
-          digitIndex++;
-        } else if (maskChar !== 'X' && numericValue[digitIndex]) {
-          formattedValue += maskChar;
-        } else {
-          break;
-        }
-      }
-
-      // Executes the custom formatting method if the fieldFormatting has it
-      if (fieldFormatting.customFormatting) {
-        formattedValue = fieldFormatting.customFormatting(formattedValue);
-      }
-
-      return formattedValue;
+      value = formatter(value);
     }
-    return value;
+    if (error) validate(value);
+    setValue(value);
+  }
+
+  function formatter(value) {
+    const cleanValue = value.replace(/\D/g, '');
+
+    let newValue = '';
+    let digitIndex = 0;
+    for (let i = 0; i < pattern.length; i++) {
+      let maskChar = pattern[i];
+
+      if (maskChar === 'X' && digitIndex < cleanValue.length) {
+        newValue += cleanValue[digitIndex];
+        digitIndex++;
+      } else if (maskChar === value[i]) {
+        newValue += value[i];
+      } else if (maskChar !== 'X' && cleanValue[digitIndex]) {
+        newValue += maskChar;
+      } else {
+        break;
+      }
+    }
+
+    return newValue;
+  }
+
+  function validate(value) {
+    const type = input.type;
+    if (type === false) return true;
+    if (value.length === 0) {
+      setError('Preencha este campo');
+      return false;
+    } else if (types[type] && !types[type].regex.test(value)) {
+      setError(types[type].message);
+      return false;
+    } else {
+      if (customValidate) {
+        const valid = customValidate(value, setError);
+        if (valid === false) return false;
+      }
+
+      setError('');
+      return true;
+    }
+  }
+
+  function scrollToFieldError() {
+    const field = document.querySelector(`[name="${input.name}"]`);
+    field.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
 
   return {
-    values,
+    value,
+    error,
     onChange,
-    errors,
-    isSubmitValid,
+    onBlur: () => validate(value),
+    validate: () => validate(value),
+    scrollToFieldError,
   };
 };
 
