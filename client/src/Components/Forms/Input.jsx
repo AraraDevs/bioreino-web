@@ -6,7 +6,7 @@ const Input = ({
   label,
   type,
   name,
-  errors,
+  error,
   value,
   onChange,
   onBlur,
@@ -19,7 +19,7 @@ const Input = ({
         {label}
       </label>
       <input
-        className={`${styles.input} ${errors[name] ? styles.error : ''}`}
+        className={`${styles.input} ${error ? styles.error : ''}`}
         type={type}
         id={name}
         name={name}
@@ -29,7 +29,7 @@ const Input = ({
         placeholder={placeholder}
         maxLength={max}
       />
-      {errors[name] && <FieldError>{errors[name]}</FieldError>}
+      {error && <FieldError>{error}</FieldError>}
     </div>
   );
 };

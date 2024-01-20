@@ -20,15 +20,20 @@
   font-family: var(--first-type);
 }
 
-.input:hover,
-.input:focus {
+.input:hover:not(.error),
+.input:focus:not(.error) {
   outline: none;
   background: #fff;
   border-color: var(--bg-2);
   box-shadow: 0 0 0 2px rgb(14, 179, 1, 0.5);
 }
 
-.input.error {
+.error {
   border-color: #ff4c2c;
   box-shadow: 0 0 0 2px #ffad9e;
+}
+
+.error:hover,
+.error:focus {
+  background-color: #fff;
 }
