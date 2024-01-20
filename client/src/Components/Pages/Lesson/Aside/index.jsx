@@ -25,7 +25,7 @@ const Aside = ({ menu, setMenu, lessons, currentCourse }) => {
               <Item
                 key={lesson._id}
                 lesson={lesson}
-                courseTitle={currentCourse.title}
+                courseId={currentCourse._id}
               />
             ))}
           </ul>
