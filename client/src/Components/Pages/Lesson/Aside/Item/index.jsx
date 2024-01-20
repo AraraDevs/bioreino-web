@@ -5,18 +5,21 @@ import { ReactComponent as OpenClapperboard } from 'src/Assets/claquete_aberta.s
 import { ReactComponent as ClosedClapperboard } from 'src/Assets/claquete_fechada.svg';
 import { UserContext } from 'Context/User';
 
-const Item = ({ lesson, courseTitle }) => {
+const Item = ({ lesson, courseId }) => {
   const { course: slugCourse } = useParams();
   const { data: user } = React.useContext(UserContext);
+  const [viewed, setViewed] = React.useState(false);
 
-  let lessonViewed = false;
-  if (user?.coursesProgress?.[courseTitle]) {
-    const lessonIsViewed = user.coursesProgress[courseTitle].includes(
-      lesson.title,
+  React.useEffect(() => {
+    const course = user.coursesProgress.find(
+      (course) => course._id === courseId
     );
+    if (course) {
+      const lessonViewed = course.lessonsViewed.includes(lesson._id);
 
-    lessonViewed = lessonIsViewed;
-  }
+      setViewed(lessonViewed);
+    }
+  }, [user, courseId, lesson]);
 
   return (
     <li className={styles.listItem}>
@@ -24,7 +27,7 @@ const Item = ({ lesson, courseTitle }) => {
         to={`/curso/${slugCourse}/${lesson.slug}`}
         className={styles.link}
       >
-        {lessonViewed ? (
+        {viewed ? (
           <ClosedClapperboard className={styles.clapperboard} />
         ) : (
           <OpenClapperboard className={styles.clapperboard} />
