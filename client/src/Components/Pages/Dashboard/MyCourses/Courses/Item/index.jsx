@@ -4,23 +4,13 @@ import { Link } from 'react-router-dom';
 import { UserContext } from 'Context/User';
 import Image from 'Components/Helper/Image';
 
-function setCoursesProgress(user, course) {
-  let progress = 0;
-  if (user.coursesProgress?.[course.title]) {
-    const totalOfLessonsViewed = user.coursesProgress[course.title].length;
-    const totalOfLessonsInTheCourse = course.lessons.length;
-
-    progress = Math.round(
-      (totalOfLessonsViewed / totalOfLessonsInTheCourse) * 100,
-    );
-  }
-  return progress;
-}
-
 const Item = ({ course }) => {
   const { data } = React.useContext(UserContext);
 
-  const progress = setCoursesProgress(data, course);
+  const courseInProgress = data.coursesProgress.find(
+    ({ _id }) => _id === course._id
+  );
+  const progress = courseInProgress.progress || 0;
 
   if (!data) return null;
   return (
