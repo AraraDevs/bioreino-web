@@ -9,21 +9,19 @@ const Courses = ({ selectedPlan }) => {
   const { selectedCategory } = useCategoriesContext();
   const [filter, setFilter] = React.useState([]);
 
-  const filterCourses = React.useCallback(
-    (plan) =>
-      courses.filter((course) => {
+  React.useEffect(() => {
+    function filterCourses(plan) {
+      return courses.filter((course) => {
         if (!selectedCategory.value) return course.category.plan === plan;
 
         const filterByPlan = selectedCategory.plan === plan;
         const filterByCategory = course.category._id === selectedCategory._id;
         return filterByPlan && filterByCategory;
-      }),
-    [courses, selectedCategory],
-  );
+      });
+    }
 
-  React.useEffect(() => {
     setFilter(filterCourses(selectedPlan));
-  }, [courses, selectedPlan, filterCourses]);
+  }, [courses, selectedPlan, selectedCategory]);
 
   if (loading) return <p>Carregando...</p>;
   return (
