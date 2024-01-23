@@ -79,6 +79,7 @@ const useForm = (input, customValidate, pattern) => {
 
   return {
     value,
+    setValue,
     error,
     onChange,
     onBlur: () => validate(value),
