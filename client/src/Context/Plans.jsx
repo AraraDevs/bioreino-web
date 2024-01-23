@@ -5,7 +5,7 @@ export const PlansContext = React.createContext();
 PlansContext.displayName = 'Planos de assinatura';
 
 export default function PlansProvider({ children }) {
-  const [plans, setPlans] = React.useState();
+  const [plans, setPlans] = React.useState([]);
 
   React.useEffect(() => {
     async function getPlans() {
