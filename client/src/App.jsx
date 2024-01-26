@@ -7,6 +7,7 @@ import UserProvider from './Context/User';
 import CoursesProvider from './Context/Courses';
 import CategoriesProvider from './Context/Categories';
 import PlansProvider from './Context/Plans';
+import Modal from 'Components/Layout/Modal';
 
 const Home = React.lazy(() => import('./Components/Pages/Home'));
 const Auth = React.lazy(() => import('./Components/Pages/Auth'));
@@ -31,6 +32,8 @@ function App() {
           <PlansProvider>
             <CoursesProvider>
               <CategoriesProvider>
+                <Modal />
+
                 <React.Suspense fallback={<p>Carregando...</p>}>
                   <Routes>
                     <Route path="/" element={<Home />} />
