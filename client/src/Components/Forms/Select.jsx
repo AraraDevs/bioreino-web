@@ -1,42 +1,60 @@
 import React from 'react';
 import styles from './Select.module.css';
-import Label from './Label';
-import FieldError from 'Components/Helper/FieldError';
+import { MdKeyboardArrowDown, MdKeyboardArrowUp } from 'react-icons/md';
 
 const Select = ({
-  label,
-  name,
-  error,
   options,
-  firstOption,
   value,
-  onChange,
-  isCapitalize,
+  setValue,
+  fullWidth,
+  customArrayMap,
+  ...props
 }) => {
+  const [open, setOpen] = React.useState(false);
+
   return (
-    <Label label={label} name={name}>
-      <select
-        className={`${styles.select} ${isCapitalize ? styles.capitalize : ''} ${
-          error && styles.error
-        }`}
-        name={name}
-        id={name}
-        value={value}
-        onChange={onChange}
-      >
-        {firstOption ? (
-          <option disabled value="">
-            {firstOption.length ? firstOption : 'Selecione'}
-          </option>
-        ) : null}
-        {options.map((option) => (
-          <option key={option._id || option} value={option._id || option}>
-            {option.name || option}
-          </option>
-        ))}
-      </select>
-      {error && <FieldError>{error}</FieldError>}
-    </Label>
+    <button
+      type="button"
+      className={`${styles.ordenador} ${open ? styles.active : ''} ${
+        fullWidth ? styles.fullWidth : ''
+      }`}
+      onClick={() => setOpen(!open)}
+      onBlur={() => setOpen(false)}
+      {...props}
+    >
+      <span>
+        {value}
+
+        {open ? (
+          <MdKeyboardArrowUp size={20} />
+        ) : (
+          <MdKeyboardArrowDown size={20} />
+        )}
+      </span>
+      <ul className={`${styles.options} ${open ? styles.active : ''}`}>
+        {React.useMemo(
+          () =>
+            options.map((option) =>
+              customArrayMap ? (
+                customArrayMap(option, setValue)
+              ) : (
+                <li
+                  key={option._id || option}
+                  className={`${styles.option} ${
+                    value === option.name || value === option
+                      ? styles.active
+                      : ''
+                  }`}
+                  onClick={() => setValue(option._id || option)}
+                >
+                  {option.name || option}
+                </li>
+              )
+            ),
+          [customArrayMap, options, setValue, value]
+        )}
+      </ul>
+    </button>
   );
 };
 
