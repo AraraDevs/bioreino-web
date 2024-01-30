@@ -1,4 +1,4 @@
-.form > div:nth-last-child(2) {
+.form > .spacingbottom {
   margin-bottom: 1.5rem;
 }
 
