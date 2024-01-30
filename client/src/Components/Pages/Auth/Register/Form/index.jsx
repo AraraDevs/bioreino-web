@@ -13,16 +13,18 @@ import Payments from './Payments';
 import Address from './Address';
 import Button from 'Components/Forms/Button';
 import Error from 'Components/Helper/Error';
+import Label from 'Components/Forms/Label';
 
 const Form = () => {
   const { id } = useParams();
   const { plans } = React.useContext(PlansContext);
   const { userLogin } = React.useContext(UserContext);
   const { loading, error, request } = useFetch();
-
   const [addressVisible, setAddressVisible] = React.useState(false);
   const [methodPayment, setMethodPayment] = React.useState('');
-  const [select, setSelect] = React.useState(id || plans[0]._id);
+  const [select, setSelect] = React.useState(
+    () => plans.find((plan) => plan._id === id) || plans[0]
+  );
   const [price, setPrice] = React.useState(0);
 
   const name = useForm({ name: 'name' });
@@ -73,7 +75,7 @@ const Form = () => {
     },
     'XXX'
   );
-  const installments = useForm({ name: 'installments' });
+  const installment = useForm({ name: 'installment' });
   const cep = useForm(
     { name: 'cep' },
     (value, setError) => {
@@ -92,7 +94,7 @@ const Form = () => {
   const state = useForm({ name: 'state' });
 
   React.useEffect(() => {
-    setPrice(plans.find((plan) => plan._id === select).price);
+    setPrice(plans.find((plan) => plan._id === select._id).price);
   }, [plans, select]);
 
   async function handleSubmit(event) {
@@ -106,7 +108,7 @@ const Form = () => {
         holder_name,
         card_validity,
         cvv,
-        installments,
+        installment,
         ...addressFields,
       ],
       boleto: addressFields,
@@ -118,9 +120,7 @@ const Form = () => {
       fieldsToValidate.forEach((field) => formData.push(field));
     }
 
-    const invalidFields = formData.filter(
-      (field) => !field.validate()
-    );
+    const invalidFields = formData.filter((field) => !field.validate());
 
     if (invalidFields.length) {
       const firstField = invalidFields[0];
@@ -130,7 +130,7 @@ const Form = () => {
         name: name.value,
         email: email.value,
         password: password.value,
-        plan: select,
+        plan: select._id,
       });
       const { response } = await request(url, options);
       if (response.ok) userLogin(email.value, password.value);
@@ -152,36 +152,43 @@ const Form = () => {
       <Input label="CPF *" type="text" name="cpf" max="14" {...cpf} />
 
       <Subtitle>Plano de assinatura</Subtitle>
-      <Select
-        label="Selecione um plano *"
-        name="plans"
-        options={plans}
-        isCapitalize={true}
-        value={select}
-        onChange={({ target }) => setSelect(target.value)}
-      />
+      <Label label="Selecione um plano *" name="plans">
+        <Select
+          id="plans"
+          options={plans}
+          value={select.name}
+          setValue={(id) => {
+            const plan = plans.find((plan) => plan._id === id);
+            setSelect(plan);
+          }}
+          fullWidth={true}
+        />
+      </Label>
+
       <div className={styles.total}>
         <h2>Total da compra:</h2>
         <span>{price ? `R$ ${price}` : ''}</span>
       </div>
 
       <Subtitle>Pagamento</Subtitle>
-      <Payments
-        methodPayment={methodPayment}
-        setMethodPayment={setMethodPayment}
-        fields={{
-          card_number,
-          holder_name,
-          card_validity,
-          cvv,
-          installments,
-        }}
-        selectedPlan={select}
-        setAddressVisible={setAddressVisible}
-      />
-      {addressVisible && (
-        <Address fields={{ cep, number, address, neighborhood, city, state }} />
-      )}
+      <div className={methodPayment ? styles.spacingbottom : ''}>
+        <Payments
+          methodPayment={methodPayment}
+          setMethodPayment={setMethodPayment}
+          fields={{
+            card_number,
+            holder_name,
+            card_validity,
+            cvv,
+            installment,
+          }}
+          selectedPlan={select._id}
+          setAddressVisible={setAddressVisible}
+        />
+        {addressVisible && (
+          <Address fields={{ cep, number, address, neighborhood, city, state }} />
+        )}
+      </div>
 
       {loading ? (
         <Button disabled>Finalizar Compra</Button>
