@@ -25,8 +25,9 @@ class UserController {
     const passwordHash = bcrypt.hashSync(password, salt);
 
     // check if id is valid
+    const objectIdRegex = /^[0-9a-fA-F]{24}$/;
     const isValidId = ObjectId.isValid(plan);
-    if (!isValidId) {
+    if (!isValidId || !objectIdRegex.test(plan)) {
       return res.status(422).json({ message: 'ID inválido!' });
     }
 
