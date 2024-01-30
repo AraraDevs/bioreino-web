@@ -22,34 +22,6 @@
   margin: 0 0.75rem;
 }
 
-.filter select {
-  -webkit-appearance: none !important;
-  -moz-appearance: none !important;
-  appearance: none !important;
-  background: var(--contrast-2) url('../../../../../Assets/arrow_down.svg')
-    no-repeat center right 0.75rem;
-  max-width: 160px;
-  width: 100%;
-  text-transform: capitalize;
-  border: 1px solid transparent;
-  border-radius: 0.625rem;
-  padding: 0.5rem 3rem 0.5rem 0.5rem;
-  cursor: pointer;
-  box-shadow: var(--button-shadow);
-}
-
-.filter select:hover,
-.filter select:focus {
-  outline: none;
-  background-color: #fff;
-  border-color: var(--bg-2);
-  box-shadow: 0 0 0 2px rgb(14, 179, 1, 0.5);
-}
-
-.filter select option {
-  font-size: 1rem;
-}
-
 @media (max-width: 450px) {
   .filter .wrapper > svg {
     display: none;
