@@ -11,9 +11,11 @@ const Filters = ({ selectedPlan, setSelectedPlan, user }) => {
   return (
     <div className={styles.filter}>
       <p>Filtrar por</p>
-      <Plans selectedPlan={selectedPlan} setSelectedPlan={setSelectedPlan} user={user} />
-      {ArrowElement}
-      <Categories selectedPlan={selectedPlan} />
+      <div className={styles.wrapper}>
+        <Plans selectedPlan={selectedPlan} setSelectedPlan={setSelectedPlan} user={user} />
+        {ArrowElement}
+        <Categories selectedPlan={selectedPlan} />
+      </div>
     </div>
   );
 };
