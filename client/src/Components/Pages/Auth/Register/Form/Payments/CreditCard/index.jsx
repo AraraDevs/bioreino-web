@@ -1,15 +1,16 @@
 import Input from 'Components/Forms/Input';
 import FieldSplit from 'Components/Layout/FieldSplit';
-import currentFormat from 'Components/Helper/currencyFormat';
+import currencyFormat from 'Components/Helper/currencyFormat';
 import Select from 'Components/Forms/Select';
 import React from 'react';
+import Label from 'Components/Forms/Label';
 
 function getInstallments(price) {
   const installments = [];
 
   for (let i = 1; i <= 12; i++) {
     const truncatedNumber = Math.floor((price / i) * 100) / 100;
-    installments.push(`${i}x de ${currentFormat(truncatedNumber)}`);
+    installments.push(`${i}x de ${currencyFormat(truncatedNumber)}`);
   }
 
   return installments;
@@ -22,6 +23,15 @@ const CreditCard = ({ price, fields }) => {
     const newInstallments = getInstallments(price);
     setInstallments(newInstallments);
   }, [price]);
+
+  React.useEffect(() => {
+    if (
+      installments.length &&
+      !installments.includes(fields.installment.value)
+    ) {
+      fields.installment.setValue(installments[0]);
+    }
+  }, [installments, fields.installment]);
 
   function setValidity(e) {
     const input = fields.card_validity;
@@ -70,13 +80,15 @@ const CreditCard = ({ price, fields }) => {
           {...fields.cvv}
         />
         <div>
-          <Select
-            label="Parcelas"
-            name="installments"
-            options={installments}
-            firstOption={true}
-            {...fields.installments}
-          />
+          <Label label="Parcelas (12x sem juros)" name="installments">
+            <Select
+              id="installments"
+              options={installments}
+              value={fields.installment.value}
+              setValue={(value) => fields.installment.setValue(value)}
+              fullWidth={true}
+            />
+          </Label>
         </div>
       </FieldSplit>
     </>
