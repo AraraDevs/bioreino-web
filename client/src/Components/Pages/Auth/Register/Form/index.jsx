@@ -23,7 +23,7 @@ const Form = () => {
   const [addressVisible, setAddressVisible] = React.useState(false);
   const [methodPayment, setMethodPayment] = React.useState('');
   const [select, setSelect] = React.useState(
-    () => plans.find((plan) => plan._id === id) || plans[0]
+    () => plans.find((plan) => plan.name === id) || plans[0]
   );
   const [price, setPrice] = React.useState(0);
 
@@ -186,7 +186,9 @@ const Form = () => {
           setAddressVisible={setAddressVisible}
         />
         {addressVisible && (
-          <Address fields={{ cep, number, address, neighborhood, city, state }} />
+          <Address
+            fields={{ cep, number, address, neighborhood, city, state }}
+          />
         )}
       </div>
 

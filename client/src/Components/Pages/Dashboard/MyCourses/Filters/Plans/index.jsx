@@ -17,7 +17,7 @@ const Plans = ({ selectedPlan, setSelectedPlan, user }) => {
       textConfirm: 'Vamos nessa!',
       anchor: {
         active: true,
-        href: '/login/inscreva/6577d38d69c149d4293871ec',
+        href: '/login/inscreva/professional',
       },
     });
   }
