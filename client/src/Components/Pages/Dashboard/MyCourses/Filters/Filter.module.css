@@ -2,6 +2,11 @@
   margin-bottom: 2.25rem;
 }
 
+.wrapper {
+  display: flex;
+  align-items: center;
+}
+
 .filter p,
 .filter select {
   font-family: var(--first-type);
@@ -10,20 +15,19 @@
 }
 
 .filter p {
-  margin-bottom: 1rem;;
+  margin-bottom: 1rem;
 }
 
-.filter > svg {
+.filter .wrapper > svg {
   margin: 0 0.75rem;
-  vertical-align: middle;
 }
 
 .filter select {
   -webkit-appearance: none !important;
   -moz-appearance: none !important;
   appearance: none !important;
-  background: var(--contrast-2) url('../../../../../Assets/arrow_down.svg') no-repeat
-  center right 0.75rem;
+  background: var(--contrast-2) url('../../../../../Assets/arrow_down.svg')
+    no-repeat center right 0.75rem;
   max-width: 160px;
   width: 100%;
   text-transform: capitalize;
@@ -46,15 +50,14 @@
   font-size: 1rem;
 }
 
-
 @media (max-width: 450px) {
-  .filter svg {
+  .filter .wrapper > svg {
     display: none;
   }
 
-  .filter select {
-    display: block;
-    max-width: none;
-    margin-top: 1rem;
+  .filter .wrapper {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
   }
 }
