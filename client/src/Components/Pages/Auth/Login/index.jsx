@@ -1,18 +1,19 @@
 import React from 'react';
 import styles from './Login.module.css';
 import Input from 'Components/Forms/Input';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import stylesButton from 'Components/Forms/Button.module.css';
 import useForm from 'Hooks/useForm';
 import { UserContext } from 'Context/User';
 import Error from 'Components/Helper/Error';
-import { ReactComponent as Arrow } from 'src/Assets/arrow.svg';
 import Head from 'Components/Helper/Head';
 
+import { ReactComponent as Arrow } from 'src/Assets/arrow.svg';
 import { ReactComponent as VisibilityOff } from 'src/Assets/visibility-off.svg';
 import { ReactComponent as VisibilityOn } from 'src/Assets/visibility.svg';
 
 const Login = () => {
+  const { login } = React.useContext(UserContext);
   const [visiblePassword, setVisiblePassword] = React.useState(false);
   const { userLogin, loading, error } = React.useContext(UserContext);
 
@@ -27,6 +28,7 @@ const Login = () => {
     }
   }
 
+  if (login) return <Navigate to="/dashboard" />;
   return (
     <section className={styles.login}>
       <Head
