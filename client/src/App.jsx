@@ -31,57 +31,41 @@ function App() {
   return (
     <>
       <BrowserRouter>
-        <PlansProvider>
-          <CategoriesProvider>
-            <Modal />
+        <UserProvider>
+          <PlansProvider>
+            <CategoriesProvider>
+              <Modal />
 
-            <React.Suspense fallback={<p>Carregando...</p>}>
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route
-                  path="/login"
-                  element={
-                    <UserProvider>
-                      <Login />
-                    </UserProvider>
-                  }
-                />
-                <Route
-                  path="/comprar/:plan_name?"
-                  element={
-                    <UserProvider>
-                      <Register />
-                    </UserProvider>
-                  }
-                />
-                <Route
-                  path="/dashboard"
-                  element={
-                    <UserProvider>
+              <React.Suspense fallback={<p>Carregando...</p>}>
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/comprar/:plan_name?" element={<Register />} />
+                  <Route
+                    path="/dashboard"
+                    element={
                       <ProtectedRoute>
                         <CoursesProvider>
                           <Dashboard />
                         </CoursesProvider>
                       </ProtectedRoute>
-                    </UserProvider>
-                  }
-                />
-                <Route
-                  path="/curso/:course/:lesson?"
-                  element={
-                    <UserProvider>
+                    }
+                  />
+                  <Route
+                    path="/curso/:course/:lesson?"
+                    element={
                       <ProtectedRoute>
                         <CoursesProvider>
                           <Lesson />
                         </CoursesProvider>
                       </ProtectedRoute>
-                    </UserProvider>
-                  }
-                />
-              </Routes>
-            </React.Suspense>
-          </CategoriesProvider>
-        </PlansProvider>
+                    }
+                  />
+                </Routes>
+              </React.Suspense>
+            </CategoriesProvider>
+          </PlansProvider>
+        </UserProvider>
       </BrowserRouter>
     </>
   );
