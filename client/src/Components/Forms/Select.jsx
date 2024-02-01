@@ -7,7 +7,7 @@ const Select = ({
   value,
   setValue,
   fullWidth,
-  customArrayMap,
+  customOptionMap,
   ...props
 }) => {
   const [open, setOpen] = React.useState(false);
@@ -35,8 +35,8 @@ const Select = ({
         {React.useMemo(
           () =>
             options.map((option) =>
-              customArrayMap ? (
-                customArrayMap(option, setValue)
+              customOptionMap ? (
+                customOptionMap(option, setValue)
               ) : (
                 <li
                   key={option._id || option}
@@ -51,7 +51,7 @@ const Select = ({
                 </li>
               )
             ),
-          [customArrayMap, options, setValue, value]
+          [customOptionMap, options, setValue, value]
         )}
       </ul>
     </button>
