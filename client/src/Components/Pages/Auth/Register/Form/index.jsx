@@ -104,10 +104,8 @@ const Form = () => {
     }
   }, [plans, select]);
 
-  async function handleSubmit(event) {
-    event.preventDefault();
-
-    const formData = [name, email, password, confirm_password, cpf];
+  function validFields() {
+    const minimumData = [name, email, password, confirm_password, cpf];
     const addressFields = [cep, number, address, neighborhood, city, state];
     const paymentFields = {
       credit_card: [
@@ -122,17 +120,22 @@ const Form = () => {
     };
 
     const fieldsToValidate = paymentFields[methodPayment] || [];
-
-    if (fieldsToValidate.length > 0) {
-      fieldsToValidate.forEach((field) => formData.push(field));
-    }
+    const formData = [...minimumData, ...fieldsToValidate];
 
     const invalidFields = formData.filter((field) => !field.validate());
 
     if (invalidFields.length) {
       const firstField = invalidFields[0];
       firstField.scrollToFieldError();
-    } else {
+      return false;
+    }
+    return true;
+  }
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+
+    if (validFields()) {
       const { url, options } = USER_POST({
         name: name.value,
         email: email.value,
