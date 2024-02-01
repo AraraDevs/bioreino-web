@@ -65,7 +65,7 @@ const Login = () => {
             </div>
             <p className={styles.sign}>
               Ainda não possui um plano assinado?{' '}
-              <Link to="inscreva">Assine aqui</Link>
+              <Link to="/comprar">Assine aqui</Link>
             </p>
 
             {loading ? (

@@ -5,6 +5,8 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import ProtectedRoute from './Components/Helper/ProtectedRoute';
 import Modal from 'Components/Layout/Modal';
+import Register from 'Components/Pages/Auth/Register';
+import Login from 'Components/Pages/Auth/Login';
 
 import UserProvider from './Context/User';
 import CoursesProvider from './Context/Courses';
@@ -12,7 +14,6 @@ import CategoriesProvider from './Context/Categories';
 import PlansProvider from './Context/Plans';
 
 const Home = React.lazy(() => import('./Components/Pages/Home'));
-const Auth = React.lazy(() => import('./Components/Pages/Auth'));
 const Dashboard = React.lazy(() => import('./Components/Pages/Dashboard'));
 const Lesson = React.lazy(() => import('./Components/Pages/Lesson'));
 
@@ -38,10 +39,18 @@ function App() {
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route
-                  path="/login/*"
+                  path="/login"
                   element={
                     <UserProvider>
-                      <Auth />
+                      <Login />
+                    </UserProvider>
+                  }
+                />
+                <Route
+                  path="/comprar/:plan_name?"
+                  element={
+                    <UserProvider>
+                      <Register />
                     </UserProvider>
                   }
                 />
