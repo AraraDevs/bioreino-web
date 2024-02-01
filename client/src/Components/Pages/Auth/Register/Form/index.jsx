@@ -16,15 +16,20 @@ import Error from 'Components/Helper/Error';
 import Label from 'Components/Forms/Label';
 
 const Form = () => {
-  const { id } = useParams();
+  const { plan_name } = useParams();
   const { plans } = React.useContext(PlansContext);
   const { userLogin } = React.useContext(UserContext);
   const { loading, error, request } = useFetch();
   const [addressVisible, setAddressVisible] = React.useState(false);
   const [methodPayment, setMethodPayment] = React.useState('');
-  const [select, setSelect] = React.useState(
-    () => plans.find((plan) => plan.name === id) || plans[0]
+  const [select, setSelect] = React.useState(() =>
+    plans.find((plan) => plan.name === plan_name)
   );
+  React.useEffect(() => {
+    if (select === undefined) {
+      setSelect(plans[0]);
+    }
+  }, [plans, select]);
   const [price, setPrice] = React.useState(0);
 
   const name = useForm({ name: 'name' });
@@ -94,7 +99,9 @@ const Form = () => {
   const state = useForm({ name: 'state' });
 
   React.useEffect(() => {
-    setPrice(plans.find((plan) => plan._id === select._id).price);
+    if (plans.length && select !== undefined) {
+      setPrice(plans.find((plan) => plan._id === select._id).price);
+    }
   }, [plans, select]);
 
   async function handleSubmit(event) {
@@ -137,6 +144,7 @@ const Form = () => {
     }
   }
 
+  if (plans.length === 0 || select === undefined) return null;
   return (
     <form onSubmit={handleSubmit} className={styles.form}>
       <Subtitle>Dados Pessoais</Subtitle>
