@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './Modal.module.css';
-import { MdClose } from 'react-icons/md';
+import What from 'src/Assets/modal/message-what.png';
 import bus from 'Components/Helper/bus';
 import { Link } from 'react-router-dom';
 
@@ -10,16 +10,16 @@ const Modal = () => {
   const [description, setDescription] = React.useState('');
   const [textDeny, setTextDeny] = React.useState('');
   const [textConfirm, setTextConfirm] = React.useState('');
-  const [anchor, setAnchor] = React.useState({ active: false, href: '' });
+  const [href, setHref] = React.useState({ active: false, href: '' });
   const descriptionRef = React.useRef();
 
   React.useEffect(() => {
-    bus.on('modal', ({ title, description, textDeny, textConfirm, anchor }) => {
+    bus.on('modal', ({ title, description, textDeny, textConfirm, href }) => {
       setTitle(title);
       setDescription(description);
-      setTextDeny(textDeny);
-      setTextConfirm(textConfirm);
-      setAnchor(anchor);
+      setTextDeny(textDeny || 'Negar');
+      setTextConfirm(textConfirm || 'Confirmar');
+      setHref(href);
       setVisibility(true);
     });
   }, []);
@@ -43,34 +43,16 @@ const Modal = () => {
       }}
     >
       <div className={styles.modal}>
-        <div className={styles.wrapper}>
-          <h3>{title}</h3>
-          <button
-            className={styles.close}
-            aria-label="Fechar modal"
-            onClick={closeModal}
-          >
-            <MdClose size="1.5em" color="#252525" />
-          </button>
-        </div>
+        <img src={What} alt="O que?" />
+        <h3>{title}</h3>
         <p ref={descriptionRef} className={styles.description}></p>
         <div className={styles.actions}>
+          <Link to={href} className={styles.btnConfirm} onClick={closeModal}>
+            {textConfirm}
+          </Link>
           <button className={styles.btnDeny} onClick={closeModal}>
-            {textDeny || 'Negar'}
+            {textDeny}
           </button>
-          {anchor.active ? (
-            <Link
-              to={anchor.href}
-              className={styles.btnConfirm}
-              onClick={closeModal}
-            >
-              {textConfirm || 'Confirmar'}
-            </Link>
-          ) : (
-            <button className={styles.btnConfirm} onClick={closeModal}>
-              {textConfirm || 'Confirmar'}
-            </button>
-          )}
         </div>
       </div>
     </div>

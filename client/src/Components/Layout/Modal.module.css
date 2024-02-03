@@ -14,126 +14,126 @@
 
 .modal {
   background: #fff;
-  max-width: 560px;
+  max-width: 550px;
   width: 100%;
-  padding: 10px 10px 18px 16px;
+  padding: 2rem;
   border-radius: 1.25em;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   animation: fade 0.3s linear;
 }
 
 @keyframes fade {
   0% {
     transform: translateY(-75px) scale(0.5);
-    opacity: 0.8;
+    opacity: 0.9;
   }
   60% {
     transform: scale(1.05);
+    opacity: 1;
   }
   100% {
     transform: translateY(0) scale(1);
-    opacity: 1;
   }
 }
 
-.wrapper {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 5px;
+.modal img {
+  max-height: 180px;
 }
 
 .modal h3 {
-  font-family: 'Roboto', sans-serif;
-  font-size: 1.5rem;
-  color: #252525;
+  font-family: var(--second-type);
+  font-size: 1.875rem;
+  font-weight: 800;
+  text-align: center;
+  color: #000;
+  margin: 1.5rem 0 0.875rem;
 }
 
-.modal .close {
-  background: none;
-  border: none;
-  padding: 4px;
-  cursor: pointer;
-  width: 1.5em;
-  height: 1.5em;
-  box-sizing: content-box;
+.modal .description {
+  font-family: var(--first-type);
+  font-size: 1.125rem;
+  text-align: center;
+  line-height: 1.4;
 }
 
-.description {
-  font-family: 'Roboto', sans-serif;
-  font-size: 1em;
-  line-height: 1.25;
-  padding-right: 35px;
-  margin: 20px 0 32px;
+.modal .description strong {
+  font-weight: 500;
 }
 
-.actions {
+/* START ACTIONS */
+.modal .actions {
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
+  align-items: center;
   gap: 8px;
   font-family: 'Roboto', sans-serif;
-  padding-right: 25px;
+  font-size: 1rem;
+  font-weight: 500;
+  margin-top: 2rem;
 }
 
-.actions button,
-.actions a {
+.modal .actions button,
+.modal .actions a {
   background: none;
-  padding: 5px 10px;
+  font-family: inherit;
   border: none;
-  border-radius: 3px;
-  min-width: 6.75rem;
   text-align: center;
   cursor: pointer;
 }
 
-.actions .btnDeny {
-  border: 1px solid red;
-  color: #e40707;
+.modal .actions .btnDeny {
+  color: #737373;
+  padding: 0.5rem;
 }
 
-.actions .btnConfirm {
+.modal .actions .btnConfirm {
   background: var(--bg-1);
   color: #fff;
-  border: 1px solid transparent;
-  transition: 0.15s ease-in-out;
+  text-transform: uppercase;
+  border-radius: 1rem;
+  padding: 1rem;
+  letter-spacing: 0.5px;
+  order: 1;
 }
+/* END ACTIONS */
 
-.actions .btnConfirm:hover {
-  background: transparent;
-  color: #000;
-  border-color: var(--bg-1);
-}
-
-@media (max-width: 900px) {
+@media (max-width: 650px) {
   .modal {
-    padding: 15px 10px;
+    padding: 1rem;
   }
 
+  .modal h3 {
+    font-size: 1.5rem;
+  }
+
+  .modal .description {
+    font-size: 1rem;
+  }
+
+  .modal .actions {
+    font-size: 0.875em;
+  }
+}
+
+@media (max-width: 450px) {
   .modal h3 {
     font-size: 1.25rem;
   }
 
-  .actions button,
-  .actions a {
+  .modal .description {
+    font-size: 0.875rem;
+  }
+
+  .modal .actions {
     font-size: 0.875em;
-    padding-right: 5px;
-    padding-left: 5px;
-  }
-}
-
-@media (max-width: 485px) {
-  .modal h3 {
-    font-size: 1rem;
+    flex-direction: column;
   }
 
-  .description {
-    padding-right: 0;
-    margin: 8px 0 20px;
-    font-size: 0.875em;
-  }
-
-  .actions {
-    padding-right: 0;
-    justify-content: center;
+  .modal .actions .btnConfirm {
+    padding: 0.875rem;
+    order: 0;
   }
 }
