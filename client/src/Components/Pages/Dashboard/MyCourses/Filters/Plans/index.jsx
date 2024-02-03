@@ -10,14 +10,11 @@ const Plans = ({ selectedPlan, setSelectedPlan, user }) => {
   const currentPlan = plans.find((plan) => plan._id === selectedPlan);
 
   const modalProperties = {
-    title: 'Aprimorar plano de assinatura',
-    description: `Para ter acesso aos cursos deste plano é necessário aprimorar o seu plano atual <strong>${userPlan.name.toUpperCase()}</strong> para o plano <strong>PROFESSIONAL</strong>. Gostaria de ser redirecionado para a página de cadastro?`,
+    title: 'Um momento, amigo! 🧐',
+    description: `Para ter acesso às aulas do plano <strong>PROFESSIONAL</strong>, você precisa atualizar seu plano atual (<strong>${userPlan.name.toUpperCase()}</strong>)!!`,
     textDeny: 'Deixar pra depois',
-    textConfirm: 'Vamos nessa!',
-    anchor: {
-      active: true,
-      href: '/comprar/professional',
-    },
+    textConfirm: 'Atualizar plano',
+    href: '/comprar/professional',
   };
 
   function handleChange(id) {
