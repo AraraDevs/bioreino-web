@@ -17,7 +17,7 @@ const Card = ({ name, benefits, price }) => {
       </ul>
       <p className={styles.price}>R$ {price}</p>
       <div className={styles.signButton}>
-        <Link to={`/comprar/${name}`} className={stylesButton.button}>
+        <Link to={`/assinar/${name}`} className={stylesButton.button}>
           Assine já!
         </Link>
       </div>

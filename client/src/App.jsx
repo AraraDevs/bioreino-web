@@ -40,7 +40,7 @@ function App() {
                 <Routes>
                   <Route path="/" element={<Home />} />
                   <Route path="/login" element={<Login />} />
-                  <Route path="/comprar/:plan_name?" element={<Register />} />
+                  <Route path="/assinar/:plan_name?" element={<Register />} />
                   <Route
                     path="/dashboard"
                     element={
