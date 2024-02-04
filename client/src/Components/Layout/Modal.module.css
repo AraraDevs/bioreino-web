@@ -97,6 +97,13 @@
   padding: 1rem;
   letter-spacing: 0.5px;
   order: 1;
+  transition: 0.15s ease-in-out;
+}
+
+.modal .actions .btnConfirm:hover,
+.modal .actions .btnConfirm:focus {
+  outline: none;
+  box-shadow: 0 0 8px var(--bg-2);
 }
 /* END ACTIONS */
 
