@@ -1,7 +1,3 @@
-.form > .spacingbottom {
-  margin-bottom: 1.5rem;
-}
-
 .total {
   display: flex;
   justify-content: space-between;

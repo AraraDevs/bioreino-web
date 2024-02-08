@@ -6,7 +6,7 @@ import useForm from 'Hooks/useForm';
 import { UserContext } from 'Context/User';
 import { PlansContext } from 'Context/Plans';
 import { USER_POST } from 'src/api';
-import Subtitle from './Subtitle';
+import Subtitle from '../../Subtitle';
 import Input from 'Components/Forms/Input';
 import Select from 'Components/Forms/Select';
 import Payments from './Payments';
@@ -15,7 +15,7 @@ import Button from 'Components/Forms/Button';
 import Error from 'Components/Helper/Error';
 import Label from 'Components/Forms/Label';
 
-const Form = () => {
+const FormCreate = () => {
   const { plan_name } = useParams();
   const { plans } = React.useContext(PlansContext);
   const { userLogin } = React.useContext(UserContext);
@@ -204,13 +204,15 @@ const Form = () => {
       </div>
 
       {loading ? (
-        <Button disabled>Finalizar Compra</Button>
+        <Button disabled className="marginTop">
+          Finalizar Compra
+        </Button>
       ) : (
-        methodPayment && <Button>Finalizar Compra</Button>
+        methodPayment && <Button className="marginTop">Finalizar Compra</Button>
       )}
       {error && <Error error={error} />}
     </form>
   );
 };
 
-export default Form;
+export default FormCreate;
