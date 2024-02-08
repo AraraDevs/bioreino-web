@@ -27,3 +27,7 @@
   opacity: 0.5;
   cursor: wait;
 }
+
+.marginTop {
+  margin-top: 1.5rem;
+}
