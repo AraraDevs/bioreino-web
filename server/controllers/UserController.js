@@ -1,5 +1,6 @@
 const Student = require('../models/Student');
 const Course = require('../models/Course');
+const Plans = require('../models/Plans');
 
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -26,9 +27,9 @@ class UserController {
 
     // check if id is valid
     const objectIdRegex = /^[0-9a-fA-F]{24}$/;
-    const isValidId = ObjectId.isValid(plan);
-    if (!isValidId || !objectIdRegex.test(plan)) {
-      return res.status(422).json({ message: 'ID inválido!' });
+    const isValidId = ObjectId.isValid(plan) || !objectIdRegex.test(plan);
+    if (!isValidId) {
+      return res.status(422).json({ message: 'Usuário não encontrado!' });
     }
 
     // create a user
@@ -68,6 +69,69 @@ class UserController {
     }
 
     createUserToken(user, req, res);
+  }
+
+  static async editUser(req, res) {
+    const id = req.params.id;
+
+    // check if id is valid
+    const objectIdRegex = /^[0-9a-fA-F]{24}$/;
+    const isValidId = ObjectId.isValid(id) || !objectIdRegex.test(id);
+    if (!isValidId) {
+      return res.status(422).json({ message: 'Usuário não encontrado!' });
+    }
+
+    if (req.user.id !== id) {
+      return res.status(400).json({ message: 'Acesso não autorizado!' });
+    }
+
+    const user = await Student.findOne({ _id: id });
+    if (!user) {
+      return res.status(422).json({ message: 'Usuário não encontrado!' });
+    }
+
+    const { name, email, password, confirm_password, plan } = req.body;
+
+    // validations
+    if (!name) {
+      return res.status(422).json({ message: 'O nome é obrigatório!' });
+    }
+    user.name = name;
+
+    if (!email) {
+      return res.status(422).json({ message: 'O email é obrigatório!' });
+    }
+
+    const userExists = await Student.findOne({ email });
+    if (user.email !== email && userExists) {
+      return res.status(422).json({ message: 'Este email já está em uso!' });
+    }
+    user.email = email;
+
+    if (password !== confirm_password) {
+      return res.status(422).json({ message: 'As senhas não conferem!' });
+    } else if (password && password === confirm_password) {
+      const salt = await bcrypt.genSalt(10);
+      const passwordHash = await bcrypt.hash(password, salt);
+
+      user.password = passwordHash;
+    }
+
+    const planExists = await Plans.findById(plan);
+    if (!plan && !planExists) {
+      return res
+        .status(422)
+        .json({ message: 'O plano de assinatura é obrigatório!' });
+    }
+    user.plan = plan;
+
+    try {
+      await Student.findByIdAndUpdate(user._id, { $set: user }, { new: true });
+
+      res.status(200).json({ message: 'Usuário atualizado com sucesso!' });
+    } catch (error) {
+      res.status(500).json({ message: error });
+    }
   }
 
   static async getUserData(req, res) {

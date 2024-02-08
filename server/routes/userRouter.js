@@ -20,5 +20,6 @@ router.patch(
   verifyToken,
   UserController.updateCoursesProgress,
 );
+router.patch('/edit/:id', verifyToken, UserController.editUser);
 
 module.exports = router;

@@ -54,6 +54,20 @@ export function USER_POST(body) {
   };
 }
 
+export function USER_DATA_PATCH(token, id, body) {
+  return {
+    url: API_URL_USER + `/edit/${id}`,
+    options: {
+      method: 'PATCH',
+      headers: {
+        Authorization: 'Bearer ' + token,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    },
+  };
+}
+
 export function USER_LAST_LESSON_COURSE_PATCH(token, body) {
   return {
     url: API_URL_USER + '/lastcourse',
