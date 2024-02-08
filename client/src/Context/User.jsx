@@ -72,9 +72,9 @@ export default function UserProvider({ children }) {
 
           const { url, options } = LOGIN_VALIDATE_TOKEN(token);
           const response = await fetch(url, options);
-          const json = await response.json();
+          const { message } = await response.json();
 
-          if (!response.ok) throw json.message;
+          if (!response.ok) throw new Error(message);
 
           await getUser(token);
         } catch (err) {
