@@ -1,0 +1,13 @@
+.title {
+  text-align: center;
+  font-weight: 500;
+  line-height: 2.375rem;
+  padding: 0 0.625rem;
+}
+
+@media (max-width: 535px) {
+  .title {
+    font-size: 1.25rem;
+    line-height: 1.875rem;
+  }
+}
