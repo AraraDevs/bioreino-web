@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './Courses.module.css';
 import Item from './Item';
-import { ALL_COURSES_GET } from 'src/api';
+import { COURSES_GET } from 'src/api';
 import useFetch from 'Hooks/useFetch';
 
 const Courses = () => {
@@ -9,7 +9,7 @@ const Courses = () => {
 
   React.useEffect(() => {
     function fetchCourses() {
-      const { url, options } = ALL_COURSES_GET({ limit: 3 });
+      const { url, options } = COURSES_GET(3);
       request(url, options);
     }
     fetchCourses();

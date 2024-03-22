@@ -3,26 +3,16 @@ const User = require('../models/Student');
 
 class CourseController {
   static async courses(req, res) {
-    try {
-      const courses = await Course.find();
+    const { quantity } = req.query;
 
+    try {
+      if (quantity) {
+        return res.status(200).json(await Course.find().limit(quantity));
+      }
+      const courses = await Course.find();
       res.status(200).json(courses);
     } catch (error) {
       res.status(500).json({ message: error });
-    }
-  }
-
-  static async allCourses(req, res) {
-    const { limit } = req.params;
-
-    try {
-      if (limit) return res.status(200).json(await Course.find().limit(limit));
-
-      res.status(200).json(await Course.find());
-    } catch (error) {
-      res.status(500).json({
-        message: 'Aconteceu um erro inesperado, tente novamente mais tarde!',
-      });
     }
   }
 

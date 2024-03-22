@@ -96,18 +96,9 @@ export function USER_COURSES_PROGRESS_PATCH(token, body) {
   };
 }
 
-export function ALL_COURSES_GET({ limit }) {
+export function COURSES_GET(limit = 0) {
   return {
-    url: API_URL_COURSE + `/all/${limit}`,
-    options: {
-      method: 'GET',
-    },
-  };
-}
-
-export function COURSES_GET() {
-  return {
-    url: API_URL_COURSE,
+    url: API_URL_COURSE + `?quantity=${limit}`,
     options: {
       method: 'GET',
       cache: 'no-store',
