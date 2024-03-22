@@ -111,6 +111,7 @@ export function LESSONS_BY_URL_COURSE_GET(courseUrl) {
     url: API_URL_LESSON + '/' + courseUrl,
     options: {
       method: 'GET',
+      cache: 'no-store',
     },
   };
 }
@@ -120,6 +121,7 @@ export function CATEGORIES_GET() {
     url: API_URL_CATEGORY,
     options: {
       method: 'GET',
+      cache: 'no-store',
     },
   };
 }
@@ -129,6 +131,7 @@ export function PLANS_GET() {
     url: API_URL_PLAN,
     options: {
       method: 'GET',
+      cache: 'no-store',
     },
   };
 }
