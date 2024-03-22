@@ -36,7 +36,7 @@ function App() {
             <CategoriesProvider>
               <Modal />
 
-              <React.Suspense fallback={<p>Carregando...</p>}>
+              <React.Suspense fallback={<div></div>}>
                 <Routes>
                   <Route path="/" element={<Home />} />
                   <Route path="/login" element={<Login />} />
