@@ -71,6 +71,49 @@ class UserController {
     createUserToken(user, req, res);
   }
 
+  static async createTemporaryAccount(req, res) {
+    const caracteres = 'abcdefghijklmnopqrstuvwxyz';
+    let email = '';
+    for (let i = 0; i < 10; i++) {
+      const pos = Math.floor(Math.random() * caracteres.length);
+      email += caracteres[pos];
+    }
+    email += '@bioreino.com.br';
+
+    const name = 'Turista Bioreino';
+    let password = '';
+    while (password.length < 12) {
+      password += Math.random().toString(36).substring(2);
+    }
+    password = password.substring(0, 12);
+
+    // plan scholar ID
+    const plan = '6577d2cb69c149d4293871ea';
+
+    // create a password
+    const salt = bcrypt.genSaltSync(10);
+    const passwordHash = bcrypt.hashSync(password, salt);
+
+    const expiresAfter = new Date(Date.now() + 24 * 60 * 60 * 1000);
+    try {
+      const savedUser = new Student({
+        name,
+        email,
+        password: passwordHash,
+        plan,
+        expiresAfter,
+      });
+      await savedUser.save();
+      res
+        .status(201)
+        .json({ email: savedUser.email, password, accessPeriod: expiresAfter });
+    } catch (error) {
+      res
+        .status(400)
+        .json({ message: 'Erro ao criar conta temporária, tente novamente!' });
+    }
+  }
+
   static async editUser(req, res) {
     const id = req.params.id;
 
