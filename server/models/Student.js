@@ -18,7 +18,10 @@ const Student = new mongoose.Schema(
       default: [],
     },
     lastCourse: Object,
-    professor: Boolean,
+    expiresAfter: {
+      type: Date,
+      select: false,
+    },
   },
   { timestamps: true }
 );
