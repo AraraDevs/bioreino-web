@@ -10,4 +10,4 @@ router.post('/create', verifyToken, CourseController.create);
 
 router.get('/', CourseController.courses);
 
-module.exports = router;
+module.exports = router.use('/course', router);

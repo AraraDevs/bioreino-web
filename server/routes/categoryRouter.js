@@ -5,4 +5,4 @@ const CategoryController = require('../controllers/CategoryController');
 
 router.get('/', CategoryController.getCategories);
 
-module.exports = router;
+module.exports = router.use('/category', router);

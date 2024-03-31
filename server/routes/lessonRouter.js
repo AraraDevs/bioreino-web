@@ -8,4 +8,4 @@ const verifyToken = require('../helpers/verify-token');
 
 router.post('/create', verifyToken, LessonController.create);
 
-module.exports = router;
+module.exports = router.use('/lesson', router);

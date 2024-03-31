@@ -23,4 +23,4 @@ router.patch(
 );
 router.patch('/edit/:id', verifyToken, UserController.editUser);
 
-module.exports = router;
+module.exports = router.use('/user', router);

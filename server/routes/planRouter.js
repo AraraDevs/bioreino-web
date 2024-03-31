@@ -5,4 +5,4 @@ const PlanController = require('../controllers/PlanController');
 
 router.get('/', PlanController.getPlans);
 
-module.exports = router;
+module.exports = router.use('/plan', router);
