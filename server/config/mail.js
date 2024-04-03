@@ -1,6 +1,6 @@
 module.exports = {
-  host: 'host.emailsd.com.br',
-  port: 465,
-  user: 'suporte@bioreino.top',
-  pass: 'WkBlS3EQom9B',
+  host: process.env.MAIL_HOST,
+  port: process.env.MAIL_PORT,
+  user: process.env.MAIL_USER,
+  pass: process.env.MAIL_PASSWORD,
 };
