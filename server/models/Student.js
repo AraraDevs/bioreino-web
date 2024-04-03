@@ -18,6 +18,14 @@ const Student = new mongoose.Schema(
       default: [],
     },
     lastCourse: Object,
+    passwordResetToken: {
+      type: String,
+      select: false,
+    },
+    passwordResetExpires: {
+      type: Date,
+      select: false,
+    },
     expiresAfter: {
       type: Date,
       select: false,

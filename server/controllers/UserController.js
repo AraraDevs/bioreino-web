@@ -4,6 +4,8 @@ const Plans = require('../models/Plans');
 
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
+const mailer = require('../modules/mailer');
 
 const ObjectId = require('mongoose').Types.ObjectId;
 
@@ -174,6 +176,85 @@ class UserController {
       res.status(200).json({ message: 'Usuário atualizado com sucesso!' });
     } catch (error) {
       res.status(500).json({ message: error });
+    }
+  }
+
+  static async forgotPassword(req, res) {
+    const { email } = req.body;
+
+    try {
+      const user = await Student.findOne({ email });
+      if (!user)
+        return res.status(400).json({ message: 'Usuário não encontrado' });
+
+      const token = crypto.randomBytes(20).toString('hex');
+      const now = new Date();
+      now.setMinutes(now.getMinutes() + 15);
+      await Student.findByIdAndUpdate(user._id, {
+        $set: {
+          passwordResetToken: token,
+          passwordResetExpires: now,
+        },
+      });
+
+      const mailOptions = {
+        from: 'noreply@bioreino.top',
+        to: email,
+        subject: 'Pedido de resete de senha',
+        template: 'auth/forgot_password',
+        context: { user_email: email },
+      };
+      mailer.sendMail(mailOptions, (err) => {
+        if (err)
+          return res.status(400).send({
+            message: 'Não foi possível enviar e-mail de esqueceu a senha',
+          });
+        return res.json({
+          message: 'E-mail de redefinição de senha enviado com sucesso!',
+        });
+      });
+    } catch (error) {
+      console.log(error);
+      res
+        .status(400)
+        .json({ message: 'Erro no esqueceu a senha, tente novamente!' });
+    }
+  }
+
+  static async resetPassword(req, res) {
+    const { password } = req.body;
+    const { key, email } = req.query;
+
+    try {
+      const user = await Student.findOne({ email }).select(
+        '+passwordResetToken passwordResetExpires'
+      );
+      if (!user)
+        return res.status(400).json({ message: 'Usuário não encontrado' });
+      if (!password)
+        return res.status(400).json({ message: 'É necessário passar a senha' });
+
+      if (key !== user.passwordResetToken)
+        return res.status(400).json({ message: 'Token inválido' });
+
+      const now = new Date();
+      if (now > user.passwordResetExpires)
+        return res.status(400).json({ message: 'Token expirou, gere um novo' });
+
+      // create a password hash
+      const salt = bcrypt.genSaltSync(10);
+      const passwordHash = bcrypt.hashSync(password, salt);
+
+      user.password = passwordHash;
+      user.passwordResetExpires = null;
+      user.passwordResetToken = null;
+
+      await user.save();
+      res.json({ message: 'Senha alterada com sucesso!' });
+    } catch (error) {
+      res
+        .status(400)
+        .json({ message: 'Não foi possível trocar a senha, tente novamente' });
     }
   }
 

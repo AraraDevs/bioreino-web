@@ -9,6 +9,8 @@ const verifyToken = require('../helpers/verify-token');
 router.post('/login', UserController.login);
 router.post('/register', UserController.register);
 router.post('/temporary_account', UserController.createTemporaryAccount);
+router.post('/forgot_password', UserController.forgotPassword);
+router.post('/reset_password', UserController.resetPassword);
 
 router.get('/token/validate', verifyToken, (req, res) => {
   res.status(200).json({ message: 'Token válido!' });
