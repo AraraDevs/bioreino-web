@@ -30,7 +30,7 @@ const ForgotPassword = () => {
           <Input label="Email" type="email" name="email" {...email} />
           {loading ? (
             <button className={stylesBtn.button} disabled>
-              Entrando...
+              Enviando...
             </button>
           ) : (
             <button className={stylesBtn.button}>Enviar Email</button>
