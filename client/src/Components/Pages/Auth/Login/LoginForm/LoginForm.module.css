@@ -32,14 +32,9 @@
 }
 
 .suggestions a {
+  display: inline-block;
   font-family: var(--first-type);
   color: #1812c5;
   text-decoration: underline;
-}
-
-@media (max-width: 1110px) {
-  .loginTitle {
-    font-size: 1.875rem;
-    line-height: 1.625rem;
-  }
+  padding: 0.2rem 0;
 }

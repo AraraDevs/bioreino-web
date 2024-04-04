@@ -49,10 +49,11 @@ const LoginForm = () => {
             {visiblePassword ? <VisibilityOn /> : <VisibilityOff />}
           </span>
         </div>
-        <p></p>
         <p className={styles.suggestions}>
-          Perdeu a Senha? <Link to="/login/perdeu">Clique aqui</Link>. Caso não
-          possua um plano assinado: <Link to="/assinar">Assine aqui</Link>.
+          Perdeu a Senha? <Link to="/login/perdeu">Clique aqui</Link>.
+        </p>
+        <p className={styles.suggestions}>
+          Não possui um plano assinado? <Link to="/assinar">Assine aqui</Link>.
         </p>
 
         {loading ? (

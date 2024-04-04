@@ -4,10 +4,10 @@ import LoginForm from './LoginForm';
 import { Route, Routes, Navigate, Link } from 'react-router-dom';
 import { UserContext } from 'Context/User';
 import ForgotPassword from './ForgotPassword';
-
-import { ReactComponent as Arrow } from 'src/Assets/arrow.svg';
-import { ReactComponent as Scientist } from 'src/Assets/login-cientista.svg';
 import ResetPassword from './ResetPassword';
+
+import { ReactComponent as Scientist } from 'src/Assets/login-cientista.svg';
+import { ReactComponent as Arrow } from 'src/Assets/arrow.svg';
 
 const Login = () => {
   const { login } = React.useContext(UserContext);
