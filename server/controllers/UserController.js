@@ -185,7 +185,7 @@ class UserController {
     try {
       const user = await Student.findOne({ email });
       if (!user)
-        return res.status(400).json({ message: 'Usuário não encontrado' });
+        return res.status(400).json({ message: 'Usuário não encontrado.' });
 
       const token = crypto.randomBytes(20).toString('hex');
       const now = new Date();
@@ -198,16 +198,16 @@ class UserController {
       });
 
       const mailOptions = {
-        from: 'noreply@bioreino.top',
+        from: 'Bioreino noreply@bioreino.top',
         to: email,
         subject: 'Pedido de resete de senha',
         template: 'auth/forgot_password',
-        context: { user_email: email },
+        context: { user_email: email, token },
       };
       mailer.sendMail(mailOptions, (err) => {
         if (err)
           return res.status(400).send({
-            message: 'Não foi possível enviar e-mail de esqueceu a senha',
+            message: 'Não foi possível enviar e-mail de esqueceu a senha.',
           });
         return res.json({
           message: 'E-mail de redefinição de senha enviado com sucesso!',
@@ -230,16 +230,20 @@ class UserController {
         '+passwordResetToken passwordResetExpires'
       );
       if (!user)
-        return res.status(400).json({ message: 'Usuário não encontrado' });
+        return res.status(400).json({ message: 'Usuário não encontrado.' });
       if (!password)
-        return res.status(400).json({ message: 'É necessário passar a senha' });
+        return res
+          .status(400)
+          .json({ message: 'É necessário passar a senha.' });
 
       if (key !== user.passwordResetToken)
-        return res.status(400).json({ message: 'Token inválido' });
+        return res.status(400).json({ message: 'Token inválido.' });
 
       const now = new Date();
       if (now > user.passwordResetExpires)
-        return res.status(400).json({ message: 'Token expirou, gere um novo' });
+        return res
+          .status(400)
+          .json({ message: 'Token expirou, gere um novo.' });
 
       // create a password hash
       const salt = bcrypt.genSaltSync(10);
@@ -254,7 +258,7 @@ class UserController {
     } catch (error) {
       res
         .status(400)
-        .json({ message: 'Não foi possível trocar a senha, tente novamente' });
+        .json({ message: 'Não foi possível trocar a senha, tente novamente.' });
     }
   }
 
@@ -288,7 +292,7 @@ class UserController {
       if (!userLastCourse)
         return res
           .status(200)
-          .json({ message: 'Nenhum curso e aula foram acessados no momento' });
+          .json({ message: 'Nenhum curso foi acessado no momento.' });
 
       res.status(200).json(userLastCourse);
     } catch (error) {
@@ -309,7 +313,7 @@ class UserController {
       if (!coursesProgress)
         return res
           .status(200)
-          .json({ message: 'Nenhum curso foi acessado no momento' });
+          .json({ message: 'Nenhum curso foi acessado no momento.' });
 
       res.status(200).json(coursesProgress);
     } catch (error) {
