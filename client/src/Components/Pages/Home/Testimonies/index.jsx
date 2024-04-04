@@ -16,7 +16,7 @@ const Testimonies = () => {
       </p>
 
       <div className={`${styles.testimonies} container`}>
-        <Testimony src={Student1} name="Sophia Moteki">
+        <Testimony src={Student1} name="Cecília Carvalho">
           Meus filhos adoraram! O que antes era uma matéria complicada, com esta
           plataforma se tornou algo divertido e prazeroso de aprender 😊
         </Testimony>
