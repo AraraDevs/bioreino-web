@@ -54,6 +54,32 @@ export function USER_POST(body) {
   };
 }
 
+export function FORGOT_PASSWORD_POST(body) {
+  return {
+    url: API_URL_USER + '/forgot_password',
+    options: {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    },
+  };
+}
+
+export function RESET_PASSWORD_POST(key, email, body) {
+  return {
+    url: API_URL_USER + `/reset_password/?key=${key}&email=${email}`,
+    options: {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    },
+  };
+}
+
 export function USER_DATA_PATCH(token, id, body) {
   return {
     url: API_URL_USER + `/edit/${id}`,

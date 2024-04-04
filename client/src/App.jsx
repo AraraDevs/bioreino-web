@@ -39,7 +39,7 @@ function App() {
               <React.Suspense fallback={<div></div>}>
                 <Routes>
                   <Route path="/" element={<Home />} />
-                  <Route path="/login" element={<Login />} />
+                  <Route path="/login/*" element={<Login />} />
                   <Route path="/assinar/:plan_name?" element={<Register />} />
                   <Route
                     path="/dashboard"
