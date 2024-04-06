@@ -210,7 +210,7 @@ class UserController {
             message: 'Não foi possível enviar e-mail de esqueceu a senha.',
           });
         return res.json({
-          message: 'E-mail de redefinição de senha enviado com sucesso!',
+          message: 'E-mail de redefinição de senha enviado com sucesso! Por favor, verifique sua caixa de spam.',
         });
       });
     } catch (error) {
