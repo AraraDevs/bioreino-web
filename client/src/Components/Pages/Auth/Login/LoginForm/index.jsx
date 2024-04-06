@@ -30,7 +30,7 @@ const LoginForm = () => {
         description="Acesse sua conta para ter acesso aos cursos que oferecemos sobre biologia"
       />
       <h1>Login</h1>
-      <form className={styles.form} onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit}>
         <Input label="E-mail" type="email" name="email" {...email} />
         <InputPasswordVisibility label="Senha" passwordFormProps={password} />
         <p className={styles.suggestions}>
