@@ -24,7 +24,7 @@ const ForgotPassword = () => {
       <Head title="Esqueceu a Senha" description="Troque sua senha" />{' '}
       <h1>Perdeu a senha?</h1>
       {data ? (
-        <p style={{ color: 'rgb(68, 204, 17)' }}>{data.message}</p>
+        <p style={{ color: 'rgb(68, 204, 17)', textAlign: 'center' }}>{data.message}</p>
       ) : (
         <form>
           <Input label="Email" type="email" name="email" {...email} />
