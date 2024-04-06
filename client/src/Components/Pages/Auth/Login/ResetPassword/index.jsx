@@ -39,23 +39,19 @@ const ResetPassword = () => {
     <section className="animeLeft" onSubmit={handleSubmit}>
       <Head title="Resete sua Senha" description="A senha será resetada" />{' '}
       <h1>Resete a Senha</h1>
-      {data ? (
-        <p style={{ color: 'rgb(68, 204, 17)' }}>{data.message}</p>
-      ) : (
-        <form>
-          <InputPasswordVisibility
-            label="Nova senha"
-            passwordFormProps={password}
-          />
-          {loading ? (
-            <button className={stylesBtn.button} disabled>
-              Resetando...
-            </button>
-          ) : (
-            <button className={stylesBtn.button}>Resetar</button>
-          )}
-        </form>
-      )}
+      <form>
+        <InputPasswordVisibility
+          label="Nova senha"
+          passwordFormProps={password}
+        />
+        {loading ? (
+          <button className={stylesBtn.button} disabled>
+            Resetando...
+          </button>
+        ) : (
+          <button className={stylesBtn.button}>Resetar</button>
+        )}
+      </form>
       <Error error={error} />
     </section>
   );
