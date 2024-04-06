@@ -7,6 +7,7 @@ import Input from 'Components/Forms/Input';
 import Error from 'Components/Helper/Error';
 import { RESET_PASSWORD_POST } from 'src/api';
 import { useNavigate } from 'react-router-dom';
+import InputPasswordVisibility from 'Components/Layout/InputPasswordVisibility';
 
 const ResetPassword = () => {
   const password = useForm({ type: 'password' });
@@ -42,11 +43,9 @@ const ResetPassword = () => {
         <p style={{ color: 'rgb(68, 204, 17)' }}>{data.message}</p>
       ) : (
         <form>
-          <Input
+          <InputPasswordVisibility
             label="Nova senha"
-            type="password"
-            name="password"
-            {...password}
+            passwordFormProps={password}
           />
           {loading ? (
             <button className={stylesBtn.button} disabled>

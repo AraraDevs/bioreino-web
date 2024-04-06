@@ -7,12 +7,9 @@ import useForm from 'Hooks/useForm';
 import { UserContext } from 'Context/User';
 import Error from 'Components/Helper/Error';
 import Head from 'Components/Helper/Head';
-
-import { ReactComponent as VisibilityOff } from 'src/Assets/visibility-off.svg';
-import { ReactComponent as VisibilityOn } from 'src/Assets/visibility.svg';
+import InputPasswordVisibility from 'Components/Layout/InputPasswordVisibility';
 
 const LoginForm = () => {
-  const [visiblePassword, setVisiblePassword] = React.useState(false);
   const { userLogin, loading, error } = React.useContext(UserContext);
 
   const email = useForm({ type: 'email' });
@@ -35,20 +32,7 @@ const LoginForm = () => {
       <h1>Login</h1>
       <form className={styles.form} onSubmit={handleSubmit}>
         <Input label="E-mail" type="email" name="email" {...email} />
-        <div className={styles.groupPassword}>
-          <Input
-            label="Senha"
-            type={visiblePassword ? 'text' : 'password'}
-            name="password"
-            {...password}
-          />
-          <span
-            className={styles.visibility}
-            onClick={() => setVisiblePassword(!visiblePassword)}
-          >
-            {visiblePassword ? <VisibilityOn /> : <VisibilityOff />}
-          </span>
-        </div>
+        <InputPasswordVisibility label="Senha" passwordFormProps={password} />
         <p className={styles.suggestions}>
           Perdeu a Senha? <Link to="/login/perdeu">Clique aqui</Link>.
         </p>
