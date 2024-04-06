@@ -230,7 +230,7 @@ class UserController {
         '+passwordResetToken passwordResetExpires'
       );
       if (!user)
-        return res.status(400).json({ message: 'Usuário não encontrado.' });
+        return res.status(400).json({ message: 'Usuário não encontrado, tente novamente.' });
       if (!password)
         return res
           .status(400)
