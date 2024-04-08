@@ -1,6 +1,5 @@
 import React from 'react';
 import './App.css';
-import ReactGA from 'react-ga4';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import ProtectedRoute from 'Components/Helper/ProtectedRoute';
@@ -17,17 +16,7 @@ const Home = React.lazy(() => import('Components/Pages/Home'));
 const Dashboard = React.lazy(() => import('Components/Pages/Dashboard'));
 const Lesson = React.lazy(() => import('Components/Pages/Lesson'));
 
-const TRACKING_ID = 'G-9CX73DLPH8';
-ReactGA.initialize(TRACKING_ID);
-
 function App() {
-  React.useEffect(() => {
-    ReactGA.send({
-      hitType: 'pageview',
-      page: window.location.pathname + window.location.search,
-    });
-  }, []);
-
   return (
     <>
       <BrowserRouter>
