@@ -15,7 +15,7 @@ const Plans = ({ selectedPlan, setSelectedPlan, user }) => {
     desc: `Para ter acesso às aulas do plano <strong>PROFESSIONAL</strong>, você precisa atualizar seu plano atual (<strong>${userPlan.name.toUpperCase()}</strong>)!!`,
     txtDeny: 'Deixar pra depois',
     txtConfirm: 'Atualizar plano',
-    href: '/assinar/professional',
+    href: '/assinar',
   };
 
   function handleChange(id) {
