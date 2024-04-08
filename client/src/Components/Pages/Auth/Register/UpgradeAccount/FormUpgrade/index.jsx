@@ -2,7 +2,7 @@ import React from 'react';
 import { PlansContext } from 'Context/Plans';
 import Label from 'Components/Forms/Label';
 import Select from 'Components/Forms/Select';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Payments from '../../CreateAccount/FormCreate/Payments';
 import useForm from 'Hooks/useForm';
 import Address from '../../CreateAccount/FormCreate/Address';
@@ -14,16 +14,20 @@ import { UserContext } from 'Context/User';
 import { USER_DATA_PATCH } from 'src/api';
 
 const FormUpgrade = () => {
-  const { plan_name } = useParams();
   const navigate = useNavigate();
+  const { data: user } = React.useContext(UserContext);
   const { plans } = React.useContext(PlansContext);
   const { loading, error, request } = useFetch();
-  const { data: user } = React.useContext(UserContext);
-  const [select, setSelect] = React.useState(
-    plans.find((plan) => plan.name === plan_name)
-  );
+
   const [methodPayment, setMethodPayment] = React.useState('');
   const [addressVisible, setAddressVisible] = React.useState(false);
+
+  const plansFiltered = React.useMemo(
+    () => plans.filter((plan) => plan._id !== user.plan),
+    [plans, user.plan]
+  );
+
+  const [select, setSelect] = React.useState(plansFiltered[0]);
 
   const card_number = useForm(
     { name: 'card_number' },
@@ -125,7 +129,7 @@ const FormUpgrade = () => {
       <Label label={`Plano ${select.name} selecionado!`} name="plans">
         <Select
           id="plans"
-          options={[select]}
+          options={plansFiltered}
           value={select.name}
           setValue={(id) => {
             const plan = plans.find((plan) => plan._id === id);
