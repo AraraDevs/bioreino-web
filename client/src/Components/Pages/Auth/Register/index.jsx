@@ -9,13 +9,14 @@ import CreateAccount from './CreateAccount';
 
 const Register = () => {
   const { plans } = React.useContext(PlansContext);
-  const { login, data: user } = React.useContext(UserContext);
+  const { loading, login, data: user } = React.useContext(UserContext);
 
   React.useEffect(() => {
     // moves the scroll to the beginning of the page
     document.documentElement.scrollTop = 0;
   }, []);
 
+  if (loading) return null;
   if (login) {
     const userPlan = plans.find((plan) => plan._id === user.plan);
     if (userPlan.fullaccess) return <Navigate to="/dashboard" />;
