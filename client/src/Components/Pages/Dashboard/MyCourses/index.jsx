@@ -24,7 +24,7 @@ const MyCourses = () => {
   return (
     <section className={`container ${styles.section}`}>
       <Title>Meus cursos</Title>
-      <Filters selectedPlan={selectedPlan} setSelectedPlan={setSelectedPlan} user={user} />
+      <Filters selectedPlan={selectedPlan} setSelectedPlan={setSelectedPlan} />
       <Courses selectedPlan={selectedPlan} />
     </section>
   );

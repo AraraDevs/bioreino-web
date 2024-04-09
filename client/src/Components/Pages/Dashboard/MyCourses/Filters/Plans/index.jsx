@@ -3,8 +3,10 @@ import stylesSelect from 'Components/Forms/Select.module.css';
 import { PlansContext } from 'Context/Plans';
 import Select from 'Components/Forms/Select';
 import useModal from 'Hooks/useModal';
+import { UserContext } from 'Context/User';
 
-const Plans = ({ selectedPlan, setSelectedPlan, user }) => {
+const Plans = ({ selectedPlan, setSelectedPlan }) => {
+  const { data: user } = React.useContext(UserContext);
   const { plans } = React.useContext(PlansContext);
   const userPlan = plans.find((plan) => plan._id === user.plan);
   const currentPlan = plans.find((plan) => plan._id === selectedPlan);
