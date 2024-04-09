@@ -14,6 +14,7 @@ const Categories = ({ selectedPlan }) => {
     setFilter(filteredCategories);
   }, [categories, selectedPlan]);
 
+  if (!categories) return null;
   return (
     <Select
       options={filter}
