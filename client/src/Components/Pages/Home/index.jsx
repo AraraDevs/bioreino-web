@@ -9,10 +9,12 @@ import Subscribe from './Subscribe';
 import Footer from 'Components/Layout/Footer';
 import Head from 'Components/Helper/Head';
 import { ReactComponent as GitHub } from 'src/Assets/github.svg';
+import { Analytics } from '@vercel/analytics/react';
 
 const Home = () => {
   return (
     <>
+      <Analytics />
       <Head
         title="Home"
         description="Home da bioreino para apresentar a plataforma"
