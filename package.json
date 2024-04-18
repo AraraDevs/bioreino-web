@@ -7,7 +7,7 @@
     "client": "npm run dev --prefix client",
     "node": "nodemon server/index.js",
     "start": "concurrently \"npm run node\" \"npm run client\"",
-    
+    "postinstall": "npm install --prefix client",
     "commit": "cz"
   },
   "keywords": [],
