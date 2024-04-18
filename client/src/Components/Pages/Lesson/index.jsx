@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './Lesson.module.css';
+import { Analytics } from '@vercel/analytics/react';
 import { Navigate, useParams } from 'react-router-dom';
 import Aside from './Aside';
 import Video from './Video';
@@ -71,6 +72,7 @@ const Lesson = () => {
   if (!currentCourse) return null;
   return (
     <div className={styles.lessonWrapper}>
+      <Analytics />
       <Head
         title={currentLesson ? currentLesson.title : ''}
         description={currentLesson && currentLesson.description}
