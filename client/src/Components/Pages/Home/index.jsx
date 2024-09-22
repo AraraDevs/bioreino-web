@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './Home.module.css';
+import { Analytics } from '@vercel/analytics/react';
 import Header from './Header';
 import Introduction from './Introduction';
 import Courses from './Courses';
@@ -13,6 +14,7 @@ import { ReactComponent as GitHub } from 'src/Assets/github.svg';
 const Home = () => {
   return (
     <>
+      <Analytics />
       <Head
         title="Home"
         description="Home da bioreino para apresentar a plataforma"

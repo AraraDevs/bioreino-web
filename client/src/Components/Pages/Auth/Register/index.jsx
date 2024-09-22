@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './Register.module.css';
+import { Analytics } from '@vercel/analytics/react';
 import Header from './Header';
 import { Navigate } from 'react-router-dom';
 import { PlansContext } from 'Context/Plans';
@@ -23,6 +24,7 @@ const Register = () => {
   }
   return (
     <>
+      <Analytics />
       <Header />
       <main className={styles.main}>
         {login ? <UpgradeAccount /> : <CreateAccount />}

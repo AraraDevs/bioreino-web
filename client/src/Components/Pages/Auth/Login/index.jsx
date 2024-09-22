@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './Login.module.css';
+import { Analytics } from '@vercel/analytics/react';
 import LoginForm from './LoginForm';
 import { Route, Routes, Navigate, Link } from 'react-router-dom';
 import { UserContext } from 'Context/User';
@@ -15,6 +16,7 @@ const Login = () => {
   if (login) return <Navigate to="/dashboard" />;
   return (
     <div className={styles.login}>
+      <Analytics />
       <div className={styles.container}>
         <Link to="/" className={styles.goBack} aria-label="Voltar para a home">
           <Arrow />
