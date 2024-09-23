@@ -1,9 +1,12 @@
 require('dotenv').config();
 
 const express = require('express');
+const verifyApiKey = require('./helpers/verify-api-key');
 const app = express();
 
 app.use(express.json());
+app.use(verifyApiKey);
+
 const routes = require('./routes/index');
 routes.forEach((route) => app.use('/api', route));
 

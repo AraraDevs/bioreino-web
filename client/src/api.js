@@ -4,6 +4,8 @@ const API_URL_LESSON = '/api/lesson';
 const API_URL_CATEGORY = '/api/category';
 const API_URL_PLAN = '/api/plan';
 
+const apiKey = import.meta.env.VITE_API_KEY;
+
 export function LOGIN(body) {
   return {
     url: API_URL_USER + '/login',
@@ -11,6 +13,7 @@ export function LOGIN(body) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'x-api-key': apiKey,
       },
       body: JSON.stringify(body),
     },
@@ -24,6 +27,7 @@ export function LOGIN_VALIDATE_TOKEN(token) {
       method: 'GET',
       headers: {
         Authorization: 'Bearer ' + token,
+        'x-api-key': apiKey,
       },
     },
   };
@@ -36,6 +40,7 @@ export function USER_GET(token) {
       method: 'GET',
       headers: {
         Authorization: 'Bearer ' + token,
+        'x-api-key': apiKey,
       },
     },
   };
@@ -48,8 +53,21 @@ export function USER_POST(body) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'x-api-key': apiKey,
       },
       body: JSON.stringify(body),
+    },
+  };
+}
+
+export function USER_TEMPORARY_POST() {
+  return {
+    url: API_URL_USER + '/temporary_account',
+    options: {
+      method: 'POST',
+      headers: {
+        'x-api-key': apiKey,
+      },
     },
   };
 }
@@ -61,6 +79,7 @@ export function FORGOT_PASSWORD_POST(body) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'x-api-key': apiKey,
       },
       body: JSON.stringify(body),
     },
@@ -74,6 +93,7 @@ export function RESET_PASSWORD_POST(key, email, body) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'x-api-key': apiKey,
       },
       body: JSON.stringify(body),
     },
@@ -88,6 +108,7 @@ export function USER_DATA_PATCH(token, id, body) {
       headers: {
         Authorization: 'Bearer ' + token,
         'Content-Type': 'application/json',
+        'x-api-key': apiKey,
       },
       body: JSON.stringify(body),
     },
@@ -102,6 +123,7 @@ export function USER_LAST_LESSON_COURSE_PATCH(token, body) {
       headers: {
         Authorization: 'Bearer ' + token,
         'Content-Type': 'application/json',
+        'x-api-key': apiKey,
       },
       body: JSON.stringify(body),
     },
@@ -116,6 +138,7 @@ export function USER_COURSES_PROGRESS_PATCH(token, body) {
       headers: {
         Authorization: 'Bearer ' + token,
         'Content-Type': 'application/json',
+        'x-api-key': apiKey,
       },
       body: JSON.stringify(body),
     },
@@ -127,6 +150,9 @@ export function COURSES_GET(limit = 0) {
     url: API_URL_COURSE + `?quantity=${limit}`,
     options: {
       method: 'GET',
+      headers: {
+        'x-api-key': apiKey,
+      },
       cache: 'no-store',
     },
   };
@@ -137,6 +163,9 @@ export function LESSONS_BY_URL_COURSE_GET(courseUrl) {
     url: API_URL_LESSON + '/' + courseUrl,
     options: {
       method: 'GET',
+      headers: {
+        'x-api-key': apiKey,
+      },
       cache: 'no-store',
     },
   };
@@ -147,6 +176,9 @@ export function CATEGORIES_GET() {
     url: API_URL_CATEGORY,
     options: {
       method: 'GET',
+      headers: {
+        'x-api-key': apiKey,
+      },
       cache: 'no-store',
     },
   };
@@ -157,6 +189,9 @@ export function PLANS_GET() {
     url: API_URL_PLAN,
     options: {
       method: 'GET',
+      headers: {
+        'x-api-key': apiKey,
+      },
       cache: 'no-store',
     },
   };
