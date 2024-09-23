@@ -5,7 +5,7 @@ const verifyApiKey = require('./helpers/verify-api-key');
 const app = express();
 
 app.use(express.json());
-app.use(verifyApiKey);
+app.use('/api', verifyApiKey);
 
 const routes = require('./routes/index');
 routes.forEach((route) => app.use('/api', route));
