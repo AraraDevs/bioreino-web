@@ -1,13 +1,26 @@
 const path = require('path');
 const nodemailer = require('nodemailer');
+const sgMail = require('@sendgrid/mail');
 const hbs = require('nodemailer-express-handlebars');
 
-const { host, port, user, pass } = require('../config/mail');
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 const transport = nodemailer.createTransport({
-  host,
-  port,
-  auth: { user, pass },
+  send: (mailOptions, callback) => {
+    const msg = {
+      to: mailOptions.data.to,
+      from: mailOptions.data.from,
+      subject: mailOptions.data.subject,
+      text: mailOptions.data.text,
+      html: mailOptions.data.html,
+    };
+
+    // Envia o e-mail usando a API do SendGrid
+    sgMail
+      .send(msg)
+      .then(() => callback(null, { response: 'E-mail enviado com sucesso!' }))
+      .catch((error) => callback(error));
+  },
 });
 
 transport.use(

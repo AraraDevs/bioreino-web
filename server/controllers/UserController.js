@@ -198,19 +198,21 @@ class UserController {
       });
 
       const mailOptions = {
-        from: 'Bioreino noreply@bioreino.top',
+        from: 'suporte@bioreino.com.br',
         to: email,
         subject: 'Pedido de resete de senha',
         template: 'auth/forgot_password',
         context: { user_email: email, token },
       };
       mailer.sendMail(mailOptions, (err) => {
-        if (err)
+        if (err) {
           return res.status(400).send({
             message: 'Não foi possível enviar e-mail de esqueceu a senha.',
           });
+        }
         return res.json({
-          message: 'E-mail de redefinição de senha enviado com sucesso! Por favor, verifique sua caixa de spam.',
+          message:
+            'E-mail de redefinição de senha enviado com sucesso! Por favor, verifique sua caixa de spam.',
         });
       });
     } catch (error) {
@@ -230,7 +232,9 @@ class UserController {
         '+passwordResetToken passwordResetExpires'
       );
       if (!user)
-        return res.status(400).json({ message: 'Usuário não encontrado, tente novamente.' });
+        return res
+          .status(400)
+          .json({ message: 'Usuário não encontrado, tente novamente.' });
       if (!password)
         return res
           .status(400)
