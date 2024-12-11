@@ -198,7 +198,7 @@ class UserController {
       });
 
       const mailOptions = {
-        from: 'suporte@bioreino.com.br',
+        from: 'noreply@bioreino.com.br',
         to: email,
         subject: 'Pedido de resete de senha',
         template: 'auth/forgot_password',
