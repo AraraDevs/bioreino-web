@@ -1,7 +1,6 @@
 import React from 'react';
 import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { SpeedInsights } from '@vercel/speed-insights/next';
 
 import ProtectedRoute from 'Components/Helper/ProtectedRoute';
 import Modal from 'Components/Layout/Modal';
@@ -20,7 +19,6 @@ const Lesson = React.lazy(() => import('Components/Pages/Lesson'));
 function App() {
   return (
     <>
-      <SpeedInsights />
       <BrowserRouter>
         <UserProvider>
           <PlansProvider>
